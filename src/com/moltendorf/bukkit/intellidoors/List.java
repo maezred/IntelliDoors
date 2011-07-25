@@ -1,0 +1,108 @@
+package com.moltendorf.bukkit.intellidoors;
+
+/**
+ * Door list.
+ *
+ * @author moltendorf
+ */
+class List {
+	// Variable data.
+	private Door first = null, last = null;
+
+	protected synchronized void push(final Door door) {
+		if (first == null) {
+			first = door;
+		} else {
+			door.previous = last;
+			last.next = door;
+		}
+
+		last = door;
+	}
+
+	protected synchronized void splice(final Door door) {
+		if (door.previous == null) {
+			first = door.next;
+		} else {
+			door.previous.next = door.next;
+		}
+
+		if (door.next == null) {
+			last = door.previous;
+		} else {
+			door.next.previous = door.previous;
+		}
+
+		door.next = null;
+		door.previous = null;
+	}
+
+	protected synchronized void splice(final Door door, final Door[] list) {
+		if (door.previous == null) {
+			first = list[0];
+		} else {
+			list[0].previous = door.previous;
+			door.previous.next = list[0];
+		}
+
+		if (door.next == null) {
+			last = list[list.length-1];
+		} else {
+			list[list.length-1].next = door.next;
+			door.next.previous = list[list.length-1];
+		}
+
+		door.next = null;
+		door.previous = null;
+
+		for (int i = 1; i < list.length; ++i) {
+			list[i-1].next = list[i];
+			list[i].previous = list[i-1];
+		}
+	}
+
+	protected synchronized void destruct() {
+		for (Door current = first, next; current != null; current = next) {
+			next = current.next;
+
+			current.cancel();
+			current.run(this);
+		}
+	}
+
+	protected synchronized Door get(final Set_Door_Double set) {
+		for (Door current = first, next; current != null; current = next) {
+			next = current.next;
+
+			if (current.equals(set, this)) {
+				return current;
+			}
+		}
+
+		return null;
+	}
+
+	protected synchronized Door get(final Set_Door_Single set) {
+		for (Door current = first, next; current != null; current = next) {
+			next = current.next;
+
+			if (current.equals(set, this)) {
+				return current;
+			}
+		}
+
+		return null;
+	}
+
+	protected synchronized Door get(final Set_Trap set) {
+		for (Door current = first, next; current != null; current = next) {
+			next = current.next;
+
+			if (current.equals(set)) {
+				return current;
+			}
+		}
+
+		return null;
+	}
+}
