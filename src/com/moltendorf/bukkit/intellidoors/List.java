@@ -7,7 +7,7 @@ package com.moltendorf.bukkit.intellidoors;
  */
 class List {
 	// Variable data.
-	private Door first = null, last = null;
+	private Door first = null, last = null, pointer = null;
 
 	protected synchronized void push(final Door door) {
 		if (first == null) {
@@ -55,6 +55,8 @@ class List {
 		door.next = null;
 		door.previous = null;
 
+		pointer = list[0];
+
 		for (int i = 1; i < list.length; ++i) {
 			list[i-1].next = list[i];
 			list[i].previous = list[i-1];
@@ -62,17 +64,39 @@ class List {
 	}
 
 	protected synchronized void destruct() {
-		for (Door current = first, next; current != null; current = next) {
-			next = current.next;
+		for (Door current = first; current != null; current = pointer) {
+			pointer = current.next;
 
 			current.cancel();
 			current.run(this);
 		}
+
+		pointer = null;
+	}
+
+	private Door scan(final Set_Door_Double set) {
+		for (Door current = first; current != null; current = pointer) {
+			pointer = current.next;
+
+			if (current.equals(set, this)) {
+				return current;
+			}
+		}
+
+		return null;
 	}
 
 	protected synchronized Door get(final Set_Door_Double set) {
-		for (Door current = first, next; current != null; current = next) {
-			next = current.next;
+		final Door door = scan(set);
+
+		pointer = null;
+
+		return door;
+	}
+
+	private Door scan(final Set_Door_Single set) {
+		for (Door current = first; current != null; current = pointer) {
+			pointer = current.next;
 
 			if (current.equals(set, this)) {
 				return current;
@@ -83,21 +107,15 @@ class List {
 	}
 
 	protected synchronized Door get(final Set_Door_Single set) {
-		for (Door current = first, next; current != null; current = next) {
-			next = current.next;
+		final Door door = scan(set);
 
-			if (current.equals(set, this)) {
-				return current;
-			}
-		}
+		pointer = null;
 
-		return null;
+		return door;
 	}
 
 	protected synchronized Door get(final Set_Trap set) {
-		for (Door current = first, next; current != null; current = next) {
-			next = current.next;
-
+		for (Door current = first; current != null; current = current.next) {
 			if (current.equals(set)) {
 				return current;
 			}
