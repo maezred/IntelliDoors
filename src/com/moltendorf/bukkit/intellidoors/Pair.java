@@ -36,7 +36,7 @@ class Pair extends BlockInfo {
 
 	// Final data.
 	private final int rotation;
-	private final Block bottom, top;
+	protected final Block bottom, top;
 	protected final Location location;
 
 	// Variable data.

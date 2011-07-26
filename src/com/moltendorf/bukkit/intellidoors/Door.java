@@ -32,15 +32,25 @@ abstract class Door extends DoorController implements Runnable {
 	protected Door next = null, previous = null;
 
 	private static Handler CreateSet(final Material material, final Block block, final Listener listener) {
-		final Pair original, primary, secondary;
+		final Pair original;
 
 		final int data = GetData(block);
 
 		if (IsBottom(data)) {
 			original = new Pair(block, data);
+
+			if (IsNotDoor(material, original.top)) {
+				return null;
+			}
 		} else {
 			original = new Pair(GetBottom(block), block, data-8);
+
+			if (IsNotDoor(material, original.bottom)) {
+				return null;
+			}
 		}
+
+		final Pair primary, secondary;
 
 		primary = original.reverse() ? original.getPrimary(material) : null;
 		secondary = original.forward() ? original.getSecondary(material) : null;
