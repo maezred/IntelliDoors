@@ -191,6 +191,7 @@ abstract class Door extends DoorController implements Runnable {
 
 	protected synchronized void run(final List list) {
 		if (task != -1) {
+			task = -1;
 			busy = true;
 
 			open = set.powered();
