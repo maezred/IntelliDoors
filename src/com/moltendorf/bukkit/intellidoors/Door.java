@@ -11,12 +11,14 @@ import org.bukkit.block.Block;
 abstract class Door extends DoorController implements Runnable {
 	protected Door(final Set instance, final boolean state, final long current) {
 		open = state;
+		power = !instance.powered();
 		set = instance;
 		time = current;
 	}
 
 	protected Door(final Set instance, final boolean state) {
 		open = state;
+		power = !instance.powered();
 		set = instance;
 	}
 
@@ -26,8 +28,8 @@ abstract class Door extends DoorController implements Runnable {
 	// Variable data.
 	protected boolean busy = false;
 	protected boolean open = false;
-	protected boolean power = true;
-	private int task = -1;
+	protected boolean power = false;
+	protected int task = -1;
 	protected long time = 0;
 	protected Door next = null, previous = null;
 
@@ -98,7 +100,7 @@ abstract class Door extends DoorController implements Runnable {
 	}
 
 	protected boolean power() {
-		return power;
+		return open == power;
 	}
 
 	protected int getPower() {
@@ -111,20 +113,20 @@ abstract class Door extends DoorController implements Runnable {
 
 	protected void set(final boolean state) {
 		busy = true;
-		power = false;
 
 		open = state;
+		power = set.powered();
 		apply(open);
 
 		busy = false;
 	}
 
 	protected void reset() {
-		if (set.powered()) {
+		if (!power && set.powered()) {
 			busy = true;
-			power = true;
 
 			open = true;
+			power = true;
 
 			if (apply(open)) {
 				set.sound();
@@ -162,7 +164,7 @@ abstract class Door extends DoorController implements Runnable {
 	}
 
 	private void update(final long current, final Door[] list) {
-		final long ticks = power ? reset : delay;
+		final long ticks = open == power ? reset : delay;
 
 		for (int i = 0; i < list.length; ++i) {
 			list[i].update(ticks, current);
@@ -205,6 +207,7 @@ abstract class Door extends DoorController implements Runnable {
 			busy = true;
 
 			open = set.powered();
+			power = open;
 
 			if (apply(open)) {
 				set.sound();

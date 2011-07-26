@@ -15,17 +15,12 @@ class Door_Iron_Single extends Door_Iron {
 	}
 
 	@Override
-	protected int getPower() {
-		return open ? 0 : 1;
-	}
-
-	@Override
 	protected void reset() {
-		if (!set.powered()) {
+		if (power && !set.powered()) {
 			busy = true;
-			power = true;
 
 			open = true;
+			power = false;
 
 			if (apply(open)) {
 				set.sound();
@@ -41,15 +36,24 @@ class Door_Iron_Single extends Door_Iron {
 	}
 
 	@Override
+	protected boolean power() {
+		return open != power;
+	}
+
+	@Override
 	protected synchronized void run(final List list) {
-		busy = true;
+		if (task != -1) {
+			task = -1;
+			busy = true;
 
-		open = set.powered();
+			open = !set.powered();
+			power = !open;
 
-		if (apply(open)) {
-			set.sound();
+			if (apply(open)) {
+				set.sound();
+			}
+
+			list.splice(this);
 		}
-
-		list.splice(this);
 	}
 }
