@@ -9,6 +9,12 @@ import org.bukkit.block.Block;
  * @author moltendorf
  */
 abstract class Door extends DoorController implements Runnable {
+	protected Door(final Set instance, final boolean state, final long current) {
+		open = state;
+		set = instance;
+		time = current;
+	}
+
 	protected Door(final Set instance, final boolean state) {
 		open = state;
 		set = instance;
@@ -22,7 +28,7 @@ abstract class Door extends DoorController implements Runnable {
 	protected boolean open = false;
 	protected boolean power = true;
 	private int task = -1;
-	private long time = 0;
+	protected long time = 0;
 	protected Door next = null, previous = null;
 
 	private static Handler CreateSet(final Material material, final Block block, final Listener listener) {
@@ -93,12 +99,12 @@ abstract class Door extends DoorController implements Runnable {
 		return open == side ? 1 : 0;
 	}
 
-	protected void apply(final boolean state) {
+	protected void set(final boolean state) {
 		busy = true;
 		power = false;
 
 		open = state;
-		set.apply(open);
+		apply(open);
 
 		busy = false;
 	}
@@ -110,7 +116,7 @@ abstract class Door extends DoorController implements Runnable {
 
 			open = true;
 
-			if (set.apply(open)) {
+			if (apply(open)) {
 				set.sound();
 			}
 
@@ -134,46 +140,69 @@ abstract class Door extends DoorController implements Runnable {
 			cancel();
 		}
 
-		schedule(ticks, current);
+		if (ticks >= 0) {
+			schedule(ticks, current);
+		}
 	}
 
 	private void update(final long ticks, final long current) {
-		final long difference = (current-time)/(1000/rate);
+		final long difference = ticks - (current-time)/(1000/rate);
 
 		reset(difference, current);
 	}
 
-	protected boolean equals(final Set_Door_Double instance, final List list) {
-		return set.equals(instance, this, list);
+	private void update(final long current, final Door[] list) {
+		final long ticks = power ? reset : delay;
+
+		for (int i = 0; i < list.length; ++i) {
+			list[i].update(ticks, current);
+		}
 	}
 
-	protected boolean equals(final Set_Door_Single instance, final List list) {
-		return set.equals(instance, this, list);
+	protected boolean equals(final Set_Door_Double instance, final List list, final long current) {
+		return set.equals(instance, this, list, current);
+	}
+
+	protected boolean equals(final Set_Door_Single instance, final List list, final long current) {
+		return set.equals(instance, this, list, current);
 	}
 
 	protected boolean equals(final Set_Trap instance) {
 		return set.equals(instance);
 	}
 
-	protected void merge(final Set instance, final List list) {
-		list.splice(this, new Door[] {make(instance)});
+	protected void merge(final Set instance, final List list, final long current) {
+		Door[] doors = {make(instance)};
+
+		cancel();
+		update(current, doors);
+
+		list.splice(this, doors);
 	}
 
-	protected void split(final Set set, final Pair pair, final List list) {
-		list.splice(this, new Door[] {make(set), make(new Set_Door_Single(pair))});
+	protected void split(final Set set, final Pair pair, final List list, final long current) {
+		Door[] doors = {make(set), make(new Set_Door_Single(pair))};
+
+		cancel();
+		update(current, doors);
+
+		list.splice(this, doors);
 	}
 
 	protected synchronized void run(final List list) {
-		busy = true;
+		if (task != -1) {
+			busy = true;
 
-		open = set.powered();
+			open = set.powered();
 
-		if (set.apply(open)) {
-			set.sound();
+			if (apply(open)) {
+				set.sound();
+			}
+
+			list.splice(this);
 		}
-
-		list.splice(this);
 	}
 
+	abstract protected boolean apply(final boolean open);
 	abstract protected Door make(final Set set);
 }

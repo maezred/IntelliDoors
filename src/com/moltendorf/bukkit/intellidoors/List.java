@@ -74,11 +74,11 @@ class List {
 		pointer = null;
 	}
 
-	private Door scan(final Set_Door_Double set) {
+	private Door scan(final Set_Door_Double set, final long time) {
 		for (Door current = first; current != null; current = pointer) {
 			pointer = current.next;
 
-			if (current.equals(set, this)) {
+			if (current.equals(set, this, time)) {
 				return current;
 			}
 		}
@@ -86,19 +86,19 @@ class List {
 		return null;
 	}
 
-	protected synchronized Door get(final Set_Door_Double set) {
-		final Door door = scan(set);
+	protected synchronized Door get(final Set_Door_Double set, final long current) {
+		final Door door = scan(set, current);
 
 		pointer = null;
 
 		return door;
 	}
 
-	private Door scan(final Set_Door_Single set) {
+	private Door scan(final Set_Door_Single set, final long time) {
 		for (Door current = first; current != null; current = pointer) {
 			pointer = current.next;
 
-			if (current.equals(set, this)) {
+			if (current.equals(set, this, time)) {
 				return current;
 			}
 		}
@@ -106,8 +106,8 @@ class List {
 		return null;
 	}
 
-	protected synchronized Door get(final Set_Door_Single set) {
-		final Door door = scan(set);
+	protected synchronized Door get(final Set_Door_Single set, final long current) {
+		final Door door = scan(set, current);
 
 		pointer = null;
 

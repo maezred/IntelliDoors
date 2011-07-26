@@ -6,6 +6,10 @@ package com.moltendorf.bukkit.intellidoors;
  * @author moltendorf
  */
 class Door_Iron_Single extends Door_Iron {
+	protected Door_Iron_Single(final Set set, final boolean open, final long current) {
+		super (set, open, current);
+	}
+
 	protected Door_Iron_Single(final Set set, final boolean open) {
 		super (set, open);
 	}
@@ -23,7 +27,7 @@ class Door_Iron_Single extends Door_Iron {
 
 			open = true;
 
-			if (set.apply(open)) {
+			if (apply(open)) {
 				set.sound();
 			}
 
@@ -33,7 +37,7 @@ class Door_Iron_Single extends Door_Iron {
 
 	@Override
 	protected Door make(final Set set) {
-		return new Door_Iron_Single(set, open);
+		return new Door_Iron_Single(set, open, time);
 	}
 
 	@Override
@@ -42,7 +46,7 @@ class Door_Iron_Single extends Door_Iron {
 
 		open = set.powered();
 
-		if (set.apply(open)) {
+		if (apply(open)) {
 			set.sound();
 		}
 

@@ -2,6 +2,7 @@ package com.moltendorf.bukkit.intellidoors;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 /**
@@ -34,11 +35,11 @@ abstract class Set {
 		world = instance;
 	}
 
-	protected boolean equals(final Set_Door_Double set, final Door door, final List list) {
+	protected boolean equals(final Set_Door_Double set, final Door door, final List list, final long current) {
 		return false;
 	}
 
-	protected boolean equals(final Set_Door_Single set, final Door door, final List list) {
+	protected boolean equals(final Set_Door_Single set, final Door door, final List list, final long current) {
 		return false;
 	}
 
@@ -50,7 +51,7 @@ abstract class Set {
 		world.playEffect(location, Effect.DOOR_TOGGLE, 0);
 	}
 
-	abstract protected boolean apply(final boolean open);
+	abstract protected boolean apply(final boolean open, final Material material);
 	abstract protected boolean powered();
 	abstract protected int getPower(final boolean open);
 }

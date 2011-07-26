@@ -10,7 +10,11 @@ import org.bukkit.Material;
 class Door_Wood extends Door {
 	// Constants.
 	private static final List list = new List();
-	private static final Material material = Material.WOOD_DOOR;
+	private static final Material material = Material.WOODEN_DOOR;
+
+	private Door_Wood(final Set set, final boolean open, final long current) {
+		super (set, open, current);
+	}
 
 	private Door_Wood(final Set set, final boolean open) {
 		super (set, open);
@@ -20,8 +24,8 @@ class Door_Wood extends Door {
 		list.destruct();
 	}
 
-	protected static Door Get(final Set_Door_Double set, final boolean open) {
-		final Door door = list.get(set);
+	protected static Door Get(final Set_Door_Double set, final boolean open, final long current) {
+		final Door door = list.get(set, current);
 
 		if (door == null) {
 			return new Door_Wood(set, open).push();
@@ -30,8 +34,8 @@ class Door_Wood extends Door {
 		return door;
 	}
 
-	protected static Door Get(final Set_Door_Single set, final boolean open) {
-		final Door door = list.get(set);
+	protected static Door Get(final Set_Door_Single set, final boolean open, final long current) {
+		final Door door = list.get(set, current);
 
 		if (door == null) {
 			return new Door_Wood(set, open).push();
@@ -41,8 +45,13 @@ class Door_Wood extends Door {
 	}
 
 	@Override
+	protected boolean apply(final boolean open) {
+		return set.apply(open, material);
+	}
+
+	@Override
 	protected Door make(final Set set) {
-		return new Door_Wood(set, open);
+		return new Door_Wood(set, open, time);
 	}
 
 	private Door push() {

@@ -36,7 +36,7 @@ class Handler_Interact extends Handler {
 				return;
 			}
 
-			door.apply(!open);
+			door.set(!open);
 
 			door.reset(Door.delay, time);
 		}

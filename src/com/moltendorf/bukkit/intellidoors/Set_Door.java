@@ -1,6 +1,7 @@
 package com.moltendorf.bukkit.intellidoors;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 /**
  * Set for door pair.
@@ -24,8 +25,8 @@ abstract class Set_Door extends Set {
 	protected final Pair primary;
 
 	@Override
-	protected boolean apply(final boolean open) {
-		return primary.apply(open);
+	protected boolean apply(final boolean open, final Material material) {
+		return primary.apply(open, material);
 	}
 
 	@Override
@@ -34,16 +35,16 @@ abstract class Set_Door extends Set {
 	}
 
 	@Override
-	protected boolean equals(final Set_Door_Double set, final Door door, final List list) {
+	protected boolean equals(final Set_Door_Double set, final Door door, final List list, final long current) {
 		if (primary.equals(set.primary) || primary.equals(set.secondary)) {
-			door.merge(set, list);
+			door.merge(set, list, current);
 		}
 
 		return false;
 	}
 
 	@Override
-	protected boolean equals(final Set_Door_Single set, final Door door, final List list) {
+	protected boolean equals(final Set_Door_Single set, final Door door, final List list, final long current) {
 		return primary.equals(set.primary);
 	}
 

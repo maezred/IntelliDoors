@@ -1,5 +1,6 @@
 package com.moltendorf.bukkit.intellidoors;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 /**
@@ -18,7 +19,7 @@ class Set_Trap extends Set {
 	private final Pair_Trap primary;
 
 	@Override
-	protected boolean apply(final boolean open) {
+	protected boolean apply(final boolean open, final Material material) {
 		return primary.apply(open);
 	}
 

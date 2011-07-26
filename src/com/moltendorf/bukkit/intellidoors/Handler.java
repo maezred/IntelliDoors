@@ -12,11 +12,11 @@ class Handler {
 	protected Handler(final Material material, final Set_Door_Single set, final boolean open) {
 		switch (material) {
 			case IRON_DOOR_BLOCK:
-				door = Door_Iron.Get(set, open);
+				door = Door_Iron.Get(set, open, time);
 				return;
 
 			case WOODEN_DOOR:
-				door = Door_Wood.Get(set, open);
+				door = Door_Wood.Get(set, open, time);
 				return;
 
 			default:
@@ -27,11 +27,11 @@ class Handler {
 	protected Handler(final Material material, final Set_Door_Double set, final boolean open) {
 		switch (material) {
 			case IRON_DOOR_BLOCK:
-				door = Door_Iron.Get(set, open);
+				door = Door_Iron.Get(set, open, time);
 				return;
 
 			case WOODEN_DOOR:
-				door = Door_Wood.Get(set, open);
+				door = Door_Wood.Get(set, open, time);
 				return;
 
 			default:

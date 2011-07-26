@@ -12,6 +12,10 @@ class Door_Trap extends Door {
 	private static final List list = new List();
 	private static final Material material = Material.TRAP_DOOR;
 
+	private Door_Trap(final Set set, final boolean open, final long current) {
+		super (set, open, current);
+	}
+
 	private Door_Trap(final Set set, final boolean open) {
 		super (set, open);
 	}
@@ -31,8 +35,13 @@ class Door_Trap extends Door {
 	}
 
 	@Override
+	protected boolean apply(final boolean open) {
+		return set.apply(open, material);
+	}
+
+	@Override
 	protected Door make(final Set set) {
-		return new Door_Trap(set, open);
+		return new Door_Trap(set, open, time);
 	}
 
 	private Door push() {

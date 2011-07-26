@@ -12,6 +12,10 @@ class Door_Iron extends Door {
 	private static final List list = new List();
 	private static final Material material = Material.IRON_DOOR_BLOCK;
 
+	protected Door_Iron(final Set set, final boolean open, final long current) {
+		super (set, open, current);
+	}
+
 	protected Door_Iron(final Set set, final boolean open) {
 		super (set, open);
 	}
@@ -20,8 +24,8 @@ class Door_Iron extends Door {
 		list.destruct();
 	}
 
-	protected static Door Get(final Set_Door_Double set, final boolean open) {
-		final Door door = list.get(set);
+	protected static Door Get(final Set_Door_Double set, final boolean open, final long current) {
+		final Door door = list.get(set, current);
 
 		if (door == null) {
 			return new Door_Iron(set, open).push();
@@ -30,8 +34,8 @@ class Door_Iron extends Door {
 		return door;
 	}
 
-	protected static Door Get(final Set_Door_Single set, final boolean open) {
-		final Door door = list.get(set);
+	protected static Door Get(final Set_Door_Single set, final boolean open, final long current) {
+		final Door door = list.get(set, current);
 
 		if (door == null) {
 			if (set.primary.forward) {
@@ -45,8 +49,13 @@ class Door_Iron extends Door {
 	}
 
 	@Override
+	protected boolean apply(final boolean open) {
+		return set.apply(open, material);
+	}
+
+	@Override
 	protected Door make(final Set set) {
-		return new Door_Iron(set, open);
+		return new Door_Iron(set, open, time);
 	}
 
 	protected Door push() {

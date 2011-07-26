@@ -42,10 +42,10 @@ class Pair extends BlockInfo {
 	// Variable data.
 	protected boolean forward;
 
-	protected boolean apply(final boolean open) {
+	protected boolean apply(final boolean open, final Material material) {
 		final int data = forward == open ? rotation+4 : rotation;
 
-		if (GetData(bottom) == data) {
+		if (isNotDoor(material) || GetData(bottom) == data) {
 			return false;
 		}
 
@@ -59,12 +59,12 @@ class Pair extends BlockInfo {
 		return location.equals(pair.location) && rotation == pair.rotation;
 	}
 
-	protected int getPower(final boolean open) {
-		return forward ? 1 : 0;
-	}
-
 	protected boolean open(final int data) {
 		return forward == IsOpen(data);
+	}
+
+	protected int getPower(final boolean open) {
+		return forward ? 1 : 0;
 	}
 
 	protected boolean powered() {
@@ -77,6 +77,10 @@ class Pair extends BlockInfo {
 
 	protected boolean reverse() {
 		return IsReverse(top, rotation);
+	}
+
+	protected boolean isNotDoor(final Material material) {
+		return IsNotDoor(material, bottom) || IsNotDoor(material, top);
 	}
 
 	protected Pair getPrimary(final Material material) {
