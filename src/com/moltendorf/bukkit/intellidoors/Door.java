@@ -163,48 +163,45 @@ abstract class Door extends DoorController implements Runnable {
 		reset(difference, current);
 	}
 
-	private void update(final long current, final Door[] list) {
+	private void update(final long current, final List list, final Door[] doors) {
+		busy = true;
+		cancel();
+
 		final long ticks = open == power ? reset : delay;
 
-		for (int i = 0; i < list.length; ++i) {
-			list[i].update(ticks, current);
+		for (int i = 0; i < doors.length; ++i) {
+			doors[i].update(ticks, current);
 		}
+
+		list.splice(this, doors);
 	}
 
-	protected boolean equals(final Set_Door_Double instance, final List list, final long current) {
+	protected synchronized boolean equals(final Set_Door_Double instance, final List list, final long current) {
 		return set.equals(instance, this, list, current);
 	}
 
-	protected boolean equals(final Set_Door_Single instance, final List list, final long current) {
+	protected synchronized boolean equals(final Set_Door_Single instance, final List list, final long current) {
 		return set.equals(instance, this, list, current);
 	}
 
-	protected boolean equals(final Set_Trap instance) {
+	protected synchronized boolean equals(final Set_Trap instance) {
 		return set.equals(instance);
 	}
 
 	protected void merge(final Set instance, final List list, final long current) {
 		Door[] doors = {make(instance)};
-
-		cancel();
-		update(current, doors);
-
-		list.splice(this, doors);
+		update(current, list, doors);
 	}
 
 	protected void split(final Set set, final Pair pair, final List list, final long current) {
 		Door[] doors = {make(set), make(new Set_Door_Single(pair))};
-
-		cancel();
-		update(current, doors);
-
-		list.splice(this, doors);
+		update(current, list, doors);
 	}
 
 	protected synchronized void run(final List list) {
 		if (task != -1) {
-			task = -1;
 			busy = true;
+			task = -1;
 
 			open = set.powered();
 			power = open;
