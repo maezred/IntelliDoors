@@ -68,6 +68,8 @@ abstract class Door extends DoorController implements Runnable {
 				return listener.make(material, new Set_Door_Single(original), original.open(data));
 			}
 
+			original.forward = false;
+
 			return listener.make(material, new Set_Door_Double(primary, original), original.open(data), false);
 		} else if (secondary != null) {
 			if (secondary.getSecondary(material) != null) {

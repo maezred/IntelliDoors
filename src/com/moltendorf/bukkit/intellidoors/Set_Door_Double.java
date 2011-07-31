@@ -12,7 +12,6 @@ class Set_Door_Double extends Set_Door {
 		super (left, right.location);
 
 		secondary = right;
-		secondary.forward = false;
 	}
 
 	// Final data.
