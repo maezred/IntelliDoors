@@ -215,7 +215,6 @@ abstract class Door extends DoorController implements Runnable {
 	protected synchronized void run(final List list) {
 		if (task != -1) {
 			busy = true;
-			task = -1;
 
 			open = set.powered();
 			power = open;
@@ -223,6 +222,8 @@ abstract class Door extends DoorController implements Runnable {
 			if (apply(open)) {
 				set.sound();
 			}
+
+			task = -1;
 
 			list.splice(this);
 		}
