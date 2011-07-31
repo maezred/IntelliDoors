@@ -29,7 +29,7 @@ abstract class Door extends DoorController implements Runnable {
 	protected boolean busy = false;
 	protected boolean open = false;
 	protected boolean power = false;
-	protected int task = -1;
+	protected int task = -2;
 	protected long time = 0;
 	protected Door next = null, previous = null;
 
@@ -150,7 +150,7 @@ abstract class Door extends DoorController implements Runnable {
 	}
 
 	protected void reset(final long ticks, final long current) {
-		if (task != -1) {
+		if (task >= 0) {
 			cancel();
 		}
 
