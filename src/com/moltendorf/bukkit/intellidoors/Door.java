@@ -139,10 +139,15 @@ abstract class Door extends DoorController implements Runnable {
 			return true;
 		}
 
-		if (task >= 0) {
-			return power();
+		if (task != -1) {
+			if (power()) {
+				return true;
+			} else if (task > -2) {
+				return false;
+			}
 		}
 
+		task = -1;
 		splice();
 
 		return false;
