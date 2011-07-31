@@ -53,7 +53,6 @@ class Door_Iron_Single extends Door_Iron {
 	@Override
 	protected synchronized void run(final List list) {
 		if (task != -1) {
-			task = -1;
 			busy = true;
 
 			open = !set.powered();
@@ -62,6 +61,8 @@ class Door_Iron_Single extends Door_Iron {
 			if (apply(open)) {
 				set.sound();
 			}
+
+			task = -1;
 
 			list.splice(this);
 		}
