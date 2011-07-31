@@ -53,9 +53,7 @@ class Handler {
 				return door.getPower();
 			}
 
-			door.reset();
-
-			if (door.power()) {
+			if (door.reset()) {
 				door.reset(Door.reset, time);
 			}
 
@@ -73,9 +71,7 @@ class Handler {
 				return;
 			}
 
-			door.reset();
-
-			if (door.power()) {
+			if (door.reset()) {
 				door.reset(Door.reset, time);
 			}
 		}

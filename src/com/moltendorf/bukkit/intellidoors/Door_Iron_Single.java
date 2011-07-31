@@ -15,7 +15,7 @@ class Door_Iron_Single extends Door_Iron {
 	}
 
 	@Override
-	protected void reset() {
+	protected boolean reset() {
 		if (power && !set.powered()) {
 			busy = true;
 
@@ -27,7 +27,17 @@ class Door_Iron_Single extends Door_Iron {
 			}
 
 			busy = false;
+
+			return true;
 		}
+
+		if (task >= 0) {
+			return power();
+		}
+
+		splice();
+
+		return false;
 	}
 
 	@Override

@@ -123,7 +123,7 @@ abstract class Door extends DoorController implements Runnable {
 		busy = false;
 	}
 
-	protected void reset() {
+	protected boolean reset() {
 		if (!power && set.powered()) {
 			busy = true;
 
@@ -135,7 +135,17 @@ abstract class Door extends DoorController implements Runnable {
 			}
 
 			busy = false;
+
+			return true;
 		}
+
+		if (task >= 0) {
+			return power();
+		}
+
+		splice();
+
+		return false;
 	}
 
 	private void schedule(final long ticks, final long current) {
@@ -231,4 +241,5 @@ abstract class Door extends DoorController implements Runnable {
 
 	abstract protected boolean apply(final boolean open);
 	abstract protected Door make(final Set set);
+	abstract protected void splice();
 }

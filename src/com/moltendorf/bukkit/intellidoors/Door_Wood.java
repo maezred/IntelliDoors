@@ -64,4 +64,9 @@ class Door_Wood extends Door {
 	public void run() {
 		run(list);
 	}
+
+	@Override
+	public void splice() {
+		list.splice(this);
+	}
 }

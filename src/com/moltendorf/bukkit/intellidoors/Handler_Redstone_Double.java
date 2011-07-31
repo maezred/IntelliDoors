@@ -36,9 +36,7 @@ class Handler_Redstone_Double extends Handler {
 				return door.getPower(side);
 			}
 
-			door.reset();
-
-			if (door.power()) {
+			if (door.reset()) {
 				door.reset(Door.reset, time);
 			}
 
