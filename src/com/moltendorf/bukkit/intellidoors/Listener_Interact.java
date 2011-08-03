@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerListener;
  * @author moltendorf
  */
 class Listener_Interact extends PlayerListener implements Listener {
-	private Handler getHandler(final Block block) {
+	protected Handler getHandler(final Block block) {
 		// Get the material of block that was passed.
 		final Material material = block.getType();
 
@@ -28,17 +28,17 @@ class Listener_Interact extends PlayerListener implements Listener {
 
 	@Override
 	public Handler make(final Set_Trap set, final boolean open) {
-		return new Handler_Interact(set, open);
+		return new Handler(set, open);
 	}
 
 	@Override
 	public Handler make(final Material material, final Set_Door_Single set, final boolean open) {
-		return new Handler_Interact(material, set, open);
+		return new Handler(material, set, open);
 	}
 
 	@Override
 	public Handler make(final Material material, final Set_Door_Double set, final boolean open, final boolean side) {
-		return new Handler_Interact(material, set, open);
+		return new Handler_Interact_Double(material, set, open, side);
 	}
 
 	@Override
@@ -55,8 +55,8 @@ class Listener_Interact extends PlayerListener implements Listener {
 			return;
 		}
 
-		handler.onInteract();
-
-		event.setCancelled(true);
+		if (handler.busy()) {
+			event.setCancelled(true);
+		}
 	}
 }

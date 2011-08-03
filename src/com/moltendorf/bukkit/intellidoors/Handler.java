@@ -61,8 +61,17 @@ class Handler {
 		}
 	}
 
+	protected boolean busy() {
+		synchronized (door) {
+			return door.busy(time);
+		}
+	}
+
 	protected void onInteract() {
-		return;
+		synchronized (door) {
+			door.reset(Door.delay, time);
+			door.unlock();
+		}
 	}
 
 	protected void onPhysics() {

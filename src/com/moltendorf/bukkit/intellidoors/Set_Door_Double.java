@@ -26,6 +26,11 @@ class Set_Door_Double extends Set_Door {
 	}
 
 	@Override
+	protected boolean apply(final boolean side, final boolean open, final Material material) {
+		return side ? primary.apply(open, material) : secondary.apply(open, material);
+	}
+
+	@Override
 	protected boolean equals(final Set_Door_Double set, final Door door, final List list, final long current) {
 		if (primary.equals(set.primary)) {
 			return true;

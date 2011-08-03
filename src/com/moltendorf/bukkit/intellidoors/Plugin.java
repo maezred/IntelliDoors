@@ -19,6 +19,7 @@ public class Plugin extends JavaPlugin {
 
 	// Final data.
 	private final Listener_Interact interactListener = new Listener_Interact();
+	private final Listener_Interact_Monitor interactMonitor = new Listener_Interact_Monitor();
 	private final Listener_Physics physicsListener = new Listener_Physics();
 	private final Listener_Redstone redstoneListener = new Listener_Redstone();
 
@@ -52,6 +53,7 @@ public class Plugin extends JavaPlugin {
 
 		// Register player listeners.
 		manager.registerEvent(Type.PLAYER_INTERACT, interactListener, Priority.Lowest, this);
+		manager.registerEvent(Type.PLAYER_INTERACT, interactMonitor, Priority.Monitor, this);
 
 		// Started.
 		System.out.println(info.getName() + " version " + info.getVersion() + " was initialized.");

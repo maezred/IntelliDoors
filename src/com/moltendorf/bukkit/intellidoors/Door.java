@@ -113,14 +113,12 @@ abstract class Door extends DoorController implements Runnable {
 		return open == side ? 1 : 0;
 	}
 
-	protected void set(final boolean state) {
+	protected void set(final boolean side, final boolean state) {
 		busy = true;
 
 		open = state;
 		power = set.powered();
-		apply(open);
-
-		busy = false;
+		apply(side, open);
 	}
 
 	protected boolean reset() {
@@ -244,7 +242,27 @@ abstract class Door extends DoorController implements Runnable {
 		}
 	}
 
+	protected void unlock() {
+		Plugin.scheduler.scheduleSyncDelayedTask(Plugin.instance, new Unlock(this));
+	}
+
 	abstract protected boolean apply(final boolean open);
+	abstract protected boolean apply(final boolean side, final boolean open);
 	abstract protected Door make(final Set set);
 	abstract protected void splice();
+}
+
+class Unlock implements Runnable {
+	private final Door door;
+
+	Unlock(final Door instance) {
+		door = instance;
+	}
+
+	@Override
+	public void run() {
+		synchronized (door) {
+			door.busy = false;
+		}
+	}
 }

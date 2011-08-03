@@ -14,18 +14,6 @@ class Handler_Redstone_Double extends Handler {
 		side = state;
 	}
 
-	protected Handler_Redstone_Double(final Material material, final Set_Door_Single set, final boolean state) {
-		super (material, set, state);
-
-		side = state;
-	}
-
-	protected Handler_Redstone_Double(final Set_Trap set, final boolean state) {
-		super (set, state);
-
-		side = state;
-	}
-
 	// Final data.
 	private final boolean side;
 

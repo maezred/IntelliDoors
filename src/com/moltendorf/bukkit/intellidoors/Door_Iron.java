@@ -54,6 +54,11 @@ class Door_Iron extends Door {
 	}
 
 	@Override
+	protected boolean apply(final boolean side, final boolean open) {
+		return set.apply(side, open, material);
+	}
+
+	@Override
 	protected Door make(final Set set) {
 		return new Door_Iron(set, open, time);
 	}
