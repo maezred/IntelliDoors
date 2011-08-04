@@ -242,6 +242,10 @@ abstract class Door extends DoorController implements Runnable {
 		}
 	}
 
+	protected void lock() {
+		busy = true;
+	}
+
 	protected void unlock() {
 		Plugin.scheduler.scheduleSyncDelayedTask(Plugin.instance, new Unlock(this));
 	}

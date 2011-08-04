@@ -69,6 +69,7 @@ class Handler {
 
 	protected void onInteract() {
 		synchronized (door) {
+			door.lock();
 			door.reset(Door.delay, time);
 			door.unlock();
 		}
