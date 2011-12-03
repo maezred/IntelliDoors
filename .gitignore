@@ -39,3 +39,6 @@ nb-configuration.xml
 *.jar
 *.war
 *.ear
+
+# Customizations.
+!api/*.jar
