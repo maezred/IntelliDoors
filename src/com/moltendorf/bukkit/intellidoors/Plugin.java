@@ -1,6 +1,8 @@
 package com.moltendorf.bukkit.intellidoors;
 
 import org.bukkit.Server;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,6 +49,7 @@ public class Plugin extends JavaPlugin {
 		scheduler = server.getScheduler();
 
 		// Register events.
+		Listeners.Enable(manager);
 
 		// Started.
 		System.out.println(name+" version "+version+" was initialized.");
