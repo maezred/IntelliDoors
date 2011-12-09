@@ -1,15 +1,13 @@
 package com.moltendorf.bukkit.intellidoors;
 
 import org.bukkit.Server;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 /**
- * IntelliDoors plugin for Bukkit.
+ * Main plugin class for IntelliDoors.
  *
  * @author moltendorf
  */
