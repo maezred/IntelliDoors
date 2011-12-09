@@ -14,7 +14,9 @@ import org.bukkit.plugin.PluginManager;
  *
  * @author moltendorf
  */
-abstract class Listeners {
+final class Listeners {
+	private Listeners() {}
+
 	protected static void Enable(final PluginManager manager) {
 		// Prepare controllers.
 		final Controller controller = new Controller();
