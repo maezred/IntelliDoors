@@ -54,7 +54,7 @@ abstract class Listener {
 }
 
 /**
- * Handles all events that occur before the monitor event.
+ * Handles all events that occur before they are monitored.
  *
  * @author moltendorf
  */
@@ -72,6 +72,11 @@ class Controller extends Listener{
 	}
 }
 
+/**
+ * Monitors the outcomes of all events.
+ *
+ * @author moltendorf
+ */
 class Monitor extends Listener {
 	@Override public void onPlayerInteract(final PlayerInteractEvent event) {
 
