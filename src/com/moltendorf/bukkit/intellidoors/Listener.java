@@ -60,7 +60,10 @@ abstract class Listener {
  */
 class Controller extends Listener{
 	@Override public void onBlockPhysics(final BlockPhysicsEvent event) {
-
+		// Fail if the event was cancelled.
+		if (event.isCancelled()) {
+			return;
+		}
 	}
 
 	@Override public void onBlockRedstoneChange(final BlockRedstoneEvent event) {
@@ -68,7 +71,10 @@ class Controller extends Listener{
 	}
 
 	@Override public void onPlayerInteract(final PlayerInteractEvent event) {
-
+		// Fail if the event was cancelled or if there is no block.
+		if (event.isCancelled() || !event.hasBlock()) {
+			return;
+		}
 	}
 }
 
@@ -79,7 +85,10 @@ class Controller extends Listener{
  */
 class Monitor extends Listener {
 	@Override public void onPlayerInteract(final PlayerInteractEvent event) {
-
+		// Fail if the event was cancelled or if there is no block.
+		if (event.isCancelled() || !event.hasBlock()) {
+			return;
+		}
 	}
 }
 
