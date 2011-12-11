@@ -17,7 +17,7 @@ import org.bukkit.plugin.PluginManager;
 final class Listeners {
 	private Listeners() {}
 
-	protected static void Enable(final PluginManager manager) {
+	protected static void Enable() {
 		// Prepare controllers.
 		final Controller controller = new Controller();
 
@@ -29,8 +29,9 @@ final class Listeners {
 
 		final PlayerListenerForwarder playerMonitor = new PlayerListenerForwarder(monitor);
 
-		// Fetch plugin instance.
+		// Fetch plugin instance and manager.
 		final Plugin instance = Plugin.instance;
+		final PluginManager manager = instance.getServer().getPluginManager();
 
 		// Register block listeners.
 		manager.registerEvent(Type.BLOCK_PHYSICS, blockController, Priority.Highest, instance);
