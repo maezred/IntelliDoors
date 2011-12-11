@@ -1,10 +1,7 @@
 package com.moltendorf.bukkit.intellidoors;
 
-import org.bukkit.Server;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 /**
  * Main plugin class for IntelliDoors.
@@ -14,20 +11,22 @@ import org.bukkit.scheduler.BukkitScheduler;
 public class Plugin extends JavaPlugin {
 	// Variable context.
 	protected static Plugin instance = null;
-	protected static String name = null;
-	protected static String version = null;
-	protected static BukkitScheduler scheduler = null;
+
+	// Variable data.
+	protected String name = null;
+	protected String version = null;
 
 	@Override
 	public synchronized void onDisable() {
-		// Reset our variables.
+		// Clear context.
 		instance = null;
+
+		// Clear data.
 		name = null;
 		version = null;
-		scheduler = null;
 
 		// Stopped.
-		System.out.println(name+" version "+version+" was disabled.");
+		System.out.println(name+" version "+version+" disabled.");
 	}
 
 	@Override
@@ -36,20 +35,20 @@ public class Plugin extends JavaPlugin {
 			instance.onDisable();
 		}
 
-		final PluginDescriptionFile description = getDescription();
-		final Server server = getServer();
-		final PluginManager manager = server.getPluginManager();
-
-		// Create our variables.
+		// Prepare context.
 		instance = this;
+
+		// Get description.
+		final PluginDescriptionFile description = getDescription();
+
+		// Prepare data.
 		name = description.getName();
 		version = description.getVersion();
-		scheduler = server.getScheduler();
 
 		// Register events.
-		Listeners.Enable(manager);
+		Listeners.Enable();
 
 		// Started.
-		System.out.println(name+" version "+version+" was initialized.");
+		System.out.println(name+" version "+version+" enabled.");
 	}
 }
