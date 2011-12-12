@@ -99,11 +99,11 @@ class Monitor extends Listener {
  * @author moltendorf
  */
 class BlockListenerForwarder extends BlockListener {
-	BlockListenerForwarder(final Listener instance) {
+	protected BlockListenerForwarder(final Listener instance) {
 		listener = instance;
 	}
 
-	final Listener listener;
+	final private Listener listener;
 
 	@Override public void onBlockPhysics(final BlockPhysicsEvent event) {
 		listener.onBlockPhysics(event);
@@ -120,11 +120,11 @@ class BlockListenerForwarder extends BlockListener {
  * @author moltendorf
  */
 class PlayerListenerForwarder extends PlayerListener {
-	PlayerListenerForwarder(final Listener instance) {
+	protected PlayerListenerForwarder(final Listener instance) {
 		listener = instance;
 	}
 
-	final Listener listener;
+	final private Listener listener;
 
 	@Override public void onPlayerInteract(final PlayerInteractEvent event) {
 		listener.onPlayerInteract(event);
