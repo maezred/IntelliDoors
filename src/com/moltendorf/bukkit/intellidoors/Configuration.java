@@ -1,5 +1,8 @@
 package com.moltendorf.bukkit.intellidoors;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -13,4 +16,13 @@ class Configuration {
 		final Plugin instance = Plugin.instance;
 		final FileConfiguration configuration = instance.getConfig();
 	}
+
+	// Final data.
+	final protected int ticks = 20; // Number of ticks per second.
+
+	final protected int timer = 250; // Minimum time between flipping doors.
+	final protected int close = 100; // Automated door closing delay (in ticks).
+	final protected int delay = 40; // Door shutting from redstone delay (in ticks).
+
+	final protected HashSet<Integer> ignored = new HashSet<Integer>(Arrays.asList(new Integer[] {0}));
 }
