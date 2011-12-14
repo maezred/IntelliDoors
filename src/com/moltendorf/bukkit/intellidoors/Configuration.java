@@ -2,7 +2,6 @@ package com.moltendorf.bukkit.intellidoors;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -25,4 +24,6 @@ class Configuration {
 	final protected int delay = 40; // Door shutting from redstone delay (in ticks).
 
 	final protected HashSet<Integer> ignored = new HashSet<Integer>(Arrays.asList(new Integer[] {0}));
+	final protected HashSet<Integer> interactable = new HashSet<Integer>(Arrays.asList(new Integer[] {}));
+	final protected HashSet<Integer> controllable = new HashSet<Integer>(Arrays.asList(new Integer[] {}));
 }
