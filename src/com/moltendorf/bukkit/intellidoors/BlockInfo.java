@@ -12,7 +12,7 @@ import org.bukkit.block.BlockFace;
 abstract class BlockInfo {
 	// Constants.
 	private final static BlockFace facing[] = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
-	private final static int ignored[] = {0, 6, 8, 9, 10, 11, 27, 28, 30, 31, 32, 37, 38, 39, 40, 50, 51, 55, 59, 63, 64, 65, 66, 68, 69, 70, 71, 72, 75, 76, 77, 78, 83, 90, 93, 94, 96};
+	private final static int ignored[] = {0, 6, 8, 9, 10, 11, 27, 28, 30, 31, 32, 37, 38, 39, 40, 50, 51, 55, 59, 63, 64, 65, 66, 68, 69, 70, 71, 72, 75, 76, 77, 78, 83, 90, 93, 94, 96, 104, 105, 106, 107, 111, 115, 119};
 
 	private static boolean HasBit(final int data, final int bit) {
 		return (data & bit) == bit;
