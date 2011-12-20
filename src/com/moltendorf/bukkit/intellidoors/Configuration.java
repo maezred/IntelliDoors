@@ -1,6 +1,7 @@
 package com.moltendorf.bukkit.intellidoors;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -85,7 +86,7 @@ class Configuration {
 			final protected int distance = 1; // The maximum distance doors can sense lingering redstone current from (default is one). Warning: higher values will cause more load!
 
 			final protected HashSet<Integer> source = new HashSet<Integer>(Arrays.asList(new Integer[] { // Blocks that are considered source blocks (default is pressure plates). Warning: more blocks will cause more load!
-				0
+
 			}));
 
 			final protected HashSet<Integer> trace = new HashSet<Integer>(Arrays.asList(new Integer[] { // Blocks that are considered trace blocks (default is all blocks that players do not collide with).
@@ -111,4 +112,8 @@ class Configuration {
 
 		final protected int scanning = 0; // Maximum distance to scan ahead while sprinting to automatically open doors; enter 0 to disable (default is 0). Warning: experimental, may cause extremely high load! Warning: higher values will cause more load!
 	}
+
+	// Final data.
+	final protected HashMap<Integer, Door> doors = new HashMap<Integer, Door>();
+	final protected Global global = new Global();
 }
