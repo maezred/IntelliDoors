@@ -84,6 +84,12 @@ abstract class Door extends DoorController implements Runnable {
 	}
 
 	protected static Handler Get(final Material material, final Block block, final Listener listener) {
+		if (material == Material.FENCE_GATE) {
+			final int data = GetData(block);
+
+			return listener.make(new Set_FenceGate(block, data), IsOpen(data));
+		}
+
 		if (material == Material.TRAP_DOOR) {
 			final int data = GetData(block);
 

@@ -10,7 +10,7 @@ import org.bukkit.block.Block;
  */
 class Pair_FenceGate extends BlockInfo {
 	Pair_FenceGate(final Block block, final Location position, final int data) {
-		rotation = GetRotation(data);
+		rotation = data & 1;
 
 		this.block = block;
 
@@ -24,7 +24,8 @@ class Pair_FenceGate extends BlockInfo {
 	private final Location location;
 
 	protected boolean apply(final boolean open) {
-		final int data = open ? (rotation | 4) : (IsOpen(rotation) ? rotation-4 : rotation);
+		final int orientation = GetRotation(block.getData());
+		final int data = open ? (orientation+4) : (orientation);
 
 		if (GetData(block) == data) {
 			return false;
@@ -36,7 +37,7 @@ class Pair_FenceGate extends BlockInfo {
 	}
 
 	protected boolean equals(Pair_FenceGate pair) {
-		return location.equals(pair.location) && rotation == pair.rotation;
+		return location.equals(pair.location) && (pair.rotation & 1) == rotation;
 	}
 
 	protected boolean powered() {

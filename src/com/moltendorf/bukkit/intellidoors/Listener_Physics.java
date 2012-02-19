@@ -29,6 +29,11 @@ class Listener_Physics extends BlockListener implements Listener {
 	}
 
 	@Override
+	public Handler make(final Set_FenceGate set, final boolean open) {
+		return new Handler(set, open);
+	}
+
+	@Override
 	public Handler make(final Set_Trap set, final boolean open) {
 		return new Handler(set, open);
 	}

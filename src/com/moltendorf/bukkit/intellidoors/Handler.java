@@ -39,6 +39,10 @@ class Handler {
 		}
 	}
 
+	protected Handler(final Set_FenceGate set, final boolean open) {
+		door = Door_FenceGate.Get(set, open);
+	}
+
 	protected Handler(final Set_Trap set, final boolean open) {
 		door = Door_Trap.Get(set, open);
 	}
