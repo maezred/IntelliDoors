@@ -38,7 +38,8 @@ class Configuration {
 
 			final protected State state = State.DETECT; // Which state to use (default is detect).
 
-			final protected HashSet<Integer> ignored = new HashSet<Integer>(Arrays.asList(new Integer[] { // Blocks that are ignored in orientation detection (default is all blocks that players do not collide with).
+			// Blocks that are ignored in orientation detection (default is all blocks that players do not collide with).
+			final protected HashSet<Integer> ignored = new HashSet<Integer>(Arrays.asList(new Integer[] {
 				0
 			}));
 		}
@@ -85,15 +86,18 @@ class Configuration {
 			final protected Extension extension = Extension.SOURCE; // Whether or not to respond to redstone current from a distance (default is source).
 			final protected int distance = 1; // The maximum distance doors can sense lingering redstone current from (default is one). Warning: higher values will cause more load!
 
-			final protected HashSet<Integer> source = new HashSet<Integer>(Arrays.asList(new Integer[] { // Blocks that are considered source blocks (default is pressure plates). Warning: more blocks will cause more load!
+			// Blocks that are considered source blocks (default is pressure plates). Warning: more blocks will cause more load!
+			final protected HashSet<Integer> source = new HashSet<Integer>(Arrays.asList(new Integer[] {
 
 			}));
 
-			final protected HashSet<Integer> trace = new HashSet<Integer>(Arrays.asList(new Integer[] { // Blocks that are considered trace blocks (default is all blocks that players do not collide with).
+			// Blocks that are considered trace blocks (default is all blocks that players do not collide with).
+			final protected HashSet<Integer> trace = new HashSet<Integer>(Arrays.asList(new Integer[] {
 				0
 			}));
 
-			final protected HashSet<Integer> ignored = new HashSet<Integer>(Arrays.asList(new Integer[] { // Blocks that are ignored in orientation detection (default is all blocks that players do not collide with).
+			// Blocks that are ignored in orientation detection (default is all blocks that players do not collide with).
+			final protected HashSet<Integer> ignored = new HashSet<Integer>(Arrays.asList(new Integer[] {
 				0
 			}));
 		}
@@ -110,7 +114,12 @@ class Configuration {
 		// Final data.
 		final protected boolean enabled = true; // Whether or not the plugin is enabled at all; useful for using it as an interface (default is true).
 
-		final protected int scanning = 0; // Maximum distance to scan ahead while sprinting to automatically open doors; enter 0 to disable (default is 0). Warning: experimental, may cause extremely high load! Warning: higher values will cause more load!
+		/*
+		 * Maximum distance to scan ahead while sprinting to automatically open doors; enter 0 to disable (default is 0).
+		 *
+		 * Warning: experimental, may cause extremely high load! Warning: higher values will cause more load!
+		 */
+		final protected int scanning = 0;
 	}
 
 	// Final data.
