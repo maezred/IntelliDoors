@@ -114,6 +114,16 @@ class List {
 		return door;
 	}
 
+	protected synchronized Door get(final Set_FenceGate set) {
+		for (Door current = first; current != null; current = current.next) {
+			if (current.equals(set)) {
+				return current;
+			}
+		}
+
+		return null;
+	}
+
 	protected synchronized Door get(final Set_Trap set) {
 		for (Door current = first; current != null; current = current.next) {
 			if (current.equals(set)) {

@@ -207,6 +207,14 @@ abstract class Door extends DoorController implements Runnable {
 		return set.equals(instance, this, list, current);
 	}
 
+	protected synchronized boolean equals(final Set_FenceGate instance) {
+		if (task == -1) {
+			return false;
+		}
+
+		return set.equals(instance);
+	}
+
 	protected synchronized boolean equals(final Set_Trap instance) {
 		if (task == -1) {
 			return false;

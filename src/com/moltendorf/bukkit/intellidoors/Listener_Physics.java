@@ -17,6 +17,7 @@ class Listener_Physics extends BlockListener implements Listener {
 
 		// Check that the material of the block is one of the types we handle.
 		switch (material) {
+			case FENCE_GATE:
 			case IRON_DOOR_BLOCK:
 			case TRAP_DOOR:
 			case WOODEN_DOOR:

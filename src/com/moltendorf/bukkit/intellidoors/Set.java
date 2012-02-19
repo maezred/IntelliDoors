@@ -43,6 +43,10 @@ abstract class Set {
 		return false;
 	}
 
+	protected boolean equals(final Set_FenceGate set) {
+		return false;
+	}
+
 	protected boolean equals(final Set_Trap set) {
 		return false;
 	}

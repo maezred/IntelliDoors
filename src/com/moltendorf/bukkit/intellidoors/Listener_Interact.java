@@ -17,6 +17,7 @@ class Listener_Interact extends PlayerListener implements Listener {
 
 		// Check that the material of the block is one of the types we handle.
 		switch (material) {
+			case FENCE_GATE:
 			case TRAP_DOOR:
 			case WOODEN_DOOR:
 				// Finally, get our door set.
