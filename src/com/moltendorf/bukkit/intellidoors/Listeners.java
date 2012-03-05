@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  *
  * @author moltendorf
  */
-class Listeners implements Listener {
+public class Listeners implements Listener {
 	final protected HashMap<Integer, Configuration.Door> doors = Plugin.configuration.doors;
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
