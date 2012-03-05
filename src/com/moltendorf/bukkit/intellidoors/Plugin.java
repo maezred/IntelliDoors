@@ -1,9 +1,6 @@
 package com.moltendorf.bukkit.intellidoors;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Server;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
