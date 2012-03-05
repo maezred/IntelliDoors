@@ -11,11 +11,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Plugin extends JavaPlugin {
 	// Variable context.
+	protected static Configuration configuration = null;
 	protected static Plugin instance = null;
 
 	@Override
 	public synchronized void onDisable() {
 		// Clear context.
+		configuration = null;
 		instance = null;
 	}
 
@@ -28,6 +30,9 @@ public class Plugin extends JavaPlugin {
 
 		// Prepare context.
 		instance = this;
+
+		// Construct new configuration.
+		configuration = new Configuration();
 
 		// Get server.
 		final Server server = getServer();

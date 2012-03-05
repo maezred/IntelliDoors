@@ -9,7 +9,7 @@ import java.util.HashSet;
  *
  * @author moltendorf
  */
-class Configuration {
+public class Configuration {
 	static protected class Door {
 		static protected class Automation {
 			static protected enum Mode {
