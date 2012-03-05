@@ -84,4 +84,12 @@ class Configuration {
 	// Final data.
 	final protected HashMap<Integer, Door> doors = new HashMap<Integer, Door>();
 	final protected Global global = new Global();
+
+	public Configuration() {
+		// Insert all doors with default values.
+		doors.put(64, new Door());
+		doors.put(71, new Door());
+		doors.put(96, new Door());
+		doors.put(107, new Door());
+	}
 }
