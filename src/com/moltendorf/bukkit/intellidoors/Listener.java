@@ -2,7 +2,6 @@ package com.moltendorf.bukkit.intellidoors;
 
 import java.util.HashMap;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  *
  * @author moltendorf
  */
-final class Listeners implements Listener {
+class Listeners implements Listener {
 	final protected HashMap<Integer, Configuration.Door> doors = Plugin.configuration.doors;
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
