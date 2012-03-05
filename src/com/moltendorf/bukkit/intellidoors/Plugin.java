@@ -34,6 +34,11 @@ public class Plugin extends JavaPlugin {
 		// Construct new configuration.
 		configuration = new Configuration();
 
+		// Are we enabled?
+		if (!configuration.global.enabled) {
+			return;
+		}
+
 		// Get server.
 		final Server server = getServer();
 
