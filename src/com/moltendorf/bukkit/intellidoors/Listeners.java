@@ -36,7 +36,7 @@ public class Listeners implements Listener {
 
 		// Is this type of door enabled?
 		if (configuration.enabled) {
-			// Do stuff.
+			Door.Debug(block);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Listeners implements Listener {
 
 		// Is this type of door enabled?
 		if (configuration.enabled) {
-			// Do stuff.
+			Door.Debug(block);
 		}
 	}
 }
