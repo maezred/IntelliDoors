@@ -1,6 +1,10 @@
 package com.moltendorf.bukkit.intellidoors;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bukkit.Server;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -25,8 +29,11 @@ public class Plugin extends JavaPlugin {
 		name = null;
 		version = null;
 
+		// Get logger.
+		final Logger logger = getLogger();
+
 		// Stopped.
-		System.out.println(name+" version "+version+" disabled.");
+		logger.log(Level.INFO, "{0} version {1} disabled.", new Object[] {name, version});
 	}
 
 	@Override
@@ -45,10 +52,19 @@ public class Plugin extends JavaPlugin {
 		name = description.getName();
 		version = description.getVersion();
 
-		// Register events.
-		Listeners.Enable();
+		// Get server.
+		final Server server = getServer();
+
+		// Get plugin manager.
+		final PluginManager manager = server.getPluginManager();
+
+		// Register our event listeners.
+		manager.registerEvents(new Listeners(), this);
+
+		// Get logger.
+		final Logger logger = getLogger();
 
 		// Started.
-		System.out.println(name+" version "+version+" enabled.");
+		logger.log(Level.INFO, "{0} version {1} enabled.", new Object[] {name, version});
 	}
 }
