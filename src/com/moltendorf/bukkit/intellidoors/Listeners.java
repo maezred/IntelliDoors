@@ -45,6 +45,13 @@ public class Listeners implements Listener {
 		}
 
 		Door.Debug(block);
+
+		// Is interacting with this type of door enabled?
+		if (!configuration.convenience.interactable) {
+			event.setCancelled(true); // Cancel the event.
+
+			return;
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
