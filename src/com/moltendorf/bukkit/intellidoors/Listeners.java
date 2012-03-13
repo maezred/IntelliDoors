@@ -35,9 +35,11 @@ public class Listeners implements Listener {
 		}
 
 		// Is this type of door enabled?
-		if (configuration.enabled) {
-			Door.Debug(block);
+		if (!configuration.enabled) {
+			return;
 		}
+
+		Door.Debug(block);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -59,8 +61,8 @@ public class Listeners implements Listener {
 		}
 
 		// Is this type of door enabled?
-		if (configuration.enabled) {
-			// Do stuff.
+		if (!configuration.enabled) {
+			return;
 		}
 	}
 
@@ -78,8 +80,8 @@ public class Listeners implements Listener {
 		}
 
 		// Is this type of door enabled?
-		if (configuration.enabled) {
-			Door.Debug(block);
+		if (!configuration.enabled) {
+			return;
 		}
 	}
 }
