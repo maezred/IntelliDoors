@@ -52,6 +52,11 @@ public class Listeners implements Listener {
 
 			return;
 		}
+
+		// Is inhibitor enabled?
+		if (configuration.convenience.inhibitor > 0) {
+			// Do stuff.
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
