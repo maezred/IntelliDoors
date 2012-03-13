@@ -34,7 +34,7 @@ public class Listeners implements Listener {
 
 		final Configuration.Door configuration = doors.get(type);
 
-		// Do we have configuration data for this?
+		// Do we have configuration data for this (this should never map to null, so if it's null legitimately, we can't really use it anyway)?
 		if (configuration == null) {
 			return;
 		}
@@ -65,7 +65,7 @@ public class Listeners implements Listener {
 
 		final Configuration.Door configuration = doors.get(type);
 
-		// Do we have configuration data for this?
+		// Do we have configuration data for this (this should never map to null, so if it's null legitimately, we can't really use it anyway)?
 		if (configuration == null) {
 			return;
 		}
@@ -89,7 +89,7 @@ public class Listeners implements Listener {
 
 		final Configuration.Door configuration = doors.get(type);
 
-		// Do we have configuration data for this?
+		// Do we have configuration data for this (this should never map to null, so if it's null legitimately, we can't really use it anyway)?
 		if (configuration == null) {
 			return;
 		}
