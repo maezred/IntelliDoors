@@ -18,6 +18,11 @@ public class Listeners implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void PlayerInteractEventHandler(final PlayerInteractEvent event) {
+		// Are we enabled at all?
+		if (!Plugin.configuration.global.enabled) {
+			return;
+		}
+
 		// Do we have a block?
 		if (!event.hasBlock()) {
 			return;
@@ -44,6 +49,11 @@ public class Listeners implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void PlayerInteractEventMonitor(final PlayerInteractEvent event) {
+		// Are we enabled at all?
+		if (!Plugin.configuration.global.enabled) {
+			return;
+		}
+
 		// Do we have a block?
 		if (!event.hasBlock()) {
 			return;
@@ -68,6 +78,11 @@ public class Listeners implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void BlockRedstoneEventMonitor(final BlockRedstoneEvent event) {
+		// Are we enabled at all?
+		if (!Plugin.configuration.global.enabled) {
+			return;
+		}
+
 		// Get our block and type.
 		final Block block = event.getBlock();
 		final int type = block.getTypeId();
