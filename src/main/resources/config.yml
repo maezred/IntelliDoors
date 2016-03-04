@@ -1,0 +1,142 @@
+# Basic config.
+individual:
+  interact:
+    reset:
+      enabled: true # Reset individual doors after they've been interacted with.
+      ticks: 100 # Delay (in ticks) before resetting.
+  redstone:
+    reset:
+      enabled: true # Delay resetting of individual doors when power is lost.
+      ticks: 20 # Delay (in ticks) before resetting.
+pair:
+  interact:
+    sync: true # Sync door pairs together when they've been interacted with.
+    reset:
+      enabled: true # Reset door pairs after they've been interacted with.
+      ticks: 100 # Delay (in ticks) before resetting.
+  redstone:
+    sync: true # Sync door pairs together when redstone power changes.
+    reset:
+      enabled: true # Delay resetting of door pairs when power is lost.
+      ticks: 20 # Delay (in ticks) before resetting.
+
+# Enable/Disable the plugin entirely.
+enabled: true
+
+# Advanced config. Do not edit unless you know what you're doing. You may break things. Badly.
+doors:
+  wooden-door: # Name can be anything, but has to be unique.
+    type: door # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
+    material: # Material type.
+    - ACACIA_DOOR # Wooden door (acacia variant).
+    - BIRCH_DOOR # Wooden door (birch variant).
+    - DARK_OAK_DOOR # Wooden door (dark oak variant).
+    - JUNGLE_DOOR # Wooden door (jungle variant).
+    - SPRUCE_DOOR # Wooden door (spruce variant).
+    - WOODEN_DOOR # Wooden door (oak variant).
+    individual:
+      interact:
+        enabled: true # Allow individual doors to be interacted with.
+        reset:
+          enabled: individual.interact.reset.enabled # Reset individual doors after they've been interacted with.
+          ticks: individual.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow individual doors to react to redstone power.
+        reset:
+          enabled: individual.redstone.reset.enabled # Delay resetting of individual doors when power is lost.
+          ticks: individual.redstone.reset.ticks # Delay (in ticks) before resetting.
+    pair:
+      interact:
+        enabled: true # Allow door pairs to be interacted with.
+        sync: pair.interact.sync # Sync door pairs together when they've been interacted with.
+        reset:
+          enabled: pair.interact.reset.enabled # Reset door pairs after they've been interacted with.
+          ticks: pair.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow door pairs to react to redstone power.
+        sync: pair.redstone.sync # Sync door pairs together when redstone power changes.
+        reset:
+          enabled: pair.redstone.reset.enabled # Delay resetting of door pairs when power is lost.
+          ticks: pair.redstone.reset.ticks # Delay (in ticks) before resetting.
+
+  iron-door: # Name can be anything, but has to be unique.
+    type: door # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
+    material: # Material type.
+    - IRON_DOOR_BLOCK # Iron door.
+    individual:
+      interact:
+        enabled: false # Allow individual doors to be interacted with.
+        reset:
+          enabled: individual.interact.reset.enabled # Reset individual doors after they've been interacted with.
+          ticks: individual.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow individual doors to react to redstone power.
+        reset:
+          enabled: individual.redstone.reset.enabled # Delay resetting of individual doors when power is lost.
+          ticks: individual.redstone.reset.ticks # Delay (in ticks) before resetting.
+    pair:
+      interact:
+        enabled: false # Allow door pairs to be interacted with.
+        sync: pair.interact.sync # Sync door pairs together when they've been interacted with.
+        reset:
+          enabled: pair.interact.reset.enabled # Reset door pairs after they've been interacted with.
+          ticks: pair.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow door pairs to react to redstone power.
+        sync: pair.redstone.sync # Sync door pairs together when redstone power changes.
+        reset:
+          enabled: pair.redstone.reset.enabled # Delay resetting of door pairs when power is lost.
+          ticks: pair.redstone.reset.ticks # Delay (in ticks) before resetting.
+
+  wooden-trapdoor: # Name can be anything, but has to be unique.
+    type: trap # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
+    material: # Material type.
+    - TRAP_DOOR # Wooden trap door.
+    individual:
+      interact:
+        enabled: true # Allow individual doors to be interacted with.
+        reset:
+          enabled: individual.interact.reset.enabled # Reset individual doors after they've been interacted with.
+          ticks: individual.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow individual doors to react to redstone power.
+        reset:
+          enabled: individual.redstone.reset.enabled # Delay resetting of individual doors when power is lost.
+          ticks: individual.redstone.reset.ticks # Delay (in ticks) before resetting.
+
+  iron-trapdoor: # Name can be anything, but has to be unique.
+    type: trap # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
+    material: # Material type.
+    - IRON_TRAPDOOR # Iron trap door.
+    individual:
+      interact:
+        enabled: false # Allow individual doors to be interacted with.
+        reset:
+          enabled: individual.interact.reset.enabled # Reset individual doors after they've been interacted with.
+          ticks: individual.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow individual doors to react to redstone power.
+        reset:
+          enabled: individual.redstone.reset.enabled # Delay resetting of individual doors when power is lost.
+          ticks: individual.redstone.reset.ticks # Delay (in ticks) before resetting.
+
+  fence-gate: # Name can be anything, but has to be unique.
+    type: gate # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
+    material: # Material type.
+    - ACACIA_FENCE_GATE # Wooden fence gate (acacia variant).
+    - BIRCH_FENCE_GATE # Wooden fence gate (birch variant).
+    - DARK_OAK_FENCE_GATE # Wooden fence gate (dark oak variant).
+    - FENCE_GATE # Wooden fence gate (oak variant).
+    - JUNGLE_FENCE_GATE # Wooden fence gate (jungle variant).
+    - SPRUCE_FENCE_GATE # Wooden fence gate (spruce variant).
+    individual:
+      interact:
+        enabled: true # Allow individual doors to be interacted with.
+        reset:
+          enabled: individual.interact.reset.enabled # Reset individual doors after they've been interacted with.
+          ticks: individual.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow individual doors to react to redstone power.
+        reset:
+          enabled: individual.redstone.reset.enabled # Delay resetting of individual doors when power is lost.
+          ticks: individual.redstone.reset.ticks # Delay (in ticks) before resetting.
