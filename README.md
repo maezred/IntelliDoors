@@ -1,9 +1,9 @@
 IntelliDoors
 ============
 
-## Overview
+> Plugin for Bukkit/Spigot (a mod for Minecraft).
 
-IntelliDoors is a plugin for Bukkit/Spigot (a mod for Minecraft).
+## Overview
 
 It provides additional functionality for doors, including:
 
