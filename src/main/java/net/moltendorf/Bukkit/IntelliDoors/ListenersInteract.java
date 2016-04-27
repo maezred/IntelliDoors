@@ -44,9 +44,9 @@ public class ListenersInteract implements Listener {
 								} else {
 									final Location location = block.getLocation();
 									if (closed) {
-										location.getWorld().playSound(location, Sound.DOOR_OPEN, 1, 1);
+										location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_OPEN, 1, 1);
 									} else {
-										location.getWorld().playSound(location, Sound.DOOR_CLOSE, 1, 1);
+										location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_CLOSE, 1, 1);
 									}
 								}
 
@@ -73,10 +73,10 @@ public class ListenersInteract implements Listener {
 								case IRON_TRAPDOOR:
 									final Location location = block.getLocation();
 									if (doorType.isClosed()) {
-										location.getWorld().playSound(location, Sound.DOOR_OPEN, 1, 1);
+										location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_OPEN, 1, 1);
 										doorType.open();
 									} else {
-										location.getWorld().playSound(location, Sound.DOOR_CLOSE, 1, 1);
+										location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 1, 1);
 										doorType.close();
 									}
 									break;
