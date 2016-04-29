@@ -40,8 +40,8 @@ public class Settings {
     final protected boolean pairRedstoneResetEnabled;
     final protected int pairRedstoneResetTicks;
 
-    TypeSettings(Type t, boolean iie, boolean iire, int iirt, boolean ire, boolean irre, int irrt,
-                 boolean pie, boolean pis, boolean pire, int pirt, boolean pre, boolean prs, boolean prre, int prrt) {
+    TypeSettings(Type t, boolean iie, boolean iire, int iirt, boolean ire, boolean irre, int irrt, boolean pie, boolean pis,
+                 boolean pire, int pirt, boolean pre, boolean prs, boolean prre, int prrt) {
       type = t;
 
       individualInteractEnabled = iie;
@@ -453,11 +453,9 @@ public class Settings {
             continue;
           }
 
-          settings = new TypeSettings(type, iie, iire, iirt, ire, irre, irrt, pie, pis, pire, pirt, pre, prs, prre,
-            prrt);
+          settings = new TypeSettings(type, iie, iire, iirt, ire, irre, irrt, pie, pis, pire, pirt, pre, prs, prre, prrt);
         } else {
-          settings = new TypeSettings(type, iie, iire, iirt, ire, irre, irrt, false, false, false, 0, false, false,
-            false, 0);
+          settings = new TypeSettings(type, iie, iire, iirt, ire, irre, irrt, false, false, false, 0, false, false, false, 0);
         }
 
         log.info("Configuring " + key + " type.");
