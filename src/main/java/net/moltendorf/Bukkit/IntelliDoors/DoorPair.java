@@ -1,5 +1,8 @@
 package net.moltendorf.Bukkit.IntelliDoors;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -48,21 +51,53 @@ public class DoorPair extends DoorType {
     this.closed = closed;
   }
 
+  @Override
   public boolean isClosed() {
     return closed;
   }
 
+  @Override
   public boolean isOpened() {
     return !closed;
   }
 
+  @Override
   public void close() {
     left.close();
     right.close();
   }
 
+  @Override
   public void open() {
     left.open();
     right.open();
+  }
+
+  @Override
+  public void toggle() {
+    left.toggle();
+    right.toggle();
+  }
+
+  @Override
+  public void wasToggled(Door onDoor) {
+    if (onDoor.bottom.getType() != Material.IRON_DOOR_BLOCK) {
+      // Invert door open state.
+      onDoor.bottomData += onDoor.isClosed() ? 4 : -4;
+    } else {
+      Location location = onDoor.bottom.getLocation();
+
+      if (closed) {
+        location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_OPEN, 1, 1);
+      } else {
+        location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_CLOSE, 1, 1);
+      }
+    }
+
+    if (closed) {
+      open();
+    } else {
+      close();
+    }
   }
 }

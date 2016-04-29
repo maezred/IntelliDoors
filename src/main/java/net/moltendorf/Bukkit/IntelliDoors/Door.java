@@ -48,14 +48,24 @@ public class Door extends DoorType {
     return (topData & 1) == 1;
   }
 
+  @Override
   public boolean isClosed() {
     return (bottomData & 4) == 0;
   }
 
+  @Override
   public boolean isOpened() {
     return (bottomData & 4) == 4;
   }
 
+  @Override
+  public void toggle() {
+    bottomData += isClosed() ? 4 : -4;
+
+    bottom.setData(bottomData);
+  }
+
+  @Override
   public void close() {
     if (isOpened()) {
       bottomData -= 4;
@@ -64,11 +74,17 @@ public class Door extends DoorType {
     }
   }
 
+  @Override
   public void open() {
     if (isClosed()) {
       bottomData += 4;
 
       bottom.setData(bottomData);
     }
+  }
+
+  @Override
+  public void wasToggled(Door onDoor) {
+
   }
 }

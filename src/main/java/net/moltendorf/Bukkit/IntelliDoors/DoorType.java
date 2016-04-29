@@ -10,7 +10,11 @@ abstract public class DoorType {
 
   abstract public void close();
 
+  abstract public void toggle();
+
   abstract public boolean isOpened();
 
   abstract public boolean isClosed();
+
+  abstract public void wasToggled(Door onDoor);
 }

@@ -1,5 +1,9 @@
-package net.moltendorf.Bukkit.IntelliDoors;
+package net.moltendorf.Bukkit.IntelliDoors.listener;
 
+import net.moltendorf.Bukkit.IntelliDoors.Door;
+import net.moltendorf.Bukkit.IntelliDoors.DoorPair;
+import net.moltendorf.Bukkit.IntelliDoors.DoorType;
+import net.moltendorf.Bukkit.IntelliDoors.Settings;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,7 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  *
  * @author moltendorf
  */
-public class ListenersInteract implements Listener {
+public class Interact implements Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
   public void PlayerInteractEventHandler(final PlayerInteractEvent event) {
     if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -27,34 +31,15 @@ public class ListenersInteract implements Listener {
       if (settings != null) {
         DoorType doorType = null;
 
-        switch (settings.type) {
+        switch (settings.getType()) {
           case DOOR:
-            if (settings.pairInteractEnabled && settings.pairInteractSync) {
+            if (settings.isPairInteractEnabled() && settings.isPairInteractSync()) {
               Door door = new Door(block);
 
               doorType = DoorPair.Get(door);
 
               if (doorType instanceof DoorPair) {
-                // Fun times.
-                final boolean closed = doorType.isClosed();
-
-                if (type != Material.IRON_DOOR_BLOCK) {
-                  // Invert door open state.
-                  door.bottomData += door.isClosed() ? 4 : -4;
-                } else {
-                  final Location location = block.getLocation();
-                  if (closed) {
-                    location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_OPEN, 1, 1);
-                  } else {
-                    location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_CLOSE, 1, 1);
-                  }
-                }
-
-                if (closed) {
-                  doorType.open();
-                } else {
-                  doorType.close();
-                }
+                doorType.wasToggled(door);
                 break;
               }
             } else {
@@ -67,7 +52,7 @@ public class ListenersInteract implements Listener {
               break;
             }
 
-            if (settings.individualInteractEnabled) {
+            if (settings.isIndividualInteractEnabled()) {
               switch (type) {
                 case IRON_DOOR_BLOCK:
                 case IRON_TRAPDOOR:

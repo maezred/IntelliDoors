@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.IntelliDoors;
 
+import net.moltendorf.Bukkit.IntelliDoors.listener.Interact;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -26,7 +27,7 @@ public class IntelliDoors extends JavaPlugin {
     settings = new Settings();
 
     // Register listeners.
-    getServer().getPluginManager().registerEvents(new ListenersInteract(), this);
+    getServer().getPluginManager().registerEvents(new Interact(), this);
   }
 
   @Override

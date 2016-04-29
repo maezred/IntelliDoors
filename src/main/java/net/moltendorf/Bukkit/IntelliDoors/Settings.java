@@ -15,56 +15,7 @@ import java.util.logging.Logger;
  * @author moltendorf
  */
 public class Settings {
-  protected static class TypeSettings {
-    protected enum Type {
-      DOOR, TRAP, GATE
-    }
-
-    final protected Type type;
-
-    final protected boolean individualInteractEnabled;
-    final protected boolean individualInteractResetEnabled;
-    final protected int individualInteractResetTicks;
-
-    final protected boolean individualRedstoneEnabled;
-    final protected boolean individualRedstoneResetEnabled;
-    final protected int individualRedstoneResetTicks;
-
-    final protected boolean pairInteractEnabled;
-    final protected boolean pairInteractSync;
-    final protected boolean pairInteractResetEnabled;
-    final protected int pairInteractResetTicks;
-
-    final protected boolean pairRedstoneEnabled;
-    final protected boolean pairRedstoneSync;
-    final protected boolean pairRedstoneResetEnabled;
-    final protected int pairRedstoneResetTicks;
-
-    TypeSettings(Type t, boolean iie, boolean iire, int iirt, boolean ire, boolean irre, int irrt, boolean pie, boolean pis,
-                 boolean pire, int pirt, boolean pre, boolean prs, boolean prre, int prrt) {
-      type = t;
-
-      individualInteractEnabled = iie;
-      individualInteractResetEnabled = iire;
-      individualInteractResetTicks = iirt;
-
-      individualRedstoneEnabled = ire;
-      individualRedstoneResetEnabled = irre;
-      individualRedstoneResetTicks = irrt;
-
-      pairInteractEnabled = pie;
-      pairInteractSync = pis;
-      pairInteractResetEnabled = pire;
-      pairInteractResetTicks = pirt;
-
-      pairRedstoneEnabled = pre;
-      pairRedstoneSync = prs;
-      pairRedstoneResetEnabled = prre;
-      pairRedstoneResetTicks = prrt;
-    }
-  }
-
-  protected static Settings getInstance() {
+  public static Settings getInstance() {
     return IntelliDoors.getInstance().settings;
   }
 
@@ -72,7 +23,7 @@ public class Settings {
 
   private HashMap<Material, TypeSettings> doors = new HashMap<>();
 
-  public Settings() {
+  Settings() {
     final IntelliDoors instance = IntelliDoors.getInstance();
     final Logger log = instance.getLogger();
 
@@ -479,5 +430,114 @@ public class Settings {
 
   public TypeSettings getSettings(final Material material) {
     return doors.get(material);
+  }
+
+  public static class TypeSettings {
+    final private Type type;
+
+    final private boolean individualInteractEnabled;
+    final private boolean individualInteractResetEnabled;
+    final private int individualInteractResetTicks;
+
+    final private boolean individualRedstoneEnabled;
+    final private boolean individualRedstoneResetEnabled;
+    final private int individualRedstoneResetTicks;
+
+    final private boolean pairInteractEnabled;
+    final private boolean pairInteractSync;
+    final private boolean pairInteractResetEnabled;
+    final private int pairInteractResetTicks;
+
+    final private boolean pairRedstoneEnabled;
+    final private boolean pairRedstoneSync;
+    final private boolean pairRedstoneResetEnabled;
+    final private int pairRedstoneResetTicks;
+
+    TypeSettings(Type t, boolean iie, boolean iire, int iirt, boolean ire, boolean irre, int irrt, boolean pie, boolean pis,
+                 boolean pire, int pirt, boolean pre, boolean prs, boolean prre, int prrt) {
+      type = t;
+
+      individualInteractEnabled = iie;
+      individualInteractResetEnabled = iire;
+      individualInteractResetTicks = iirt;
+
+      individualRedstoneEnabled = ire;
+      individualRedstoneResetEnabled = irre;
+      individualRedstoneResetTicks = irrt;
+
+      pairInteractEnabled = pie;
+      pairInteractSync = pis;
+      pairInteractResetEnabled = pire;
+      pairInteractResetTicks = pirt;
+
+      pairRedstoneEnabled = pre;
+      pairRedstoneSync = prs;
+      pairRedstoneResetEnabled = prre;
+      pairRedstoneResetTicks = prrt;
+    }
+
+    public Type getType() {
+      return type;
+    }
+
+    public boolean isIndividualInteractEnabled() {
+      return individualInteractEnabled;
+    }
+
+    public boolean isIndividualInteractResetEnabled() {
+      return individualInteractResetEnabled;
+    }
+
+    public int getIndividualInteractResetTicks() {
+      return individualInteractResetTicks;
+    }
+
+    public boolean isIndividualRedstoneEnabled() {
+      return individualRedstoneEnabled;
+    }
+
+    public boolean isIndividualRedstoneResetEnabled() {
+      return individualRedstoneResetEnabled;
+    }
+
+    public int getIndividualRedstoneResetTicks() {
+      return individualRedstoneResetTicks;
+    }
+
+    public boolean isPairInteractEnabled() {
+      return pairInteractEnabled;
+    }
+
+    public boolean isPairInteractSync() {
+      return pairInteractSync;
+    }
+
+    public boolean isPairInteractResetEnabled() {
+      return pairInteractResetEnabled;
+    }
+
+    public int getPairInteractResetTicks() {
+      return pairInteractResetTicks;
+    }
+
+    public boolean isPairRedstoneEnabled() {
+      return pairRedstoneEnabled;
+    }
+
+    public boolean isPairRedstoneSync() {
+      return pairRedstoneSync;
+    }
+
+    public boolean isPairRedstoneResetEnabled() {
+      return pairRedstoneResetEnabled;
+    }
+
+    public int getPairRedstoneResetTicks() {
+      return pairRedstoneResetTicks;
+    }
+
+    public enum Type {
+      DOOR, TRAP, GATE
+    }
   }
 }
