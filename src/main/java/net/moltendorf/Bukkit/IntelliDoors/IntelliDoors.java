@@ -8,37 +8,37 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author moltendorf
  */
 public class IntelliDoors extends JavaPlugin {
-	// Main instance.
-	private static IntelliDoors instance = null;
+  // Main instance.
+  private static IntelliDoors instance = null;
 
-	protected static IntelliDoors getInstance() {
-		return instance;
-	}
+  protected static IntelliDoors getInstance() {
+    return instance;
+  }
 
-	// Variable data.
-	protected Settings settings = null;
+  // Variable data.
+  protected Settings settings = null;
 
-	@Override
-	public void onEnable() {
-		instance = this;
+  @Override
+  public void onEnable() {
+    instance = this;
 
-		// Construct new settings.
-		settings = new Settings();
+    // Construct new settings.
+    settings = new Settings();
 
-		// Register listeners.
-		getServer().getPluginManager().registerEvents(new ListenersInteract(), this);
-	}
+    // Register listeners.
+    getServer().getPluginManager().registerEvents(new ListenersInteract(), this);
+  }
 
-	@Override
-	public void onDisable() {
-		instance = null;
-	}
+  @Override
+  public void onDisable() {
+    instance = null;
+  }
 
-	public static void DebugByte(byte bite) {
-		getInstance().getServer().broadcastMessage(String.format("%4s", Integer.toBinaryString(bite)).replace(' ', '0'));
-	}
+  public static void DebugByte(byte bite) {
+    getInstance().getServer().broadcastMessage(String.format("%4s", Integer.toBinaryString(bite)).replace(' ', '0'));
+  }
 
-	public static void DebugString(String string) {
-		getInstance().getServer().broadcastMessage(string);
-	}
+  public static void DebugString(String string) {
+    getInstance().getServer().broadcastMessage(string);
+  }
 }

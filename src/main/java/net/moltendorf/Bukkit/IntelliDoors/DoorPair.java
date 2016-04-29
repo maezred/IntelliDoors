@@ -9,60 +9,60 @@ import org.bukkit.block.BlockFace;
  * @author moltendorf
  */
 public class DoorPair extends DoorType {
-	public static DoorType Get(final Door door) {
-		final boolean   left   = door.isLeft();
-		final BlockFace facing = door.getFacing();
+  public static DoorType Get(final Door door) {
+    final boolean left = door.isLeft();
+    final BlockFace facing = door.getFacing();
 
-		final Block otherBlock;
+    final Block otherBlock;
 
-		if (left) {
-			otherBlock = door.top.getRelative(facing);
-		} else {
-			otherBlock = door.top.getRelative(facing, -1);
-		}
+    if (left) {
+      otherBlock = door.top.getRelative(facing);
+    } else {
+      otherBlock = door.top.getRelative(facing, -1);
+    }
 
-		// Check if it's the same type and also the top of the door.
-		if (otherBlock.getType() == door.top.getType() && (otherBlock.getData() & 8) == 8) {
-			final Door otherDoor = new Door(otherBlock);
+    // Check if it's the same type and also the top of the door.
+    if (otherBlock.getType() == door.top.getType() && (otherBlock.getData() & 8) == 8) {
+      final Door otherDoor = new Door(otherBlock);
 
-			if (facing == otherDoor.getFacing() && left == otherDoor.isRight()) {
-				if (left) {
-					return new DoorPair(door, otherDoor, door.isClosed());
-				} else {
-					return new DoorPair(otherDoor, door, door.isClosed());
-				}
-			}
-		}
+      if (facing == otherDoor.getFacing() && left == otherDoor.isRight()) {
+        if (left) {
+          return new DoorPair(door, otherDoor, door.isClosed());
+        } else {
+          return new DoorPair(otherDoor, door, door.isClosed());
+        }
+      }
+    }
 
-		return door;
-	}
+    return door;
+  }
 
-	final public Door left, right;
+  final public Door left, right;
 
-	private boolean closed;
+  private boolean closed;
 
-	public DoorPair(final Door left, final Door right, final boolean closed) {
-		this.left = left;
-		this.right = right;
+  public DoorPair(final Door left, final Door right, final boolean closed) {
+    this.left = left;
+    this.right = right;
 
-		this.closed = closed;
-	}
+    this.closed = closed;
+  }
 
-	public boolean isClosed() {
-		return closed;
-	}
+  public boolean isClosed() {
+    return closed;
+  }
 
-	public boolean isOpened() {
-		return !closed;
-	}
+  public boolean isOpened() {
+    return !closed;
+  }
 
-	public void close() {
-		left.close();
-		right.close();
-	}
+  public void close() {
+    left.close();
+    right.close();
+  }
 
-	public void open() {
-		left.open();
-		right.open();
-	}
+  public void open() {
+    left.open();
+    right.open();
+  }
 }

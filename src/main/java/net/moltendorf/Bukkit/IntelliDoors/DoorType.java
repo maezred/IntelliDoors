@@ -6,9 +6,11 @@ package net.moltendorf.Bukkit.IntelliDoors;
  * @author moltendorf
  */
 abstract public class DoorType {
-	abstract public void open();
-	abstract public void close();
+  abstract public void open();
 
-	abstract public boolean isOpened();
-	abstract public boolean isClosed();
+  abstract public void close();
+
+  abstract public boolean isOpened();
+
+  abstract public boolean isClosed();
 }
