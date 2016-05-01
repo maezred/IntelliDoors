@@ -11,8 +11,8 @@ import org.bukkit.block.BlockFace;
  *
  * @author moltendorf
  */
-public class DoorPair extends DoorType {
-  public static DoorType Get(final Door door) {
+public class DoubleDoor implements Door {
+  public static Door Get(final SingleDoor door) {
     final boolean left = door.isLeft();
     final BlockFace facing = door.getFacing();
 
@@ -26,13 +26,13 @@ public class DoorPair extends DoorType {
 
     // Check if it's the same type and also the top of the door.
     if (otherBlock.getType() == door.top.getType() && (otherBlock.getData() & 8) == 8) {
-      final Door otherDoor = new Door(otherBlock);
+      final SingleDoor otherDoor = new SingleDoor(otherBlock);
 
       if (facing == otherDoor.getFacing() && left == otherDoor.isRight()) {
         if (left) {
-          return new DoorPair(door, otherDoor, door.isClosed());
+          return new DoubleDoor(door, otherDoor, door.isClosed());
         } else {
-          return new DoorPair(otherDoor, door, door.isClosed());
+          return new DoubleDoor(otherDoor, door, door.isClosed());
         }
       }
     }
@@ -40,11 +40,11 @@ public class DoorPair extends DoorType {
     return door;
   }
 
-  final public Door left, right;
+  final public SingleDoor left, right;
 
   private boolean closed;
 
-  public DoorPair(final Door left, final Door right, final boolean closed) {
+  public DoubleDoor(final SingleDoor left, final SingleDoor right, final boolean closed) {
     this.left = left;
     this.right = right;
 
@@ -80,7 +80,7 @@ public class DoorPair extends DoorType {
   }
 
   @Override
-  public void wasToggled(Door onDoor) {
+  public void wasToggled(SingleDoor onDoor) {
     if (onDoor.bottom.getType() != Material.IRON_DOOR_BLOCK) {
       // Invert door open state.
       onDoor.bottomData += onDoor.isClosed() ? 4 : -4;

@@ -1,8 +1,8 @@
 package net.moltendorf.Bukkit.IntelliDoors.listener;
 
+import net.moltendorf.Bukkit.IntelliDoors.controller.SingleDoor;
+import net.moltendorf.Bukkit.IntelliDoors.controller.DoubleDoor;
 import net.moltendorf.Bukkit.IntelliDoors.controller.Door;
-import net.moltendorf.Bukkit.IntelliDoors.controller.DoorPair;
-import net.moltendorf.Bukkit.IntelliDoors.controller.DoorType;
 import net.moltendorf.Bukkit.IntelliDoors.Settings;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,26 +29,26 @@ public class Interact implements Listener {
       final Settings.TypeSettings settings = Settings.getInstance().getSettings(type);
 
       if (settings != null) {
-        DoorType doorType = null;
+        Door door = null;
 
         switch (settings.getType()) {
           case DOOR:
             if (settings.isPairInteractEnabled() && settings.isPairInteractSync()) {
-              Door door = new Door(block);
+              SingleDoor singleDoor = new SingleDoor(block);
 
-              doorType = DoorPair.Get(door);
+              door = DoubleDoor.Get(singleDoor);
 
-              if (doorType instanceof DoorPair) {
-                doorType.wasToggled(door);
+              if (door instanceof DoubleDoor) {
+                door.wasToggled(singleDoor);
                 break;
               }
             } else {
-              doorType = new Door(block);
+              door = new SingleDoor(block);
             }
 
           case TRAP:
           case GATE:
-            if (doorType == null) {
+            if (door == null) {
               break;
             }
 
@@ -57,12 +57,12 @@ public class Interact implements Listener {
                 case IRON_DOOR_BLOCK:
                 case IRON_TRAPDOOR:
                   final Location location = block.getLocation();
-                  if (doorType.isClosed()) {
+                  if (door.isClosed()) {
                     location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_OPEN, 1, 1);
-                    doorType.open();
+                    door.open();
                   } else {
                     location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 1, 1);
-                    doorType.close();
+                    door.close();
                   }
                   break;
               }
