@@ -1,4 +1,4 @@
-package net.moltendorf.Bukkit.IntelliDoors;
+package net.moltendorf.Bukkit.IntelliDoors.controller;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

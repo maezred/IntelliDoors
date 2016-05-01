@@ -1,8 +1,8 @@
 package net.moltendorf.Bukkit.IntelliDoors.listener;
 
-import net.moltendorf.Bukkit.IntelliDoors.Door;
-import net.moltendorf.Bukkit.IntelliDoors.DoorPair;
-import net.moltendorf.Bukkit.IntelliDoors.DoorType;
+import net.moltendorf.Bukkit.IntelliDoors.controller.Door;
+import net.moltendorf.Bukkit.IntelliDoors.controller.DoorPair;
+import net.moltendorf.Bukkit.IntelliDoors.controller.DoorType;
 import net.moltendorf.Bukkit.IntelliDoors.Settings;
 import org.bukkit.Location;
 import org.bukkit.Material;

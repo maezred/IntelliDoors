@@ -1,4 +1,4 @@
-package net.moltendorf.Bukkit.IntelliDoors;
+package net.moltendorf.Bukkit.IntelliDoors.controller;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
