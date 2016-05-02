@@ -24,21 +24,21 @@ public class Settings {
   private HashMap<Material, TypeSettings> doors = new HashMap<>();
 
   Settings() {
-    final IntelliDoors instance = IntelliDoors.getInstance();
-    final Logger log = instance.getLogger();
+    IntelliDoors instance = IntelliDoors.getInstance();
+    Logger log = instance.getLogger();
 
     // Make sure the default configuration is saved.
     instance.saveDefaultConfig();
 
-    final FileConfiguration config = instance.getConfig();
+    FileConfiguration config = instance.getConfig();
 
     enabled = config.getBoolean("enabled", enabled);
 
-    final ConfigurationSection doorSection = config.getConfigurationSection("doors");
+    ConfigurationSection doorSection = config.getConfigurationSection("doors");
 
     if (doorSection != null) {
-      for (final String key : doorSection.getKeys(false)) {
-        final ConfigurationSection typeSection = doorSection.getConfigurationSection(key);
+      for (String key : doorSection.getKeys(false)) {
+        ConfigurationSection typeSection = doorSection.getConfigurationSection(key);
 
         if (typeSection == null) {
           log.warning("Config: door." + key + " is not specified.");
@@ -46,7 +46,7 @@ public class Settings {
           continue;
         }
 
-        final String typeString = typeSection.getString("type");
+        String typeString = typeSection.getString("type");
 
         if (typeString == null) {
           log.warning("Config: door." + key + ".type has no value.");
@@ -54,7 +54,7 @@ public class Settings {
           continue;
         }
 
-        final TypeSettings.Type type;
+        TypeSettings.Type type;
 
         switch (typeString) {
           case "door":
@@ -75,10 +75,10 @@ public class Settings {
             continue;
         }
 
-        final Collection<Material> materials = new LinkedList<>();
+        Collection<Material> materials = new LinkedList<>();
 
-        for (final String materialString : typeSection.getStringList("material")) {
-          final Material material = Material.getMaterial(materialString);
+        for (String materialString : typeSection.getStringList("material")) {
+          Material material = Material.getMaterial(materialString);
 
           if (material == null) {
             log.warning("Config: door." + key + ".material has invalid value: \"" + materialString + "\".");
@@ -95,7 +95,7 @@ public class Settings {
           continue;
         }
 
-        final TypeSettings settings;
+        TypeSettings settings;
 
 				/*
          * Copy pasta. Psh, nobody needed readable code anyway.
@@ -105,7 +105,7 @@ public class Settings {
          * Individuals.
 				 */
 
-        final boolean iie;
+        boolean iie;
 
         String sub = "individual.interact.enabled";
         String check = typeSection.getString(sub);
@@ -126,7 +126,7 @@ public class Settings {
           continue;
         }
 
-        final boolean iire;
+        boolean iire;
 
         sub = "individual.interact.reset.enabled";
         check = typeSection.getString(sub);
@@ -147,7 +147,7 @@ public class Settings {
           continue;
         }
 
-        final int iirt;
+        int iirt;
 
         sub = "individual.interact.reset.ticks";
         check = typeSection.getString(sub);
@@ -168,7 +168,7 @@ public class Settings {
           continue;
         }
 
-        final boolean ire;
+        boolean ire;
 
         sub = "individual.redstone.enabled";
         check = typeSection.getString(sub);
@@ -189,7 +189,7 @@ public class Settings {
           continue;
         }
 
-        final boolean irre;
+        boolean irre;
 
         sub = "individual.redstone.reset.enabled";
         check = typeSection.getString(sub);
@@ -210,7 +210,7 @@ public class Settings {
           continue;
         }
 
-        final int irrt;
+        int irrt;
 
         sub = "individual.redstone.reset.ticks";
         check = typeSection.getString(sub);
@@ -236,7 +236,7 @@ public class Settings {
            * Pairs.
            */
 
-          final boolean pie;
+          boolean pie;
 
           sub = "pair.interact.enabled";
           check = typeSection.getString(sub);
@@ -257,7 +257,7 @@ public class Settings {
             continue;
           }
 
-          final boolean pis;
+          boolean pis;
 
           sub = "pair.interact.sync";
           check = typeSection.getString(sub);
@@ -278,7 +278,7 @@ public class Settings {
             continue;
           }
 
-          final boolean pire;
+          boolean pire;
 
           sub = "pair.interact.reset.enabled";
           check = typeSection.getString(sub);
@@ -299,7 +299,7 @@ public class Settings {
             continue;
           }
 
-          final int pirt;
+          int pirt;
 
           sub = "pair.interact.reset.ticks";
           check = typeSection.getString(sub);
@@ -320,7 +320,7 @@ public class Settings {
             continue;
           }
 
-          final boolean pre;
+          boolean pre;
 
           sub = "pair.redstone.enabled";
           check = typeSection.getString(sub);
@@ -341,7 +341,7 @@ public class Settings {
             continue;
           }
 
-          final boolean prs;
+          boolean prs;
 
           sub = "pair.redstone.sync";
           check = typeSection.getString(sub);
@@ -362,7 +362,7 @@ public class Settings {
             continue;
           }
 
-          final boolean prre;
+          boolean prre;
 
           sub = "pair.redstone.reset.enabled";
           check = typeSection.getString(sub);
@@ -383,7 +383,7 @@ public class Settings {
             continue;
           }
 
-          final int prrt;
+          int prrt;
 
           sub = "pair.redstone.reset.ticks";
           check = typeSection.getString(sub);
@@ -411,7 +411,7 @@ public class Settings {
 
         log.info("Configuring " + key + " type.");
 
-        for (final Material material : materials) {
+        for (Material material : materials) {
           if (doors.containsKey(material)) {
             log.warning("Config: door." + key + ".material already has value: \"" + material.toString() + "\".");
 
@@ -428,30 +428,30 @@ public class Settings {
     return enabled;
   }
 
-  public TypeSettings getSettings(final Material material) {
+  public TypeSettings getSettings(Material material) {
     return doors.get(material);
   }
 
   public static class TypeSettings {
-    final private Type type;
+    private Type type;
 
-    final private boolean individualInteractEnabled;
-    final private boolean individualInteractResetEnabled;
-    final private int individualInteractResetTicks;
+    private boolean individualInteractEnabled;
+    private boolean individualInteractResetEnabled;
+    private int individualInteractResetTicks;
 
-    final private boolean individualRedstoneEnabled;
-    final private boolean individualRedstoneResetEnabled;
-    final private int individualRedstoneResetTicks;
+    private boolean individualRedstoneEnabled;
+    private boolean individualRedstoneResetEnabled;
+    private int individualRedstoneResetTicks;
 
-    final private boolean pairInteractEnabled;
-    final private boolean pairInteractSync;
-    final private boolean pairInteractResetEnabled;
-    final private int pairInteractResetTicks;
+    private boolean pairInteractEnabled;
+    private boolean pairInteractSync;
+    private boolean pairInteractResetEnabled;
+    private int pairInteractResetTicks;
 
-    final private boolean pairRedstoneEnabled;
-    final private boolean pairRedstoneSync;
-    final private boolean pairRedstoneResetEnabled;
-    final private int pairRedstoneResetTicks;
+    private boolean pairRedstoneEnabled;
+    private boolean pairRedstoneSync;
+    private boolean pairRedstoneResetEnabled;
+    private int pairRedstoneResetTicks;
 
     TypeSettings(Type t, boolean iie, boolean iire, int iirt, boolean ire, boolean irre, int irrt, boolean pie, boolean pis,
                  boolean pire, int pirt, boolean pre, boolean prs, boolean prre, int prrt) {

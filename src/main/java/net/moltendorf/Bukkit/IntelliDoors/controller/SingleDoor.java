@@ -1,5 +1,8 @@
 package net.moltendorf.Bukkit.IntelliDoors.controller;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -9,29 +12,46 @@ import org.bukkit.block.BlockFace;
  * @author moltendorf
  */
 public class SingleDoor implements Door {
-  final protected Block top, bottom;
-
-  protected byte topData, bottomData;
-
-  public SingleDoor(final Block block) {
+  public static SingleDoor getDoor(Block block) {
     // org.bukkit.material.SingleDoor: Deprecated? Is this really so hard? Sigh.
-    final byte data = block.getData();
+    byte data = block.getData();
+
+    Block top, bottom;
 
     if ((data & 8) == 8) {
       // Top of door.
       top = block;
       bottom = block.getRelative(BlockFace.DOWN);
-
-      topData = data;
-      bottomData = bottom.getData();
     } else {
       // Bottom of door.
       top = block.getRelative(BlockFace.UP);
       bottom = block;
-
-      topData = top.getData();
-      bottomData = data;
     }
+
+    if (top.getType() == bottom.getType()) {
+      return new SingleDoor(top, bottom);
+    }
+
+    return null;
+  }
+
+  private Material type;
+
+  private Location location;
+
+  protected Block top, bottom;
+
+  protected byte topData, bottomData;
+
+  public SingleDoor(Block top, Block bottom) {
+    type = top.getType();
+    location = top.getLocation();
+
+    this.top = top;
+    this.bottom = bottom;
+
+    topData = top.getData();
+    bottomData = bottom.getData();
   }
 
   private static BlockFace[] Facing = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
@@ -84,7 +104,28 @@ public class SingleDoor implements Door {
   }
 
   @Override
-  public void wasToggled(SingleDoor onDoor) {
+  public Material getType() {
+    return type;
+  }
 
+  @Override
+  public void wasToggled(Door onDoor) {
+    if (type == Material.IRON_DOOR_BLOCK) {
+      if (isClosed()) {
+        open();
+
+        if (this == onDoor) {
+          location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_OPEN, 1, 1);
+        }
+      } else {
+        close();
+
+        if (this == onDoor) {
+          location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_CLOSE, 1, 1);
+        }
+      }
+    } else if (this != onDoor) {
+      toggle();
+    }
   }
 }
