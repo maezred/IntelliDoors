@@ -2,7 +2,6 @@ package net.moltendorf.Bukkit.IntelliDoors.controller;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -11,7 +10,7 @@ import org.bukkit.block.BlockFace;
  *
  * @author moltendorf
  */
-public class SingleDoor implements Door {
+public class SingleDoor extends AbstractDoor {
   public static SingleDoor getDoor(Block block) {
     // org.bukkit.material.SingleDoor: Deprecated? Is this really so hard? Sigh.
     byte data = block.getData();
@@ -41,7 +40,7 @@ public class SingleDoor implements Door {
 
   protected Block top, bottom;
 
-  protected byte topData, bottomData;
+  byte topData, bottomData;
 
   public SingleDoor(Block top, Block bottom) {
     type = top.getType();
@@ -104,28 +103,12 @@ public class SingleDoor implements Door {
   }
 
   @Override
-  public Material getType() {
-    return type;
+  protected Location getLocation() {
+    return location;
   }
 
   @Override
-  public void wasToggled(Door onDoor) {
-    if (type == Material.IRON_DOOR_BLOCK) {
-      if (isClosed()) {
-        open();
-
-        if (this == onDoor) {
-          location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_OPEN, 1, 1);
-        }
-      } else {
-        close();
-
-        if (this == onDoor) {
-          location.getWorld().playSound(location, Sound.BLOCK_IRON_DOOR_CLOSE, 1, 1);
-        }
-      }
-    } else if (this != onDoor) {
-      toggle();
-    }
+  public Material getType() {
+    return type;
   }
 }

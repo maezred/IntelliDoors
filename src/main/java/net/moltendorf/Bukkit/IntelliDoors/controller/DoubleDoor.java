@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.IntelliDoors.controller;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -9,7 +10,7 @@ import org.bukkit.block.BlockFace;
  *
  * @author moltendorf
  */
-public class DoubleDoor implements Door {
+public class DoubleDoor extends AbstractDoor {
   public static DoubleDoor getDoor(SingleDoor door) {
     boolean left = door.isLeft();
     BlockFace facing = door.getFacing();
@@ -42,11 +43,15 @@ public class DoubleDoor implements Door {
 
   private boolean closed;
 
+  private Location location;
+
   public DoubleDoor(SingleDoor left, SingleDoor right, boolean closed) {
     this.left = left;
     this.right = right;
 
     this.closed = closed;
+
+    location = left.getLocation().subtract(right.getLocation()).add(left.getLocation());
   }
 
   @Override
@@ -84,7 +89,14 @@ public class DoubleDoor implements Door {
 
   @Override
   public void wasToggled(Door onDoor) {
-    left.wasToggled(onDoor);
-    right.wasToggled(onDoor);
+    SingleDoor toggled = (SingleDoor) onDoor;
+    toggled.bottomData += toggled.isClosed() ? 4 : -4;
+
+    super.wasToggled(onDoor);
+  }
+
+  @Override
+  protected Location getLocation() {
+    return location;
   }
 }
