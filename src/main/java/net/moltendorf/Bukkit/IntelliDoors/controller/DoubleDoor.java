@@ -18,14 +18,14 @@ public class DoubleDoor extends AbstractDoor {
     Block otherBlock;
 
     if (left) {
-      otherBlock = door.top.getRelative(facing);
+      otherBlock = door.getTop().getRelative(facing);
     } else {
-      otherBlock = door.top.getRelative(facing, -1);
+      otherBlock = door.getTop().getRelative(facing, -1);
     }
 
     // Check if it's the same type and also the top of the door.
-    if (otherBlock.getType() == door.top.getType() && (otherBlock.getData() & 8) == 8) {
-      SingleDoor otherDoor = SingleDoor.getDoor(otherBlock);
+    if (otherBlock.getType() == door.getTop().getType() && (otherBlock.getData() & 8) == 8) {
+      SingleDoor otherDoor = SingleDoor.Companion.getDoor(otherBlock);
 
       if (facing == otherDoor.getFacing() && left == otherDoor.isRight()) {
         if (left) {
@@ -89,10 +89,14 @@ public class DoubleDoor extends AbstractDoor {
 
   @Override
   public void wasToggled(Door onDoor) {
-    SingleDoor toggled = (SingleDoor) onDoor;
-    toggled.bottomData += toggled.isClosed() ? 4 : -4;
-
+    onDoor.overrideState(isOpened());
     super.wasToggled(onDoor);
+  }
+
+  @Override
+  public void overrideState(boolean closed) {
+    left.overrideState(closed);
+    right.overrideState(closed);
   }
 
   @Override

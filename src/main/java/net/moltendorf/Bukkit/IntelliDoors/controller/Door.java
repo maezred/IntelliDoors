@@ -14,6 +14,8 @@ public interface Door {
 
   void toggle();
 
+  void overrideState(boolean closed);
+
   boolean isOpened();
 
   boolean isClosed();

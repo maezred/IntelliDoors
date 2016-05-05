@@ -2,9 +2,7 @@ package net.moltendorf.Bukkit.IntelliDoors.listener;
 
 import net.moltendorf.Bukkit.IntelliDoors.Settings;
 import net.moltendorf.Bukkit.IntelliDoors.controller.*;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,7 +33,7 @@ public class Interact implements Listener {
 
         if (type == DOOR) {
           if (settings.isPairInteractEnabled() && settings.isPairInteractSync()) {
-            SingleDoor singleDoor = SingleDoor.getDoor(block);
+            SingleDoor singleDoor = SingleDoor.Companion.getDoor(block);
 
             DoubleDoor doubleDoor = DoubleDoor.getDoor(singleDoor);
 
@@ -52,7 +50,7 @@ public class Interact implements Listener {
         if (door == null) {
           switch (type) {
             case DOOR:
-              door = SingleDoor.getDoor(block);
+              door = SingleDoor.Companion.getDoor(block);
               break;
 
             case TRAP:

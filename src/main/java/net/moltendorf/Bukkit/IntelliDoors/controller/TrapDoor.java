@@ -70,6 +70,13 @@ public class TrapDoor implements Door {
   }
 
   @Override
+  public void overrideState(boolean closed) {
+    if (isClosed() != closed) {
+      data -= closed ? 4 : -4;
+    }
+  }
+
+  @Override
   public void wasToggled(Door onDoor) {
     if (type == Material.IRON_TRAPDOOR) {
       if (isClosed()) {
