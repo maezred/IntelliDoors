@@ -1,6 +1,8 @@
 package net.moltendorf.Bukkit.IntelliDoors;
 
 import net.moltendorf.Bukkit.IntelliDoors.listener.Interact;
+import net.moltendorf.Bukkit.IntelliDoors.listener.Redstone;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -27,7 +29,10 @@ public class IntelliDoors extends JavaPlugin {
     settings = new Settings();
 
     // Register listeners.
-    getServer().getPluginManager().registerEvents(new Interact(), this);
+    PluginManager manager = getServer().getPluginManager();
+
+    manager.registerEvents(new Interact(), this);
+    manager.registerEvents(new Redstone(), this);
   }
 
   @Override
