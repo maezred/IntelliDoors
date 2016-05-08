@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static net.moltendorf.Bukkit.IntelliDoors.Settings.TypeSettings.Type.DOOR;
+import static net.moltendorf.Bukkit.IntelliDoors.Settings.Type.DOOR;
 
 /**
  * Created by moltendorf on 15/05/23.
@@ -24,15 +24,15 @@ public class Interact implements Listener {
       Block block = event.getClickedBlock();
       Material material = block.getType();
 
-      Settings.TypeSettings settings = Settings.getInstance().getSettings(material);
+      Settings.TypeSettings settings = Settings.Companion.getInstance().get(material);
 
       if (settings != null) {
         Door door = null;
 
-        Settings.TypeSettings.Type type = settings.getType();
+        Settings.Type type = settings.getType();
 
         if (type == DOOR) {
-          if (settings.isPairInteractEnabled() && settings.isPairInteractSync()) {
+          if (settings.getPairInteract() && settings.getPairInteractSync()) {
             SingleDoor singleDoor = SingleDoor.Companion.getDoor(block);
 
             DoubleDoor doubleDoor = DoubleDoor.getDoor(singleDoor);
@@ -66,7 +66,7 @@ public class Interact implements Listener {
           }
         }
 
-        if (settings.isIndividualInteractEnabled()) {
+        if (settings.getSingleInteract()) {
           door.wasToggled(door);
         } else {
           switch (material) {

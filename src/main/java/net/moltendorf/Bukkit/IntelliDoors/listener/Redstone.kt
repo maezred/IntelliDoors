@@ -16,13 +16,12 @@ class Redstone : Listener {
   fun redstoneChangeEventHandler(event: BlockRedstoneEvent) {
     val block = event.block
     val material = block.type
-
-    val settings = Settings.getInstance().getSettings(material)
+    val settings = Settings[material]
 
     if (settings != null) {
       val type = settings.type
 
-      if (type == Settings.TypeSettings.Type.DOOR && settings.isPairRedstoneEnabled && settings.isPairRedstoneSync) {
+      if (type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
         val single = SingleDoor.getDoor(block)
 
         DoubleDoor.getDoor(single)?.wasToggled(single)
