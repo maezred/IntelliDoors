@@ -25,7 +25,7 @@ public class DoubleDoor extends AbstractDoor {
 
     // Check if it's the same type and also the top of the door.
     if (otherBlock.getType() == door.getTop().getType() && (otherBlock.getData() & 8) == 8) {
-      SingleDoor otherDoor = SingleDoor.Companion.getDoor(otherBlock);
+      SingleDoor otherDoor = SingleDoor.Companion.get(otherBlock);
 
       if (facing == otherDoor.getFacing() && left == otherDoor.isRight()) {
         if (left) {

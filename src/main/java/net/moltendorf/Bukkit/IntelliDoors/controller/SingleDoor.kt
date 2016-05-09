@@ -79,7 +79,7 @@ class SingleDoor(protected var top: Block, protected var bottom: Block) : Abstra
     }
 
     companion object {
-        fun getDoor(block: Block): SingleDoor? {
+        operator fun get(block: Block): SingleDoor? {
             // org.bukkit.material.SingleDoor: Deprecated? Is this really so hard? Sigh.
             val data = block.data
 

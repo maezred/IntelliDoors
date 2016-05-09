@@ -22,7 +22,7 @@ class Redstone : Listener {
       val type = settings.type
 
       if (type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
-        val single = SingleDoor.getDoor(block)
+        val single = SingleDoor[block]
 
         DoubleDoor.getDoor(single)?.wasToggled(single)
       }

@@ -33,7 +33,7 @@ public class Interact implements Listener {
 
         if (type == DOOR) {
           if (settings.getPairInteract() && settings.getPairInteractSync()) {
-            SingleDoor singleDoor = SingleDoor.Companion.getDoor(block);
+            SingleDoor singleDoor = SingleDoor.Companion.get(block);
 
             DoubleDoor doubleDoor = DoubleDoor.getDoor(singleDoor);
 
