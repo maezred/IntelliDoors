@@ -13,7 +13,7 @@ import org.bukkit.event.block.BlockRedstoneEvent
  */
 class Redstone : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-  fun redstoneChangeEventHandler(event: BlockRedstoneEvent) {
+  fun blockRedstoneEventHandler(event: BlockRedstoneEvent) {
     val block = event.block
     val material = block.type
     val settings = Settings[material]
