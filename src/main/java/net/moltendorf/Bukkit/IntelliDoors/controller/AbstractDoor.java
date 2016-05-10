@@ -8,7 +8,7 @@ import org.bukkit.Sound;
  * Created by moltendorf on 16/5/2.
  */
 public abstract class AbstractDoor implements Door {
-  protected abstract Location getLocation();
+  public abstract Location getLocation();
 
   @Override
   public void wasToggled(Door onDoor) {

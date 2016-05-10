@@ -35,7 +35,7 @@ public class Interact implements Listener {
           if (settings.getPairInteract() && settings.getPairInteractSync()) {
             SingleDoor singleDoor = SingleDoor.Companion.get(block);
 
-            DoubleDoor doubleDoor = DoubleDoor.getDoor(singleDoor);
+            DoubleDoor doubleDoor = DoubleDoor.Companion.get(singleDoor);
 
             if (doubleDoor != null) {
               doubleDoor.wasToggled(singleDoor);
@@ -50,7 +50,7 @@ public class Interact implements Listener {
         if (door == null) {
           switch (type) {
             case DOOR:
-              door = SingleDoor.Companion.getDoor(block);
+              door = SingleDoor.Companion.get(block);
               break;
 
             case TRAP:

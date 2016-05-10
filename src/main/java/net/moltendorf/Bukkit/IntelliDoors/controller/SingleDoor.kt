@@ -10,7 +10,7 @@ import org.bukkit.block.BlockFace
 
  * @author moltendorf
  */
-class SingleDoor(protected var top: Block, protected var bottom: Block) : AbstractDoor() {
+class SingleDoor(var top: Block, var bottom: Block) : AbstractDoor() {
     private val type: Material
 
     private val location: Location

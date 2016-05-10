@@ -24,7 +24,9 @@ class Redstone : Listener {
       if (type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
         val single = SingleDoor[block]
 
-        DoubleDoor.getDoor(single)?.wasToggled(single)
+        if (single != null) {
+          DoubleDoor[single]?.wasToggled(single)
+        }
       }
     }
   }
