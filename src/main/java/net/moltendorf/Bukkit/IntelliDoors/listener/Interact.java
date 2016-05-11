@@ -38,7 +38,7 @@ public class Interact implements Listener {
             DoubleDoor doubleDoor = DoubleDoor.Companion.get(singleDoor);
 
             if (doubleDoor != null) {
-              doubleDoor.wasToggled(singleDoor);
+              doubleDoor.onInteract(singleDoor);
 
               return;
             }
@@ -54,11 +54,11 @@ public class Interact implements Listener {
               break;
 
             case TRAP:
-              door = TrapDoor.getDoor(block);
+              door = TrapDoor.Companion.getDoor(block);
               break;
 
             case GATE:
-              door = Gate.getDoor(block);
+              door = Gate.Companion.getDoor(block);
           }
 
           if (door == null) {
@@ -67,7 +67,7 @@ public class Interact implements Listener {
         }
 
         if (settings.getSingleInteract()) {
-          door.wasToggled(door);
+          door.onInteract(door);
         } else {
           switch (material) {
             case IRON_DOOR_BLOCK:

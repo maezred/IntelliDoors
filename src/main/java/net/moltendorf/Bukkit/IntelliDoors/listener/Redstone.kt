@@ -25,7 +25,7 @@ class Redstone : Listener {
         val single = SingleDoor[block]
 
         if (single != null) {
-          DoubleDoor[single]?.wasToggled(single)
+          DoubleDoor[single]?.onInteract(single)
         }
       }
     }

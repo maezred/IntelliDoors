@@ -1,7 +1,7 @@
 package net.moltendorf.Bukkit.IntelliDoors.controller
 
-import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 
@@ -10,99 +10,61 @@ import org.bukkit.block.BlockFace
 
  * @author moltendorf
  */
-class SingleDoor(var top: Block, var bottom: Block) : AbstractDoor() {
-    private val type: Material
+class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
+  val facing: BlockFace
+    get() = FACING[bottomData and 3]
 
-    private val location: Location
+  val left: Boolean
+    get() = topData and 1 == 0
 
-    internal var topData: Byte = 0
-    internal var bottomData: Byte = 0
+  val right: Boolean
+    get() = topData and 1 == 1
 
-    init {
-        type = top.type
-        location = top.location
+  override val location = top.location.subtract(bottom.location).add(top.location)
 
-        topData = top.data
-        bottomData = bottom.data
+  protected var topData = top.data.toInt()
+  protected var bottomData: Int
+    get() = data
+    set(value) {
+      data = value
     }
 
-    val facing: BlockFace
-        get() = Facing[bottomData.toInt() and 3]
-
-    val isLeft: Boolean
-        get() = topData.toInt() and 1 == 0
-
-    val isRight: Boolean
-        get() = topData.toInt() and 1 == 1
-
-    override fun isClosed(): Boolean {
-        return bottomData.toInt() and 4 == 0
+  override fun sound(open: Boolean): Sound {
+    return when (type) {
+      Material.IRON_DOOR_BLOCK -> {
+        if (open) Sound.BLOCK_IRON_DOOR_OPEN else Sound.BLOCK_IRON_DOOR_CLOSE
+      }
+      Material.ACACIA_DOOR,
+      Material.BIRCH_DOOR,
+      Material.DARK_OAK_DOOR,
+      Material.JUNGLE_DOOR,
+      Material.SPRUCE_DOOR,
+      Material.WOODEN_DOOR -> {
+        if (open) Sound.BLOCK_WOODEN_DOOR_OPEN else Sound.BLOCK_WOODEN_DOOR_CLOSE
+      }
+      else -> Sound.BLOCK_ANVIL_LAND
     }
+  }
 
-    override fun isOpened(): Boolean {
-        return bottomData.toInt() and 4 == 4
+  companion object {
+    private val FACING = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
+
+    operator fun get(block: Block): SingleDoor? {
+      val data = block.data.toInt()
+      val top: Block
+      val bottom: Block
+
+      if (data and 8 == 8) {
+        // Top of door.
+        top = block
+        bottom = block.getRelative(BlockFace.DOWN)
+      } else {
+        // Bottom of door.
+        top = block.getRelative(BlockFace.UP)
+        bottom = block
+      }
+
+      return if (top.type == bottom.type) SingleDoor(top, bottom) else null
     }
-
-    override fun toggle() {
-        bottomData = (bottomData + (if (isClosed) 4 else -4)).toByte()
-        bottom.data = bottomData
-    }
-
-    override fun close() {
-        if (isOpened) {
-            bottomData = (bottomData - 4).toByte()
-
-            bottom.data = bottomData
-        }
-    }
-
-    override fun open() {
-        if (isClosed) {
-            bottomData = (bottomData + 4).toByte()
-
-            bottom.data = bottomData
-        }
-    }
-
-    override fun overrideState(closed: Boolean) {
-        if (isClosed != closed) {
-            bottomData = (bottomData - (if (closed) 4 else -4)).toByte()
-        }
-    }
-
-    override fun getLocation(): Location {
-        return location
-    }
-
-    override fun getType(): Material {
-        return type
-    }
-
-    companion object {
-        operator fun get(block: Block): SingleDoor? {
-            // org.bukkit.material.SingleDoor: Deprecated? Is this really so hard? Sigh.
-            val data = block.data
-
-            val top: Block
-            val bottom: Block
-
-            if (data.toInt() and 8 == 8) {
-                // Top of door.
-                top = block
-                bottom = block.getRelative(BlockFace.DOWN)
-            } else {
-                // Bottom of door.
-                top = block.getRelative(BlockFace.UP)
-                bottom = block
-            }
-
-            if (top.type == bottom.type) {
-                return SingleDoor(top, bottom)
-            }
-
-            return null
-        }
-
-        private val Facing = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
-    }
+  }
 }
