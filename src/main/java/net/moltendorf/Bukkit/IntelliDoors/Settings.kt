@@ -14,7 +14,7 @@ class Settings {
 
   private val doors = HashMap<Material, TypeSettings>()
 
-  private val instance = IntelliDoors.getInstance()
+  private val instance = IntelliDoors.instance
   private val config = instance.config
   private val log = instance.logger
 
@@ -141,7 +141,7 @@ class Settings {
 
   companion object {
     val instance: Settings
-      get() = IntelliDoors.getInstance().settings
+      get() = IntelliDoors.instance.settings
 
     operator fun get(material: Material): TypeSettings? {
       return instance[material]
