@@ -9,7 +9,7 @@ import org.bukkit.block.Block
 
  * @author moltendorf
  */
-class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door {
+class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door() {
   override val location = left.location.subtract(right.location).add(left.location)
   override val type = left.type
 

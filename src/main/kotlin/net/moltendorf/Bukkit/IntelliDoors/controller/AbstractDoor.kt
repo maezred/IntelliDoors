@@ -7,7 +7,7 @@ import org.bukkit.block.Block
 /**
  * Created by moltendorf on 16/5/2.
  */
-abstract class AbstractDoor(val block: Block) : Door {
+abstract class AbstractDoor(val block: Block) : Door() {
   override val location: Location
     get() {
       return block.location

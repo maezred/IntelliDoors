@@ -7,11 +7,11 @@ import org.bukkit.Sound
 /**
  * Created by moltendorf on 16/5/10.
  */
-interface Door {
-  val location: Location
-  val type: Material
+abstract class Door {
+  abstract val location: Location
+  abstract val type: Material
 
-  var open: Boolean
+  abstract var open: Boolean
 
   fun onInteract(onDoor: Door) {
     val isOpen = !open
@@ -29,6 +29,28 @@ interface Door {
     open = !open
   }
 
-  fun overrideOpen(value: Boolean)
-  fun sound(open: Boolean): Sound
+  abstract fun overrideOpen(value: Boolean)
+  abstract fun sound(open: Boolean): Sound
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) {
+      return true
+    }
+
+    if (other?.javaClass != javaClass) {
+      return false
+    }
+
+    other as Door
+
+    if (location != other.location) {
+      return false
+    }
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    return location.hashCode()
+  }
 }
