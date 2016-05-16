@@ -11,37 +11,17 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 class IntelliDoors : JavaPlugin() {
   // Variable data.
-  var settings: Settings? = null
+  lateinit var settings: Settings
     private set
 
   override fun onEnable() {
-    instance = this
-
     // Construct new settings.
-    settings = Settings()
+    settings = Settings(this)
 
     // Register listeners.
     val manager = server.pluginManager
 
-    manager.registerEvents(Interact(), this)
-    manager.registerEvents(Redstone(), this)
-  }
-
-  override fun onDisable() {
-    instance = null
-  }
-
-  companion object {
-    // Main instance.
-    var instance: IntelliDoors? = null
-      private set
-
-    fun DebugByte(bite: Byte) {
-      instance?.server?.broadcastMessage(String.format("%4s", Integer.toBinaryString(bite.toInt())).replace(' ', '0'))
-    }
-
-    fun DebugString(string: String) {
-      instance?.server?.broadcastMessage(string)
-    }
+    manager.registerEvents(Interact(this), this)
+    manager.registerEvents(Redstone(this), this)
   }
 }

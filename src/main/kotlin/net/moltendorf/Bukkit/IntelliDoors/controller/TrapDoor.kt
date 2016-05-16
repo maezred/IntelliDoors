@@ -21,7 +21,7 @@ class TrapDoor(block: Block) : AbstractDoor(block) {
   }
 
   companion object {
-    fun getDoor(block: Block): Door? {
+    operator fun get(block: Block): TrapDoor? {
       return null
     }
   }

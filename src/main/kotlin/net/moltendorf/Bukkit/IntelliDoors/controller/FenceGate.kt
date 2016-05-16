@@ -7,7 +7,7 @@ import org.bukkit.block.Block
 /**
  * Created by moltendorf on 15/05/23.
  */
-class Gate(block: Block) : AbstractDoor(block) {
+class FenceGate(block: Block) : AbstractDoor(block) {
   override fun sound(open: Boolean): Sound {
     return when (type) {
       Material.ACACIA_FENCE_GATE,
@@ -23,7 +23,7 @@ class Gate(block: Block) : AbstractDoor(block) {
   }
 
   companion object {
-    fun getDoor(block: Block): Door? {
+    operator fun get(block: Block): FenceGate? {
       return null
     }
   }

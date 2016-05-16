@@ -9,12 +9,10 @@ import java.util.*
 
  * @author moltendorf
  */
-class Settings {
+class Settings(val instance: IntelliDoors) {
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
 
   private val doors = HashMap<Material, TypeSettings>()
-
-  private val instance = IntelliDoors.instance
   private val config = instance.config
   private val log = instance.logger
 
@@ -137,15 +135,6 @@ class Settings {
 
     log.warning("Config: ${sub.currentPath}.$this has no value")
     return default
-  }
-
-  companion object {
-    val instance: Settings
-      get() = IntelliDoors.instance.settings
-
-    operator fun get(material: Material): TypeSettings? {
-      return instance[material]
-    }
   }
 
   class TypeSettings(

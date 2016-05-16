@@ -9,7 +9,7 @@ import org.bukkit.block.Block
 
  * @author moltendorf
  */
-class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door() {
+class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door {
   override val location = left.location.subtract(right.location).add(left.location)
   override val type = left.type
 
@@ -57,9 +57,9 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
 
       // Check if it's the same type and also the top of the door.
       if (otherBlock.type == door.top.type && otherBlock.data.toInt() and 8 == 8) {
-        val otherDoor = SingleDoor[otherBlock]
+        val otherDoor = SingleDoor[otherBlock] ?: return null
 
-        if (otherDoor != null && facing == otherDoor.facing && left == otherDoor.right) {
+        if (facing == otherDoor.facing && left == otherDoor.right) {
           return if (left) DoubleDoor(door, otherDoor, door.open) else DoubleDoor(otherDoor, door, door.open)
         }
       }

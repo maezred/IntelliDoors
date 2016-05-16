@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.IntelliDoors.listener
 
+import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
 import net.moltendorf.Bukkit.IntelliDoors.Settings
 import net.moltendorf.Bukkit.IntelliDoors.controller.DoubleDoor
 import net.moltendorf.Bukkit.IntelliDoors.controller.SingleDoor
@@ -11,23 +12,18 @@ import org.bukkit.event.block.BlockRedstoneEvent
 /**
  * Created by moltendorf on 15/05/23.
  */
-class Redstone : Listener {
+class Redstone(val instance: IntelliDoors) : Listener {
+  val settings = instance.settings
+
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
   fun blockRedstoneEventHandler(event: BlockRedstoneEvent) {
     val block = event.block
-    val material = block.type
-    val settings = Settings[material]
+    val settings = settings[block.type] ?: return
 
-    if (settings != null) {
-      val type = settings.type
+    if (settings.type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
+      val single = SingleDoor[block] ?: return
 
-      if (type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
-        val single = SingleDoor[block]
-
-        if (single != null) {
-          DoubleDoor[single]?.onInteract(single)
-        }
-      }
+      DoubleDoor[single]?.onInteract(single)
     }
   }
 }

@@ -1,8 +1,9 @@
 package net.moltendorf.Bukkit.IntelliDoors.listener
 
+import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
 import net.moltendorf.Bukkit.IntelliDoors.Settings
 import net.moltendorf.Bukkit.IntelliDoors.controller.DoubleDoor
-import net.moltendorf.Bukkit.IntelliDoors.controller.Gate
+import net.moltendorf.Bukkit.IntelliDoors.controller.FenceGate
 import net.moltendorf.Bukkit.IntelliDoors.controller.SingleDoor
 import net.moltendorf.Bukkit.IntelliDoors.controller.TrapDoor
 import org.bukkit.Material
@@ -17,13 +18,15 @@ import org.bukkit.event.player.PlayerInteractEvent
 
  * @author moltendorf
  */
-class Interact : Listener {
+class Interact(val instance: IntelliDoors) : Listener {
+  val settings = instance.settings
+
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
   fun PlayerInteractEventHandler(event: PlayerInteractEvent) {
     if (event.action == Action.RIGHT_CLICK_BLOCK) {
       val block = event.clickedBlock
       val material = block.type
-      val settings = Settings.instance[material] ?: return
+      val settings = settings[material] ?: return
       val type = settings.type
 
       val door = when (type) {
@@ -43,8 +46,8 @@ class Interact : Listener {
           singleDoor
         }
 
-        Settings.Type.TRAP -> TrapDoor.getDoor(block)
-        Settings.Type.GATE -> Gate.getDoor(block)
+        Settings.Type.TRAP -> TrapDoor[block]
+        Settings.Type.GATE -> FenceGate[block]
       } ?: return
 
       if (settings.singleInteract) {
