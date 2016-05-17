@@ -9,14 +9,16 @@ import java.util.*
 
  * @author moltendorf
  */
-class Settings(val instance: IntelliDoors) {
+class Settings() {
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
 
   private val doors = HashMap<Material, TypeSettings>()
-  private val config = instance.config
-  private val log = instance.logger
 
   init {
+    val instance = IntelliDoors.instance
+    val config = instance.config
+    val log = instance.logger
+
     // Make sure the default configuration is saved.
     instance.saveDefaultConfig()
 
@@ -104,6 +106,10 @@ class Settings(val instance: IntelliDoors) {
   }
 
   private fun String.getBoolean(sub: ConfigurationSection, default: Boolean): Boolean {
+    val instance = IntelliDoors.instance
+    val config = instance.config
+    val log = instance.logger
+
     if (sub.contains(this)) {
       if (sub.isBoolean(this)) {
         return sub.getBoolean(this, default)
@@ -121,6 +127,10 @@ class Settings(val instance: IntelliDoors) {
   }
 
   private fun String.getInt(sub: ConfigurationSection, default: Int): Int {
+    val instance = IntelliDoors.instance
+    val config = instance.config
+    val log = instance.logger
+
     if (sub.contains(this)) {
       if (sub.isInt(this)) {
         return sub.getInt(this, default)

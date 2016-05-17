@@ -18,11 +18,15 @@ import org.bukkit.event.player.PlayerInteractEvent
 
  * @author moltendorf
  */
-class Interact(val instance: IntelliDoors) : Listener {
-  val settings = instance.settings
-
+class Interact() : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
   fun PlayerInteractEventHandler(event: PlayerInteractEvent) {
+    if (!IntelliDoors.enabled) {
+      return
+    }
+
+    val settings = IntelliDoors.instance.settings
+
     if (event.action == Action.RIGHT_CLICK_BLOCK) {
       val block = event.clickedBlock
       val material = block.type

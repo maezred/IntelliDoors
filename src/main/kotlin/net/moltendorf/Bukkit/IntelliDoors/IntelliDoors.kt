@@ -15,13 +15,30 @@ class IntelliDoors : JavaPlugin() {
     private set
 
   override fun onEnable() {
+    instance = this
+
     // Construct new settings.
-    settings = Settings(this)
+    settings = Settings()
+
+    // Are we enabled?
+    enabled = settings.enabled
 
     // Register listeners.
     val manager = server.pluginManager
 
-    manager.registerEvents(Interact(this), this)
-    manager.registerEvents(Redstone(this), this)
+    manager.registerEvents(Interact(), this)
+    manager.registerEvents(Redstone(), this)
+  }
+
+  override fun onDisable() {
+    enabled = false
+  }
+
+  companion object {
+    var enabled = false
+      private set
+
+    lateinit var instance: IntelliDoors
+      private set
   }
 }

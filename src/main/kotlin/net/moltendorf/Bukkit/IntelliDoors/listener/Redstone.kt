@@ -12,13 +12,15 @@ import org.bukkit.event.block.BlockRedstoneEvent
 /**
  * Created by moltendorf on 15/05/23.
  */
-class Redstone(val instance: IntelliDoors) : Listener {
-  val settings = instance.settings
-
+class Redstone() : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
   fun blockRedstoneEventHandler(event: BlockRedstoneEvent) {
+    if (!IntelliDoors.enabled) {
+      return
+    }
+
     val block = event.block
-    val settings = settings[block.type] ?: return
+    val settings = IntelliDoors.instance.settings[block.type] ?: return
 
     if (settings.type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
       val single = SingleDoor[block] ?: return
