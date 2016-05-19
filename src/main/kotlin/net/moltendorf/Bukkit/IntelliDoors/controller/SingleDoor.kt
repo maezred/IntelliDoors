@@ -47,21 +47,34 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
 
   companion object {
     operator fun get(block: Block): SingleDoor? {
-      val data = block.data.toInt()
-      val top: Block
-      val bottom: Block
+      return when (block.type) {
+        Material.IRON_DOOR_BLOCK,
+        Material.ACACIA_DOOR,
+        Material.BIRCH_DOOR,
+        Material.DARK_OAK_DOOR,
+        Material.JUNGLE_DOOR,
+        Material.SPRUCE_DOOR,
+        Material.WOODEN_DOOR -> {
+          val data = block.data.toInt()
+          val top
+            : Block
+          val bottom
+            : Block
 
-      if (data and 8 == 8) {
-        // Top of door.
-        top = block
-        bottom = block.getRelative(BlockFace.DOWN)
-      } else {
-        // Bottom of door.
-        top = block.getRelative(BlockFace.UP)
-        bottom = block
+          if (data and 8 == 8) {
+            // Top of door.
+            top = block
+            bottom = block.getRelative(BlockFace.DOWN)
+          } else {
+            // Bottom of door.
+            top = block.getRelative(BlockFace.UP)
+            bottom = block
+          }
+
+          if (top.type == bottom.type) SingleDoor(top, bottom) else null
+        }
+        else -> null
       }
-
-      return if (top.type == bottom.type) SingleDoor(top, bottom) else null
     }
   }
 }
