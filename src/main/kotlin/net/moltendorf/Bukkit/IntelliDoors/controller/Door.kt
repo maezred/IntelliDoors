@@ -3,11 +3,13 @@ package net.moltendorf.Bukkit.IntelliDoors.controller
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
+import org.bukkit.block.BlockFace
 
 /**
  * Created by moltendorf on 16/5/10.
  */
 abstract class Door {
+  abstract val facing: BlockFace
   abstract val location: Location
   abstract val type: Material
 
@@ -52,5 +54,9 @@ abstract class Door {
 
   override fun hashCode(): Int {
     return location.hashCode()
+  }
+
+  companion object {
+    val FACING = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
   }
 }

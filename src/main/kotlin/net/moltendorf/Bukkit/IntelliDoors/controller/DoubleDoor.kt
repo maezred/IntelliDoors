@@ -3,6 +3,7 @@ package net.moltendorf.Bukkit.IntelliDoors.controller
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 
 /**
  * Created by moltendorf on 15/05/23.
@@ -12,6 +13,9 @@ import org.bukkit.block.Block
 class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door() {
   override val location = left.location.subtract(right.location).add(left.location)
   override val type = left.type
+
+  override val facing: BlockFace
+    get() = left.facing
 
   override var open = open
     set(value) {

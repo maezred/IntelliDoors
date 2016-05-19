@@ -3,22 +3,23 @@ package net.moltendorf.Bukkit.IntelliDoors.controller
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 
 /**
  * Created by moltendorf on 16/5/2.
  */
 abstract class AbstractDoor(val block: Block) : Door() {
+  override val facing: BlockFace
+    get() = FACING[data and 3]
+
   override val location: Location
-    get() {
-      return block.location
-    }
+    get() = block.location
 
   override val type: Material
-    get() {
-      return block.type
-    }
+    get() = block.type
 
-  protected var data: Int = block.data.toInt()
+  var data: Int = block.data.toInt()
+    protected set
 
   override var open: Boolean
     get() {

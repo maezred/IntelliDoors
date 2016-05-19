@@ -11,9 +11,6 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
-  val facing: BlockFace
-    get() = FACING[bottomData and 3]
-
   val left: Boolean
     get() = topData and 1 == 0
 
@@ -22,10 +19,12 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
 
   override val location = top.location.subtract(bottom.location).add(top.location)
 
-  protected var topData = top.data.toInt()
-  protected var bottomData: Int
+  var topData = top.data.toInt()
+    private set
+
+  var bottomData: Int
     get() = data
-    set(value) {
+    private set(value) {
       data = value
     }
 
@@ -47,8 +46,6 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
   }
 
   companion object {
-    private val FACING = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
-
     operator fun get(block: Block): SingleDoor? {
       val data = block.data.toInt()
       val top: Block
