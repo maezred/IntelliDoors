@@ -22,7 +22,11 @@ class TrapDoor(block: Block) : AbstractDoor(block) {
 
   companion object {
     operator fun get(block: Block): TrapDoor? {
-      return null
+      return when (block.type) {
+        Material.IRON_TRAPDOOR,
+        Material.TRAP_DOOR -> TrapDoor(block)
+        else -> null
+      }
     }
   }
 }

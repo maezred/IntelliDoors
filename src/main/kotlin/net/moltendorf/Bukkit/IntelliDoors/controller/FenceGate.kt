@@ -24,7 +24,15 @@ class FenceGate(block: Block) : AbstractDoor(block) {
 
   companion object {
     operator fun get(block: Block): FenceGate? {
-      return null
+      return when (block.type) {
+        Material.ACACIA_FENCE_GATE,
+        Material.BIRCH_FENCE_GATE,
+        Material.DARK_OAK_FENCE_GATE,
+        Material.FENCE_GATE,
+        Material.JUNGLE_FENCE_GATE,
+        Material.SPRUCE_FENCE_GATE -> FenceGate(block)
+        else -> null
+      }
     }
   }
 }
