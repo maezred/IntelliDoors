@@ -51,10 +51,33 @@ class Settings() {
           continue
         }
 
-        val materials = typeSub.getStringList("material")
+        val materialStrings = typeSub.getStringList("material")
+
+        if (materialStrings.size == 0) {
+          log.warning("Config: door.$key.material has no values")
+          continue
+        }
+
+        val materials = ArrayList<Material>()
+
+        for (materialString in materialStrings) {
+          val material = Material.getMaterial(materialString)
+
+          if (material == null) {
+            log.warning("Config: door.$key.material has invalid value: $materialString")
+            continue
+          }
+
+          if (doors.containsKey(material)) {
+            log.warning("Config: door.$key.material has in use value: $materialString")
+            continue
+          }
+
+          materials.add(material)
+        }
 
         if (materials.size == 0) {
-          log.warning("Config: door.$key.material has no values")
+          log.warning("Config: door.$key.material only contains invalid values")
           continue
         }
 
@@ -82,19 +105,7 @@ class Settings() {
           "pair.redstone.reset.ticks".getInt(typeSub, 20)
         );
 
-        for (materialString in materials) {
-          val material = Material.getMaterial(materialString)
-
-          if (material == null) {
-            log.warning("Config: door.$key.material has invalid value: $materialString")
-            continue
-          }
-
-          if (doors.containsKey(material)) {
-            log.warning("Config: door.$key.material has in use value: $materialString")
-            continue
-          }
-
+        for (material in materials) {
           doors[material] = settings
         }
       }
