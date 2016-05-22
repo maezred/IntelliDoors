@@ -23,11 +23,18 @@ class IntelliDoors : JavaPlugin() {
     // Are we enabled?
     enabled = settings.enabled
 
-    // Register listeners.
-    val manager = server.pluginManager
+    if (enabled) {
+      // Register listeners.
+      val manager = server.pluginManager
 
-    manager.registerEvents(Interact(), this)
-    manager.registerEvents(Redstone(), this)
+      if (settings.interact) {
+        manager.registerEvents(Interact(), this)
+      }
+
+      if (settings.redstone) {
+        manager.registerEvents(Redstone(), this)
+      }
+    }
   }
 
   override fun onDisable() {

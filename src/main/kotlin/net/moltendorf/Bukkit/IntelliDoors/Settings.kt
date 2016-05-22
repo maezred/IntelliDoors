@@ -11,6 +11,8 @@ import java.util.*
  */
 class Settings() {
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
+  var interact = false
+  var redstone = false
 
   private val doors = HashMap<Material, TypeSettings>()
 
@@ -104,6 +106,14 @@ class Settings() {
           "pair.redstone.reset.enabled".getBoolean(typeSub, true),
           "pair.redstone.reset.ticks".getInt(typeSub, 20)
         );
+
+        if (settings.singleInteract || settings.pairInteract) {
+          interact = true // Ensure interact listeners get enabled.
+        }
+
+        if (settings.singleRedstone || settings.pairRedstone) {
+          redstone = true // Ensure redstone listeners get enabled.
+        }
 
         for (material in materials) {
           doors[material] = settings
