@@ -10,11 +10,11 @@ import java.util.*
  * @author moltendorf
  */
 class Settings() {
+  private val doors = HashMap<Material, TypeSettings>()
+
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
   var interact = false
   var redstone = false
-
-  private val doors = HashMap<Material, TypeSettings>()
 
   init {
     val instance = IntelliDoors.instance
