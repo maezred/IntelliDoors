@@ -25,12 +25,10 @@ class Interact() : Listener {
       return
     }
 
-    val settings = IntelliDoors.instance.settings
-
     if (event.action == Action.RIGHT_CLICK_BLOCK) {
       val block = event.clickedBlock
       val material = block.type
-      val settings = settings[material] ?: return
+      val settings = IntelliDoors.instance.settings[material] ?: return
       val type = settings.type
 
       val door = when (type) {
