@@ -89,22 +89,22 @@ class Settings() {
           // Single
           "single.interact.enabled".getBoolean(typeSub, true),
           "single.interact.reset.enabled".getBoolean(typeSub, true),
-          "single.interact.reset.ticks".getInt(typeSub, 100),
+          "single.interact.reset.ticks".getLong(typeSub, 100),
 
           "single.redstone.enabled".getBoolean(typeSub, true),
           "single.redstone.reset.enabled".getBoolean(typeSub, true),
-          "single.redstone.reset.ticks".getInt(typeSub, 20),
+          "single.redstone.reset.ticks".getLong(typeSub, 20),
 
           // Pairs
           "pair.interact.enabled".getBoolean(typeSub, true),
           "pair.interact.sync".getBoolean(typeSub, true),
           "pair.interact.reset.enabled".getBoolean(typeSub, true),
-          "pair.interact.reset.ticks".getInt(typeSub, 100),
+          "pair.interact.reset.ticks".getLong(typeSub, 100),
 
           "pair.redstone.enabled".getBoolean(typeSub, true),
           "pair.redstone.sync".getBoolean(typeSub, true),
           "pair.redstone.reset.enabled".getBoolean(typeSub, true),
-          "pair.redstone.reset.ticks".getInt(typeSub, 20)
+          "pair.redstone.reset.ticks".getLong(typeSub, 20)
         );
 
         if (settings.singleInteract || settings.pairInteract) {
@@ -147,21 +147,21 @@ class Settings() {
     return default
   }
 
-  private fun String.getInt(sub: ConfigurationSection, default: Int): Int {
+  private fun String.getLong(sub: ConfigurationSection, default: Long): Long {
     val instance = IntelliDoors.instance
     val config = instance.config
     val log = instance.logger
 
     if (sub.contains(this)) {
-      if (sub.isInt(this)) {
-        return sub.getInt(this, default)
+      if (sub.isLong(this)) {
+        return sub.getLong(this, default)
       }
 
       log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
     }
 
-    if (config.contains(this) && config.isInt(this)) {
-      return config.getInt(this, default)
+    if (config.contains(this) && config.isLong(this)) {
+      return config.getLong(this, default)
     }
 
     log.warning("Config: ${sub.currentPath}.$this has no value")
@@ -172,18 +172,18 @@ class Settings() {
     val type: Type,
     var singleInteract: Boolean,
     var singleInteractReset: Boolean,
-    var singleInteractResetTicks: Int,
+    var singleInteractResetTicks: Long,
     var singleRedstone: Boolean,
     var singleRedstoneReset: Boolean,
-    var singleRedstoneResetTicks: Int,
+    var singleRedstoneResetTicks: Long,
     var pairInteract: Boolean,
     var pairInteractSync: Boolean,
     var pairInteractReset: Boolean,
-    var pairInteractResetTicks: Int,
+    var pairInteractResetTicks: Long,
     var pairRedstone: Boolean,
     var pairRedstoneSync: Boolean,
     var pairRedstoneReset: Boolean,
-    var pairRedstoneResetTicks: Int
+    var pairRedstoneResetTicks: Long
   );
 
   enum class Type {
