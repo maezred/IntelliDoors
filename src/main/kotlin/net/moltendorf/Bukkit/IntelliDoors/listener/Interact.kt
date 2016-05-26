@@ -26,10 +26,12 @@ class Interact() : Listener {
     }
 
     if (event.action == Action.RIGHT_CLICK_BLOCK) {
+      val instance = IntelliDoors.instance
       val block = event.clickedBlock
       val material = block.type
-      val settings = IntelliDoors.instance.settings[material] ?: return
+      val settings = instance.settings[material] ?: return
       val type = settings.type
+      val timer = instance.timer
 
       val door = when (type) {
         Settings.Type.DOOR -> {
@@ -40,6 +42,10 @@ class Interact() : Listener {
 
             if (doubleDoor != null) {
               doubleDoor.onInteract(singleDoor)
+
+              if (doubleDoor.open && settings.pairInteractReset) {
+                timer.shutDoorIn(doubleDoor, settings.pairInteractResetTicks)
+              }
 
               return
             }
@@ -54,6 +60,10 @@ class Interact() : Listener {
 
       if (settings.singleInteract) {
         door.onInteract(door)
+
+        if (door.open && settings.singleInteractReset) {
+          timer.shutDoorIn(door, settings.singleInteractResetTicks)
+        }
       } else {
         when (material) {
           Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {

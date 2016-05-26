@@ -13,12 +13,17 @@ class IntelliDoors : JavaPlugin() {
   // Variable data.
   lateinit var settings: Settings
     private set
+  lateinit var timer: Timer
+    private set
 
   override fun onEnable() {
     instance = this
 
     // Construct new settings.
     settings = Settings()
+
+    // Construct new timer.
+    timer = Timer()
 
     // Are we enabled?
     enabled = settings.enabled
