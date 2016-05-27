@@ -15,7 +15,7 @@ abstract class Door {
 
   abstract var open: Boolean
 
-  fun onInteract(onDoor: Door) {
+  open fun onInteract(onDoor: Door) {
     val isOpen = !open
 
     when (type) {

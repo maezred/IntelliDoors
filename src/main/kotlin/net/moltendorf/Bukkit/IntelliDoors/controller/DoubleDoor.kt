@@ -24,6 +24,17 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
       field = value
     }
 
+  override fun onInteract(onDoor: Door) {
+    val isOpen = !open
+
+    when (type) {
+      Material.WOODEN_DOOR -> onDoor.overrideOpen(isOpen)
+      else -> location.world.playSound(location, sound(isOpen), 1f, 1f)
+    }
+
+    open = isOpen
+  }
+
   override fun overrideOpen(value: Boolean) {
     left.overrideOpen(value)
     right.overrideOpen(value)
