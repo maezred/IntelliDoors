@@ -11,21 +11,21 @@ class Timer {
   private val doors = HashMap<Door, BukkitTask>();
 
   fun shutDoorIn(door: Door, ticks: Long) {
-    val instance = IntelliDoors.instance
-
     // Cancel any currently pending shut action.
-    doors[door]?.cancel()
+    cancel(door)
 
     // (Re-)schedule the door to be shut.
-    val task = instance.server.scheduler.runTaskLater(instance, {
+    val instance = IntelliDoors.instance
+    doors[door] = instance.server.scheduler.runTaskLater(instance, {
       // This door is no longer pending to be shut.
       doors.remove(door)
 
       // Shut the door!
       door.open = false
     }, ticks)
+  }
 
-    // This door is pending to be shut.
-    doors[door] = task
+  fun cancel(door: Door) {
+    doors[door]?.cancel()
   }
 }

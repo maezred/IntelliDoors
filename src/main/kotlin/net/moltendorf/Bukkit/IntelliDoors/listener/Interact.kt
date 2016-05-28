@@ -43,8 +43,12 @@ class Interact() : Listener {
             if (doubleDoor != null) {
               doubleDoor.onInteract(singleDoor)
 
-              if (doubleDoor.open && settings.pairInteractReset) {
-                timer.shutDoorIn(doubleDoor, settings.pairInteractResetTicks)
+              if (settings.pairInteractReset) {
+                if (doubleDoor.open) {
+                  timer.shutDoorIn(doubleDoor, settings.pairInteractResetTicks)
+                } else {
+                  timer.cancel(doubleDoor)
+                }
               }
 
               return
@@ -61,8 +65,12 @@ class Interact() : Listener {
       if (settings.singleInteract) {
         door.onInteract(door)
 
-        if (door.open && settings.singleInteractReset) {
-          timer.shutDoorIn(door, settings.singleInteractResetTicks)
+        if (settings.singleInteractReset) {
+          if (door.open) {
+            timer.shutDoorIn(door, settings.singleInteractResetTicks)
+          } else {
+            timer.cancel(door);
+          }
         }
       } else {
         when (material) {
