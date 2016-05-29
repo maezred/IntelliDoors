@@ -1,6 +1,5 @@
-name: IntelliDoors
-version: 1.2.0
-description: Open and close doors with ease.
+name: ${name}
+main: ${groupId}.${artifactId}.${artifactId}
+version: ${version}-${maven.build.timestamp}
+description: ${description}
 author: moltendorf
-website: http://dev.bukkit.org/server-mods/moltendorf-intellidoors/
-main: net.moltendorf.Bukkit.IntelliDoors.IntelliDoors

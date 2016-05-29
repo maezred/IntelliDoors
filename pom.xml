@@ -6,9 +6,21 @@
 
   <groupId>net.moltendorf.Bukkit</groupId>
   <artifactId>IntelliDoors</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.3a</version>
+
+  <name>${artifactId}</name>
+  <description>Open and close doors with ease.</description>
 
   <build>
+    <finalName>${artifactId}</finalName>
+
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources/</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -68,6 +80,11 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
+      <version>${kotlin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-runtime</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
   </dependencies>
