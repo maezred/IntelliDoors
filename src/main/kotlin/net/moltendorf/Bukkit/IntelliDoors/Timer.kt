@@ -28,4 +28,13 @@ class Timer {
   fun cancel(door: Door) {
     doors[door]?.cancel()
   }
+
+  fun shutAllDoors() {
+    for ((door, task) in doors) {
+      door.open = false
+      task.cancel()
+    }
+
+    doors.clear()
+  }
 }

@@ -43,6 +43,8 @@ class IntelliDoors : JavaPlugin() {
   }
 
   override fun onDisable() {
+    timer.shutAllDoors()
+
     enabled = false
   }
 
