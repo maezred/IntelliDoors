@@ -3,6 +3,7 @@ package net.moltendorf.Bukkit.IntelliDoors
 import net.moltendorf.Bukkit.IntelliDoors.listener.Interact
 import net.moltendorf.Bukkit.IntelliDoors.listener.Redstone
 import org.bukkit.plugin.java.JavaPlugin
+import kotlin.concurrent.timer
 
 /**
  * Created by moltendorf on 15/05/23.
@@ -34,10 +35,12 @@ class IntelliDoors : JavaPlugin() {
 
       if (settings.interact) {
         manager.registerEvents(Interact(), this)
+        logger.info("Enabled interact listeners.")
       }
 
       if (settings.redstone) {
         manager.registerEvents(Redstone(), this)
+        logger.info("Enabled redstone listeners.")
       }
     }
   }
