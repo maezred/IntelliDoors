@@ -96,15 +96,15 @@ class Settings() {
           "single.redstone.reset.ticks".getLong(typeSub, 20),
 
           // Pairs
-          "pair.interact.enabled".getBoolean(typeSub, true),
-          "pair.interact.sync".getBoolean(typeSub, true),
-          "pair.interact.reset.enabled".getBoolean(typeSub, true),
-          "pair.interact.reset.ticks".getLong(typeSub, 100),
+          "pair.interact.enabled".getBoolean(typeSub, true, true),
+          "pair.interact.sync".getBoolean(typeSub, true, true),
+          "pair.interact.reset.enabled".getBoolean(typeSub, true, true),
+          "pair.interact.reset.ticks".getLong(typeSub, 100, true),
 
-          "pair.redstone.enabled".getBoolean(typeSub, true),
-          "pair.redstone.sync".getBoolean(typeSub, true),
-          "pair.redstone.reset.enabled".getBoolean(typeSub, true),
-          "pair.redstone.reset.ticks".getLong(typeSub, 20)
+          "pair.redstone.enabled".getBoolean(typeSub, true, true),
+          "pair.redstone.sync".getBoolean(typeSub, true, true),
+          "pair.redstone.reset.enabled".getBoolean(typeSub, true, true),
+          "pair.redstone.reset.ticks".getLong(typeSub, 20, true)
         );
 
         if (settings.singleInteract || settings.pairInteract) {
@@ -126,7 +126,7 @@ class Settings() {
     return doors[material]
   }
 
-  private fun String.getBoolean(sub: ConfigurationSection, default: Boolean): Boolean {
+  private fun String.getBoolean(sub: ConfigurationSection, default: Boolean, optional: Boolean = false): Boolean {
     val instance = IntelliDoors.instance
     val config = instance.config
     val log = instance.logger
@@ -136,35 +136,69 @@ class Settings() {
         return sub.getBoolean(this, default)
       }
 
-      log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
+      if (sub.isString(this)) {
+        val path = sub.getString(this)
+
+        if (config.contains(path)) {
+          if (config.isBoolean(path)) {
+            return config.getBoolean(path, default)
+          } else {
+            log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has incompatible value: ${config.get(path)}")
+          }
+        } else {
+          log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has no value")
+        }
+      } else {
+        log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
+      }
     }
 
     if (config.contains(this) && config.isBoolean(this)) {
       return config.getBoolean(this, default)
     }
 
-    log.warning("Config: ${sub.currentPath}.$this has no value")
+    if (!optional) {
+      log.warning("Config: ${sub.currentPath}.$this has no value")
+    }
+
     return default
   }
 
-  private fun String.getLong(sub: ConfigurationSection, default: Long): Long {
+  private fun String.getLong(sub: ConfigurationSection, default: Long, optional: Boolean = false): Long {
     val instance = IntelliDoors.instance
     val config = instance.config
     val log = instance.logger
 
     if (sub.contains(this)) {
-      if (sub.isLong(this)) {
+      if (sub.isInt(this) || sub.isLong(this)) {
         return sub.getLong(this, default)
       }
 
-      log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
+      if (sub.isString(this)) {
+        val path = sub.getString(this)
+
+        if (config.contains(path)) {
+          if (config.isInt(path) || config.isLong(path)) {
+            return config.getLong(path, default)
+          } else {
+            log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has incompatible value: ${config.get(path)}")
+          }
+        } else {
+          log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has no value")
+        }
+      } else {
+        log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
+      }
     }
 
-    if (config.contains(this) && config.isLong(this)) {
+    if (config.contains(this) && (config.isInt(this) || config.isLong(this))) {
       return config.getLong(this, default)
     }
 
-    log.warning("Config: ${sub.currentPath}.$this has no value")
+    if (!optional) {
+      log.warning("Config: ${sub.currentPath}.$this has no value")
+    }
+
     return default
   }
 
