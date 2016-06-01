@@ -21,6 +21,7 @@ class Timer {
       doors.remove(door)
 
       // Shut the door!
+      door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
       door.open = false
     }, ticks)
   }
@@ -31,6 +32,7 @@ class Timer {
 
   fun shutAllDoors() {
     for ((door, task) in doors) {
+      door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
       door.open = false
       task.cancel()
     }
