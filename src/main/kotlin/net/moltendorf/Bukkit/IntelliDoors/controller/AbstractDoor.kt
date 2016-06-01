@@ -27,14 +27,14 @@ abstract class AbstractDoor(val block: Block) : Door() {
     }
     set(value) {
       if (open != value) {
-        data += if (value) 4 else -4
+        data += if (value) -4 else 4
         block.data = data.toByte()
       }
     }
 
   override fun overrideOpen(value: Boolean) {
-    if (open != open) {
-      data += if (open) 4 else -4
+    if (open != value) {
+      data += if (value) -4 else 4
     }
   }
 }
