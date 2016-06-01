@@ -11,7 +11,7 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door() {
-  override val location = left.location.subtract(right.location).add(left.location)
+  override val location = left.location.toVector().getMidpoint(right.location.toVector()).toLocation(left.location.world)
   override val type = left.type
 
   override val facing: BlockFace
