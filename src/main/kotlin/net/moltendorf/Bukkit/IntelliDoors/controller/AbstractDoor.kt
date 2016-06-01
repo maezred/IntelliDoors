@@ -23,18 +23,18 @@ abstract class AbstractDoor(val block: Block) : Door() {
 
   override var open: Boolean
     get() {
-      return data and 4 == 0
+      return data and 4 == 4
     }
     set(value) {
       if (open != value) {
-        data += if (value) -4 else 4
+        data += if (value) 4 else -4
         block.data = data.toByte()
       }
     }
 
   override fun overrideOpen(value: Boolean) {
     if (open != value) {
-      data += if (value) -4 else 4
+      data += if (value) 4 else -4
     }
   }
 }
