@@ -27,7 +27,7 @@ class Timer {
   }
 
   fun cancel(door: Door) {
-    doors[door]?.cancel()
+    doors.remove(door)?.cancel()
   }
 
   fun shutAllDoors() {
