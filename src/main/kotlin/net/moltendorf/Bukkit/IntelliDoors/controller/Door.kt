@@ -24,6 +24,7 @@ abstract class Door {
 
         open = isOpen
       }
+      else -> overrideOpen(isOpen)
     }
   }
 
