@@ -28,8 +28,8 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
     val isOpen = !open
 
     when (type) {
-      Material.WOODEN_DOOR -> onDoor.overrideOpen(isOpen)
-      else -> location.world.playSound(location, sound(isOpen), 1f, 1f)
+      Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> location.world.playSound(location, sound(isOpen), 1f, 1f)
+      else -> onDoor.overrideOpen(isOpen)
     }
 
     open = isOpen
