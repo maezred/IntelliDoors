@@ -11,13 +11,14 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
+  override val location = bottom.location.toVector().getMidpoint(top.location.toVector()).toLocation(bottom.location.world)
+
   val left: Boolean
     get() = topData and 1 == 0
 
   val right: Boolean
     get() = topData and 1 == 1
 
-  override val location = top.location.subtract(bottom.location).add(top.location)
 
   var topData = top.data.toInt()
     private set
