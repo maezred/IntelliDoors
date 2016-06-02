@@ -1,4 +1,4 @@
-package net.moltendorf.Bukkit.IntelliDoors
+package net.moltendorf.bukkit.intellidoors
 
 import java.util.*
 

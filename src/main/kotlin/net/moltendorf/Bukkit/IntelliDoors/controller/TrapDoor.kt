@@ -1,4 +1,4 @@
-package net.moltendorf.Bukkit.IntelliDoors.controller
+package net.moltendorf.bukkit.intellidoors.controller
 
 import org.bukkit.Material
 import org.bukkit.Sound

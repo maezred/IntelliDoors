@@ -1,6 +1,6 @@
-package net.moltendorf.Bukkit.IntelliDoors
+package net.moltendorf.bukkit.intellidoors
 
-import net.moltendorf.Bukkit.IntelliDoors.controller.Door
+import net.moltendorf.bukkit.intellidoors.controller.Door
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 

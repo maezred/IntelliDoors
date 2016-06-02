@@ -1,7 +1,7 @@
-package net.moltendorf.Bukkit.IntelliDoors
+package net.moltendorf.bukkit.intellidoors
 
-import net.moltendorf.Bukkit.IntelliDoors.listener.Interact
-import net.moltendorf.Bukkit.IntelliDoors.listener.Redstone
+import net.moltendorf.bukkit.intellidoors.listener.Interact
+import net.moltendorf.bukkit.intellidoors.listener.Redstone
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.timer
 

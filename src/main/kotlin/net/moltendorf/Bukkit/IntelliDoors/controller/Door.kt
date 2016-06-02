@@ -1,6 +1,6 @@
-package net.moltendorf.Bukkit.IntelliDoors.controller
+package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
+import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound

@@ -1,10 +1,10 @@
-package net.moltendorf.Bukkit.IntelliDoors.listener
+package net.moltendorf.bukkit.intellidoors.listener
 
-import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
-import net.moltendorf.Bukkit.IntelliDoors.Settings
-import net.moltendorf.Bukkit.IntelliDoors.controller.Door
-import net.moltendorf.Bukkit.IntelliDoors.controller.DoubleDoor
-import net.moltendorf.Bukkit.IntelliDoors.controller.SingleDoor
+import net.moltendorf.bukkit.intellidoors.IntelliDoors
+import net.moltendorf.bukkit.intellidoors.Settings
+import net.moltendorf.bukkit.intellidoors.controller.Door
+import net.moltendorf.bukkit.intellidoors.controller.DoubleDoor
+import net.moltendorf.bukkit.intellidoors.controller.SingleDoor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
