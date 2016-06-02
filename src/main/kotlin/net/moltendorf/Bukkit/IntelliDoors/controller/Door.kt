@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.IntelliDoors.controller
 
+import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -11,6 +12,7 @@ import org.bukkit.block.BlockFace
 abstract class Door {
   abstract val facing: BlockFace
   abstract val location: Location
+  abstract val powered: Boolean
   abstract val type: Material
 
   abstract var open: Boolean
@@ -28,10 +30,15 @@ abstract class Door {
     }
   }
 
+  open fun onRedstone(onDoor: Door, value: Boolean) {
+    // Do nothing.
+  }
+
   fun toggle() {
     open = !open
   }
 
+  abstract fun clearUnpowered()
   abstract fun overrideOpen(value: Boolean)
   abstract fun sound(open: Boolean): Sound
 
@@ -58,6 +65,7 @@ abstract class Door {
   }
 
   companion object {
+    val UNPOWERED = IntelliDoors::class.java.`package`.name + ".UNPOWERED"
     val FACING = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
   }
 }

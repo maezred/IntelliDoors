@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.IntelliDoors.controller
 
+import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -15,6 +16,9 @@ abstract class AbstractDoor(val block: Block) : Door() {
   override val location: Location
     get() = block.location
 
+  override val powered: Boolean
+    get() = block.isBlockIndirectlyPowered && !block.hasMetadata(UNPOWERED)
+
   override val type: Material
     get() = block.type
 
@@ -29,12 +33,24 @@ abstract class AbstractDoor(val block: Block) : Door() {
       if (open != value) {
         data += if (value) 4 else -4
         block.data = data.toByte()
+
+        if (!value) {
+          clearUnpowered()
+        }
       }
     }
+
+  override fun clearUnpowered() {
+    block.removeMetadata(UNPOWERED, IntelliDoors.instance)
+  }
 
   override fun overrideOpen(value: Boolean) {
     if (open != value) {
       data += if (value) 4 else -4
+
+      if (!value) {
+        clearUnpowered()
+      }
     }
   }
 }

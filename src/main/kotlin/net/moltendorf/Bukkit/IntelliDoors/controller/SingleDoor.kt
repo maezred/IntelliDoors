@@ -1,5 +1,6 @@
 package net.moltendorf.Bukkit.IntelliDoors.controller
 
+import net.moltendorf.Bukkit.IntelliDoors.IntelliDoors
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
@@ -19,6 +20,8 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
   val right: Boolean
     get() = topData and 1 == 1
 
+  override val powered: Boolean
+    get() = super.powered || (top.isBlockIndirectlyPowered && !top.hasMetadata(UNPOWERED))
 
   var topData = top.data.toInt()
     private set
@@ -28,6 +31,12 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
     private set(value) {
       data = value
     }
+
+  override fun clearUnpowered() {
+    super.clearUnpowered()
+
+    top.removeMetadata(UNPOWERED, IntelliDoors.instance)
+  }
 
   override fun sound(open: Boolean): Sound {
     return when (type) {

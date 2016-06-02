@@ -17,12 +17,24 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
   override val facing: BlockFace
     get() = left.facing
 
+  override val powered: Boolean
+    get() = left.powered || right.powered
+
   override var open = open
     set(value) {
       left.open = value
       right.open = value
       field = value
+
+      if (!value) {
+        clearUnpowered()
+      }
     }
+
+  override fun clearUnpowered() {
+    left.clearUnpowered()
+    right.clearUnpowered()
+  }
 
   override fun onInteract(onDoor: Door) {
     val isOpen = !open
@@ -33,6 +45,16 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
     }
 
     open = isOpen
+  }
+
+  override fun onRedstone(onDoor: Door, value: Boolean) {
+    if (value) {
+      if (!open) {
+        open = true
+      }
+    } else if (open && !powered) {
+      open = false
+    }
   }
 
   override fun overrideOpen(value: Boolean) {
