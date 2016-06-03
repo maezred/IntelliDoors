@@ -2,48 +2,79 @@ package net.moltendorf.bukkit.intellidoors.listener
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
-import net.moltendorf.bukkit.intellidoors.controller.Door
 import net.moltendorf.bukkit.intellidoors.controller.DoubleDoor
+import net.moltendorf.bukkit.intellidoors.controller.FenceGate
 import net.moltendorf.bukkit.intellidoors.controller.SingleDoor
+import net.moltendorf.bukkit.intellidoors.controller.TrapDoor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.block.BlockRedstoneEvent
-import org.bukkit.metadata.FixedMetadataValue
+import org.bukkit.event.block.BlockPhysicsEvent
 
 /**
  * Created by moltendorf on 15/05/23.
  */
 class Redstone() : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-  fun blockRedstoneEventHandler(event: BlockRedstoneEvent) {
+  fun blockPhysicsEventHandler(event: BlockPhysicsEvent) {
     if (!IntelliDoors.enabled) {
       return
     }
 
+    val instance = IntelliDoors.instance
     val block = event.block
-    val settings = IntelliDoors.instance.settings[block.type] ?: return
+    val settings = instance.settings[block.type] ?: return
+    val type = settings.type
+    val timer = instance.timer
 
-    if (settings.type == Settings.Type.DOOR && settings.pairRedstone && settings.pairRedstoneSync) {
-      val powered = event.newCurrent > 0
+    val door = when (type) {
+      Settings.Type.DOOR -> {
+        val singleDoor = SingleDoor[block] ?: return
 
-      if (powered == (event.oldCurrent > 0)) {
-        if (powered) {
-          block.removeMetadata(Door.UNPOWERED, IntelliDoors.instance)
+        if (settings.pairRedstone && settings.pairRedstoneSync) {
+          val doubleDoor = DoubleDoor[singleDoor]
+
+          if (doubleDoor != null) {
+            event.isCancelled = true
+
+            val doorPowered = doubleDoor.powered
+
+            if (settings.pairRedstoneReset) {
+              if (doorPowered) {
+                timer.cancel(doubleDoor)
+              } else {
+                timer.shutDoorIn(doubleDoor, settings.pairRedstoneResetTicks)
+                return
+              }
+            }
+
+            doubleDoor.open = doorPowered
+
+            return
+          }
         }
 
-        return
+        singleDoor
+      }
+      Settings.Type.TRAP -> TrapDoor[block]
+      Settings.Type.GATE -> FenceGate[block]
+    } ?: return
+
+    if (settings.singleRedstone) {
+      event.isCancelled = true
+
+      val doorPowered = door.powered
+
+      if (settings.singleRedstoneReset) {
+        if (doorPowered) {
+          timer.cancel(door)
+        } else {
+          timer.shutDoorIn(door, settings.singleRedstoneResetTicks)
+          return
+        }
       }
 
-      val single = SingleDoor[block] ?: return
-      val double = DoubleDoor[single] ?: return
-
-      double.onRedstone(single, powered)
-
-      if (!powered && double.open) {
-        event.newCurrent = 1
-        block.setMetadata(Door.UNPOWERED, FixedMetadataValue(IntelliDoors.instance, true))
-      }
+      door.open = doorPowered
     }
   }
 }
