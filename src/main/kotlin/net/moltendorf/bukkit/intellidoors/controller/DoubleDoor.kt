@@ -1,5 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
+import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -38,24 +39,52 @@ class DoubleDoor private constructor
     right.clearUnpowered()
   }
 
-  override fun onInteract(onDoor: Door) {
-    val isOpen = !open
+  override fun onInteract(onDoor: Door): Boolean {
+    return if (settings.pairInteract && settings.pairInteractSync) {
+      val isOpen = !open
 
-    when (type) {
-      Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> location.world.playSound(location, sound(isOpen), 1f, 1f)
-      else -> onDoor.overrideOpen(isOpen)
+      when (type) {
+        Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> location.world.playSound(location, sound(isOpen), 1f, 1f)
+        else -> onDoor.overrideOpen(isOpen)
+      }
+
+      open = isOpen
+
+      if (settings.pairInteractReset) {
+        val timer = IntelliDoors.instance.timer
+
+        if (isOpen) {
+          timer.shutDoorIn(this, settings.pairInteractResetTicks)
+        } else {
+          timer.cancel(this)
+        }
+      }
+
+      false
+    } else {
+      onDoor.onInteract(onDoor)
     }
-
-    open = isOpen
   }
 
-  override fun onRedstone(onDoor: Door, value: Boolean) {
-    if (value) {
-      if (!open) {
-        open = true
+  override fun onRedstone(onDoor: Door): Boolean {
+    return if (settings.pairRedstone && settings.pairRedstoneSync) {
+      val doorPowered = powered
+
+      if (settings.pairRedstoneReset) {
+        val timer = IntelliDoors.instance.timer
+
+        if (doorPowered) {
+          timer.cancel(this)
+        } else {
+          timer.shutDoorIn(this, settings.pairRedstoneResetTicks)
+          return true
+        }
       }
-    } else if (open && !powered) {
-      open = false
+
+      open = doorPowered
+      true
+    } else {
+      false
     }
   }
 

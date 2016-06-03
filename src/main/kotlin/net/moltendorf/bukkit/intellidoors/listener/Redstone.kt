@@ -2,10 +2,7 @@ package net.moltendorf.bukkit.intellidoors.listener
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
-import net.moltendorf.bukkit.intellidoors.controller.DoubleDoor
-import net.moltendorf.bukkit.intellidoors.controller.FenceGate
-import net.moltendorf.bukkit.intellidoors.controller.SingleDoor
-import net.moltendorf.bukkit.intellidoors.controller.TrapDoor
+import net.moltendorf.bukkit.intellidoors.controller.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -21,60 +18,24 @@ class Redstone() : Listener {
       return
     }
 
-    val instance = IntelliDoors.instance
     val block = event.block
-    val settings = instance.settings[block.type] ?: return
-    val type = settings.type
-    val timer = instance.timer
+    val settings = IntelliDoors.instance.settings[block.type] ?: return
 
-    val door = when (type) {
+    var onDoor: Door? = null
+
+    val door = when (settings.type) {
       Settings.Type.DOOR -> {
         val singleDoor = SingleDoor(block, settings) ?: return
-
-        if (settings.pairRedstone && settings.pairRedstoneSync) {
-          val doubleDoor = DoubleDoor(singleDoor, settings)
-
-          if (doubleDoor != null) {
-            event.isCancelled = true
-
-            val doorPowered = doubleDoor.powered
-
-            if (settings.pairRedstoneReset) {
-              if (doorPowered) {
-                timer.cancel(doubleDoor)
-              } else {
-                timer.shutDoorIn(doubleDoor, settings.pairRedstoneResetTicks)
-                return
-              }
-            }
-
-            doubleDoor.open = doorPowered
-
-            return
-          }
-        }
-
-        singleDoor
+        onDoor = singleDoor
+        DoubleDoor(singleDoor, settings) ?: singleDoor
       }
+
       Settings.Type.TRAP -> TrapDoor(block, settings)
       Settings.Type.GATE -> FenceGate(block, settings)
     } ?: return
 
-    if (settings.singleRedstone) {
+    if (door.onRedstone(onDoor ?: door)) {
       event.isCancelled = true
-
-      val doorPowered = door.powered
-
-      if (settings.singleRedstoneReset) {
-        if (doorPowered) {
-          timer.cancel(door)
-        } else {
-          timer.shutDoorIn(door, settings.singleRedstoneResetTicks)
-          return
-        }
-      }
-
-      door.open = doorPowered
     }
   }
 }

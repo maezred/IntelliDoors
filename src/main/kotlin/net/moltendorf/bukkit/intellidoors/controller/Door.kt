@@ -18,21 +18,60 @@ abstract class Door(val settings: Settings.TypeSettings) {
 
   abstract var open: Boolean
 
-  open fun onInteract(onDoor: Door) {
-    val isOpen = !open
+  open fun onInteract(onDoor: Door): Boolean {
+    return if (settings.singleInteract) {
+      val isOpen = !open
 
-    when (type) {
-      Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {
-        location.world.playSound(location, sound(isOpen), 1f, 1f)
+      when (type) {
+        Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {
+          location.world.playSound(location, sound(isOpen), 1f, 1f)
 
-        open = isOpen
+          open = isOpen
+        }
+        else -> overrideOpen(isOpen)
       }
-      else -> overrideOpen(isOpen)
+
+      if (settings.singleInteractReset) {
+        val timer = IntelliDoors.instance.timer
+
+        if (open) {
+          timer.shutDoorIn(this, settings.singleInteractResetTicks)
+        } else {
+          timer.cancel(this);
+        }
+      }
+
+      false
+    } else {
+      when (type) {
+        Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {
+          false // Do nothing as it won't open anyway.
+        }
+        else -> true // Prevent door from opening.
+      }
     }
   }
 
-  open fun onRedstone(onDoor: Door, value: Boolean) {
-    // Do nothing.
+  open fun onRedstone(onDoor: Door): Boolean {
+    return if (settings.singleRedstone) {
+      val doorPowered = powered
+
+      if (settings.singleRedstoneReset) {
+        val timer = IntelliDoors.instance.timer
+
+        if (doorPowered) {
+          timer.cancel(this)
+        } else {
+          timer.shutDoorIn(this, settings.singleRedstoneResetTicks)
+          return true
+        }
+      }
+
+      open = doorPowered
+      true
+    } else {
+      false
+    }
   }
 
   fun toggle() {

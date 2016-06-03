@@ -2,11 +2,7 @@ package net.moltendorf.bukkit.intellidoors.listener
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
-import net.moltendorf.bukkit.intellidoors.controller.DoubleDoor
-import net.moltendorf.bukkit.intellidoors.controller.FenceGate
-import net.moltendorf.bukkit.intellidoors.controller.SingleDoor
-import net.moltendorf.bukkit.intellidoors.controller.TrapDoor
-import org.bukkit.Material
+import net.moltendorf.bukkit.intellidoors.controller.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -26,59 +22,24 @@ class Interact() : Listener {
     }
 
     if (event.action == Action.RIGHT_CLICK_BLOCK) {
-      val instance = IntelliDoors.instance
       val block = event.clickedBlock
-      val material = block.type
-      val settings = instance.settings[material] ?: return
-      val type = settings.type
-      val timer = instance.timer
+      val settings = IntelliDoors.instance.settings[block.type] ?: return
 
-      val door = when (type) {
+      var onDoor: Door? = null
+
+      val door = when (settings.type) {
         Settings.Type.DOOR -> {
           val singleDoor = SingleDoor(block, settings) ?: return
-
-          if (settings.pairInteract && settings.pairInteractSync) {
-            val doubleDoor = DoubleDoor(singleDoor, settings)
-
-            if (doubleDoor != null) {
-              doubleDoor.onInteract(singleDoor)
-
-              if (settings.pairInteractReset) {
-                if (doubleDoor.open) {
-                  timer.shutDoorIn(doubleDoor, settings.pairInteractResetTicks)
-                } else {
-                  timer.cancel(doubleDoor)
-                }
-              }
-
-              return
-            }
-          }
-
-          singleDoor
+          onDoor = singleDoor
+          DoubleDoor(singleDoor, settings) ?: singleDoor
         }
 
         Settings.Type.TRAP -> TrapDoor(block, settings)
         Settings.Type.GATE -> FenceGate(block, settings)
       } ?: return
 
-      if (settings.singleInteract) {
-        door.onInteract(door)
-
-        if (settings.singleInteractReset) {
-          if (door.open) {
-            timer.shutDoorIn(door, settings.singleInteractResetTicks)
-          } else {
-            timer.cancel(door);
-          }
-        }
-      } else {
-        when (material) {
-          Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {
-            // Do nothing as it won't open anyway.
-          }
-          else -> event.isCancelled = true // Prevent door from opening.
-        }
+      if (door.onInteract(onDoor ?: door)) {
+        event.isCancelled = true
       }
     }
   }
