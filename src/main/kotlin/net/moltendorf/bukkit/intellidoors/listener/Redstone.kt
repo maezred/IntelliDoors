@@ -29,10 +29,10 @@ class Redstone() : Listener {
 
     val door = when (type) {
       Settings.Type.DOOR -> {
-        val singleDoor = SingleDoor[block] ?: return
+        val singleDoor = SingleDoor(block, settings) ?: return
 
         if (settings.pairRedstone && settings.pairRedstoneSync) {
-          val doubleDoor = DoubleDoor[singleDoor]
+          val doubleDoor = DoubleDoor(singleDoor, settings)
 
           if (doubleDoor != null) {
             event.isCancelled = true
@@ -56,8 +56,8 @@ class Redstone() : Listener {
 
         singleDoor
       }
-      Settings.Type.TRAP -> TrapDoor[block]
-      Settings.Type.GATE -> FenceGate[block]
+      Settings.Type.TRAP -> TrapDoor(block, settings)
+      Settings.Type.GATE -> FenceGate(block, settings)
     } ?: return
 
     if (settings.singleRedstone) {

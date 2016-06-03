@@ -1,5 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
+import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
@@ -10,7 +11,8 @@ import org.bukkit.block.BlockFace
 
  * @author moltendorf
  */
-class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : Door() {
+class DoubleDoor private constructor
+(val left: SingleDoor, val right: SingleDoor, open: Boolean, settings: Settings.TypeSettings) : Door(settings) {
   override val location = left.location.toVector().getMidpoint(right.location.toVector()).toLocation(left.location.world)
   override val type = left.type
 
@@ -81,7 +83,7 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
   }
 
   companion object {
-    operator fun get(door: SingleDoor): DoubleDoor? {
+    operator fun invoke(door: SingleDoor, settings: Settings.TypeSettings): DoubleDoor? {
       val left = door.left
       val facing = door.facing
       val otherBlock: Block
@@ -94,10 +96,14 @@ class DoubleDoor(val left: SingleDoor, val right: SingleDoor, open: Boolean) : D
 
       // Check if it's the same type and also the top of the door.
       if (otherBlock.type == door.top.type && otherBlock.data.toInt() and 8 == 8) {
-        val otherDoor = SingleDoor[otherBlock] ?: return null
+        val otherDoor = SingleDoor(otherBlock, settings) ?: return null
 
         if (facing == otherDoor.facing && left == otherDoor.right) {
-          return if (left) DoubleDoor(door, otherDoor, door.open) else DoubleDoor(otherDoor, door, door.open)
+          return if (left) {
+            DoubleDoor(door, otherDoor, door.open, settings)
+          } else {
+            DoubleDoor(otherDoor, door, door.open, settings)
+          }
         }
       }
 

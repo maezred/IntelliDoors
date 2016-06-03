@@ -1,5 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
+import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
@@ -7,7 +8,7 @@ import org.bukkit.block.Block
 /**
  * Created by moltendorf on 15/05/23.
  */
-class TrapDoor(block: Block) : AbstractDoor(block) {
+class TrapDoor private constructor(block: Block, settings: Settings.TypeSettings) : AbstractDoor(block, settings) {
   override fun sound(open: Boolean): Sound {
     return when (type) {
       Material.IRON_TRAPDOOR -> {
@@ -21,10 +22,10 @@ class TrapDoor(block: Block) : AbstractDoor(block) {
   }
 
   companion object {
-    operator fun get(block: Block): TrapDoor? {
+    operator fun invoke(block: Block, settings: Settings.TypeSettings): TrapDoor? {
       return when (block.type) {
         Material.IRON_TRAPDOOR,
-        Material.TRAP_DOOR -> TrapDoor(block)
+        Material.TRAP_DOOR -> TrapDoor(block, settings)
         else -> null
       }
     }

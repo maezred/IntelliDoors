@@ -1,6 +1,7 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
+import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
@@ -11,7 +12,8 @@ import org.bukkit.block.BlockFace
 
  * @author moltendorf
  */
-class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
+class SingleDoor private constructor
+(val top: Block, bottom: Block, settings: Settings.TypeSettings) : AbstractDoor(bottom, settings) {
   override val location = bottom.location.toVector().getMidpoint(top.location.toVector()).toLocation(bottom.location.world)
 
   val left: Boolean
@@ -56,7 +58,7 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
   }
 
   companion object {
-    operator fun get(block: Block): SingleDoor? {
+    operator fun invoke(block: Block, settings: Settings.TypeSettings): SingleDoor? {
       return when (block.type) {
         Material.IRON_DOOR_BLOCK,
         Material.ACACIA_DOOR,
@@ -81,7 +83,7 @@ class SingleDoor(val top: Block, bottom: Block) : AbstractDoor(bottom) {
             bottom = block
           }
 
-          if (top.type == bottom.type) SingleDoor(top, bottom) else null
+          if (top.type == bottom.type) SingleDoor(top, bottom, settings) else null
         }
         else -> null
       }

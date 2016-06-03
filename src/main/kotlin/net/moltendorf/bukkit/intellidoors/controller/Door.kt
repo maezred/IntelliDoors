@@ -1,6 +1,7 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
+import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -9,7 +10,7 @@ import org.bukkit.block.BlockFace
 /**
  * Created by moltendorf on 16/5/10.
  */
-abstract class Door {
+abstract class Door(val settings: Settings.TypeSettings) {
   abstract val facing: BlockFace
   abstract val location: Location
   abstract val powered: Boolean

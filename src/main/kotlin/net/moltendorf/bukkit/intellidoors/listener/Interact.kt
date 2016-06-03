@@ -35,10 +35,10 @@ class Interact() : Listener {
 
       val door = when (type) {
         Settings.Type.DOOR -> {
-          val singleDoor = SingleDoor[block] ?: return
+          val singleDoor = SingleDoor(block, settings) ?: return
 
           if (settings.pairInteract && settings.pairInteractSync) {
-            val doubleDoor = DoubleDoor[singleDoor]
+            val doubleDoor = DoubleDoor(singleDoor, settings)
 
             if (doubleDoor != null) {
               doubleDoor.onInteract(singleDoor)
@@ -58,8 +58,8 @@ class Interact() : Listener {
           singleDoor
         }
 
-        Settings.Type.TRAP -> TrapDoor[block]
-        Settings.Type.GATE -> FenceGate[block]
+        Settings.Type.TRAP -> TrapDoor(block, settings)
+        Settings.Type.GATE -> FenceGate(block, settings)
       } ?: return
 
       if (settings.singleInteract) {
