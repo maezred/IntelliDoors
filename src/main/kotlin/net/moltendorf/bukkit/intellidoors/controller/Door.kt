@@ -19,14 +19,20 @@ interface Door {
 
   var open: Boolean
 
+  var inverted: Boolean
+    get() = open != powered
+    set(value) {
+      open = value != powered
+    }
+
   fun toggle() {
-    open = !open
+    inverted = !inverted
   }
 
   fun resetIn(delay: Long): Boolean {
     val timer = IntelliDoors.instance.timer
 
-    return if (open) {
+    return if (inverted) {
       timer.shutDoorIn(this, delay)
       true
     } else {
@@ -42,7 +48,6 @@ interface Door {
       }
 
       open = powered
-
       true
     } else {
       false
@@ -79,7 +84,7 @@ interface Door {
   interface Wood : Door {
     override fun onInteract(onDoor: Door): Boolean {
       return if (settings.singleInteract) {
-        overrideOpen(!open)
+        overrideOpen(!inverted)
         toggle()
 
         if (settings.singleInteractReset) {

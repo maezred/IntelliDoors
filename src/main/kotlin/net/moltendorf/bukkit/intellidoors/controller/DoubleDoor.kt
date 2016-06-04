@@ -44,7 +44,7 @@ abstract class DoubleDoor private constructor
   override fun overrideOpen(value: Boolean) {
     left.overrideOpen(value)
     right.overrideOpen(value)
-    open = value
+    inverted = value
   }
 
   companion object {
@@ -61,9 +61,9 @@ abstract class DoubleDoor private constructor
       }
 
       return if (door.type == Material.IRON_DOOR_BLOCK) {
-        Iron(left, right, door.open, settings)
+        Iron(left, right, door.inverted, settings)
       } else {
-        Wood(left, right, door.open, settings)
+        Wood(left, right, door.inverted, settings)
       }
     }
 
@@ -87,7 +87,7 @@ abstract class DoubleDoor private constructor
 
     override fun onInteract(onDoor: Door): Boolean {
       return if (settings.pairInteract && settings.pairInteractSync) {
-        playSound(!open)
+        playSound(!inverted)
         toggle()
 
         if (settings.pairInteractReset) {
@@ -107,7 +107,7 @@ abstract class DoubleDoor private constructor
 
     override fun onInteract(onDoor: Door): Boolean {
       return if (settings.pairInteract && settings.pairInteractSync) {
-        onDoor.overrideOpen(!open)
+        onDoor.overrideOpen(!inverted)
         toggle()
 
         if (settings.pairInteractReset) {
