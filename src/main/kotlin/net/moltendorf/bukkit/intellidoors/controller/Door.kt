@@ -10,102 +10,91 @@ import org.bukkit.block.BlockFace
 /**
  * Created by moltendorf on 16/5/10.
  */
-abstract class Door(val settings: Settings.TypeSettings) {
-  abstract val facing: BlockFace
-  abstract val location: Location
-  abstract val powered: Boolean
-  abstract val type: Material
+interface Door {
+  val facing: BlockFace
+  val location: Location
+  val powered: Boolean
+  val settings: Settings.TypeSettings
+  val type: Material
 
-  abstract var open: Boolean
+  var open: Boolean
 
-  open fun onInteract(onDoor: Door): Boolean {
-    return if (settings.singleInteract) {
-      val isOpen = !open
+  fun toggle() {
+    open = !open
+  }
 
-      when (type) {
-        Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {
-          location.world.playSound(location, sound(isOpen), 1f, 1f)
+  fun resetIn(delay: Long): Boolean {
+    val timer = IntelliDoors.instance.timer
 
-          open = isOpen
-        }
-        else -> overrideOpen(isOpen)
-      }
-
-      if (settings.singleInteractReset) {
-        val timer = IntelliDoors.instance.timer
-
-        if (open) {
-          timer.shutDoorIn(this, settings.singleInteractResetTicks)
-        } else {
-          timer.cancel(this);
-        }
-      }
-
-      false
+    return if (open) {
+      timer.shutDoorIn(this, delay)
+      true
     } else {
-      when (type) {
-        Material.IRON_DOOR_BLOCK, Material.IRON_TRAPDOOR -> {
-          false // Do nothing as it won't open anyway.
-        }
-        else -> true // Prevent door from opening.
-      }
+      timer.cancel(this)
+      false
     }
   }
 
-  open fun onRedstone(onDoor: Door): Boolean {
+  fun onRedstone(onDoor: Door): Boolean {
     return if (settings.singleRedstone) {
-      val doorPowered = powered
-
-      if (settings.singleRedstoneReset) {
-        val timer = IntelliDoors.instance.timer
-
-        if (doorPowered) {
-          timer.cancel(this)
-        } else {
-          timer.shutDoorIn(this, settings.singleRedstoneResetTicks)
-          return true
-        }
+      if (settings.singleRedstoneReset && resetIn(settings.singleRedstoneResetTicks)) {
+        return true
       }
 
-      open = doorPowered
+      open = powered
+
       true
     } else {
       false
     }
   }
 
-  fun toggle() {
-    open = !open
+  fun playSound(open: Boolean) {
+    location.world.playSound(location, sound(open), 1f, 1f)
   }
 
-  abstract fun clearUnpowered()
-  abstract fun overrideOpen(value: Boolean)
-  abstract fun sound(open: Boolean): Sound
+  fun clearUnpowered()
+  fun onInteract(onDoor: Door): Boolean
+  fun overrideOpen(value: Boolean)
+  fun sound(open: Boolean): Sound
 
-  override fun equals(other: Any?): Boolean {
-    if (this === other) {
-      return true
-    }
+  interface Iron : Door {
+    override fun onInteract(onDoor: Door): Boolean {
+      if (settings.singleInteract) {
+        playSound(!open)
+        toggle()
 
-    if (other?.javaClass != javaClass) {
+        if (settings.singleInteractReset) {
+          resetIn(settings.singleInteractResetTicks)
+        }
+      }
+
       return false
     }
 
-    other as Door
+    override fun sound(open: Boolean): Sound {
+      return if (open) Sound.BLOCK_IRON_DOOR_OPEN else Sound.BLOCK_IRON_DOOR_CLOSE
+    }
+  }
 
-    if (location != other.location) {
-      return false
+  interface Wood : Door {
+    override fun onInteract(onDoor: Door): Boolean {
+      return if (settings.singleInteract) {
+        overrideOpen(!open)
+        toggle()
+
+        if (settings.singleInteractReset) {
+          resetIn(settings.singleInteractResetTicks)
+        }
+
+        false
+      } else {
+        true // Prevent door from opening.
+      }
     }
 
-    return true
-  }
-
-  override fun hashCode(): Int {
-    return location.hashCode()
-  }
-
-  companion object {
-    val UNPOWERED = IntelliDoors::class.java.`package`.name + ".UNPOWERED"
-    val FACING = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
+    override fun sound(open: Boolean): Sound {
+      return if (open) Sound.BLOCK_IRON_DOOR_OPEN else Sound.BLOCK_IRON_DOOR_CLOSE
+    }
   }
 }

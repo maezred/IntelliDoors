@@ -10,7 +10,7 @@ import org.bukkit.block.BlockFace
 /**
  * Created by moltendorf on 16/5/2.
  */
-abstract class AbstractDoor(val block: Block, settings: Settings.TypeSettings) : Door(settings) {
+abstract class SimpleDoor(val block: Block, settings: Settings.TypeSettings) : BaseDoor(settings) {
   override val facing: BlockFace
     get() = FACING[data and 3]
 
@@ -33,7 +33,7 @@ abstract class AbstractDoor(val block: Block, settings: Settings.TypeSettings) :
     set(value) {
       if (open != value) {
         data += if (value) 4 else -4
-        block.data = data.toByte()
+        block.setData(data.toByte(), false)
 
         if (!value) {
           clearUnpowered()

@@ -3,7 +3,6 @@ package net.moltendorf.bukkit.intellidoors.controller
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 
@@ -12,8 +11,8 @@ import org.bukkit.block.BlockFace
 
  * @author moltendorf
  */
-class SingleDoor private constructor
-(val top: Block, bottom: Block, settings: Settings.TypeSettings) : AbstractDoor(bottom, settings) {
+abstract class SingleDoor private constructor
+(val top: Block, bottom: Block, settings: Settings.TypeSettings) : SimpleDoor(bottom, settings) {
   override val location = bottom.location.toVector().getMidpoint(top.location.toVector()).toLocation(bottom.location.world)
 
   val left: Boolean
@@ -40,26 +39,9 @@ class SingleDoor private constructor
     top.removeMetadata(UNPOWERED, IntelliDoors.instance)
   }
 
-  override fun sound(open: Boolean): Sound {
-    return when (type) {
-      Material.IRON_DOOR_BLOCK -> {
-        if (open) Sound.BLOCK_IRON_DOOR_OPEN else Sound.BLOCK_IRON_DOOR_CLOSE
-      }
-      Material.ACACIA_DOOR,
-      Material.BIRCH_DOOR,
-      Material.DARK_OAK_DOOR,
-      Material.JUNGLE_DOOR,
-      Material.SPRUCE_DOOR,
-      Material.WOODEN_DOOR -> {
-        if (open) Sound.BLOCK_WOODEN_DOOR_OPEN else Sound.BLOCK_WOODEN_DOOR_CLOSE
-      }
-      else -> Sound.BLOCK_ANVIL_LAND
-    }
-  }
-
   companion object {
     operator fun invoke(block: Block, settings: Settings.TypeSettings): SingleDoor? {
-      return when (block.type) {
+      when (block.type) {
         Material.IRON_DOOR_BLOCK,
         Material.ACACIA_DOOR,
         Material.BIRCH_DOOR,
@@ -68,10 +50,8 @@ class SingleDoor private constructor
         Material.SPRUCE_DOOR,
         Material.WOODEN_DOOR -> {
           val data = block.data.toInt()
-          val top
-            : Block
-          val bottom
-            : Block
+          val top: Block
+          val bottom: Block
 
           if (data and 8 == 8) {
             // Top of door.
@@ -83,10 +63,25 @@ class SingleDoor private constructor
             bottom = block
           }
 
-          if (top.type == bottom.type) SingleDoor(top, bottom, settings) else null
+          if (top.type == bottom.type) {
+            return if (block.type == Material.IRON_DOOR_BLOCK) {
+              Iron(top, bottom, settings)
+            } else {
+              Wood(top, bottom, settings)
+            }
+          }
         }
-        else -> null
       }
+
+      return null
     }
+  }
+
+  private class Iron : SingleDoor, Door.Iron {
+    constructor(top: Block, bottom: Block, settings: Settings.TypeSettings) : super(top, bottom, settings)
+  }
+
+  private class Wood : SingleDoor, Door.Wood {
+    constructor(top: Block, bottom: Block, settings: Settings.TypeSettings) : super(top, bottom, settings)
   }
 }

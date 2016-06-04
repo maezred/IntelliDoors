@@ -8,26 +8,26 @@ import org.bukkit.block.Block
 /**
  * Created by moltendorf on 15/05/23.
  */
-class TrapDoor private constructor(block: Block, settings: Settings.TypeSettings) : AbstractDoor(block, settings) {
-  override fun sound(open: Boolean): Sound {
-    return when (type) {
-      Material.IRON_TRAPDOOR -> {
-        if (open) Sound.BLOCK_IRON_TRAPDOOR_OPEN else Sound.BLOCK_IRON_TRAPDOOR_CLOSE
-      }
-      Material.TRAP_DOOR -> {
-        if (open) Sound.BLOCK_WOODEN_TRAPDOOR_OPEN else Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE
-      }
-      else -> Sound.BLOCK_ANVIL_LAND
-    }
-  }
-
+abstract class TrapDoor private constructor(block: Block, settings: Settings.TypeSettings) : SimpleDoor(block, settings) {
   companion object {
     operator fun invoke(block: Block, settings: Settings.TypeSettings): TrapDoor? {
       return when (block.type) {
-        Material.IRON_TRAPDOOR,
-        Material.TRAP_DOOR -> TrapDoor(block, settings)
+        Material.IRON_TRAPDOOR -> Iron(block, settings)
+        Material.TRAP_DOOR -> Wood(block, settings)
         else -> null
       }
+    }
+  }
+
+  private class Iron(block: Block, settings: Settings.TypeSettings) : TrapDoor(block, settings), Door.Iron {
+    override fun sound(open: Boolean): Sound {
+      return if (open) Sound.BLOCK_IRON_TRAPDOOR_OPEN else Sound.BLOCK_IRON_TRAPDOOR_CLOSE
+    }
+  }
+
+  private class Wood(block: Block, settings: Settings.TypeSettings) : TrapDoor(block, settings), Door.Wood {
+    override fun sound(open: Boolean): Sound {
+      return if (open) Sound.BLOCK_WOODEN_TRAPDOOR_OPEN else Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE
     }
   }
 }
