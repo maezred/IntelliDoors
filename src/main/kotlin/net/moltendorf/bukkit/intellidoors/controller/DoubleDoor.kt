@@ -48,9 +48,9 @@ abstract class DoubleDoor private constructor
       }
 
       return if (door.type == Material.IRON_DOOR_BLOCK) {
-        Iron(left, right, door.inverted, settings)
+        Iron(left, right, door.open, settings)
       } else {
-        Wood(left, right, door.inverted, settings)
+        Wood(left, right, door.open, settings)
       }
     }
 
