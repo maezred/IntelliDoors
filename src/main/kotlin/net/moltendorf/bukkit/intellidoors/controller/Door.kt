@@ -1,7 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
-import net.moltendorf.bukkit.intellidoors.settings.GlobalSettings
 import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Location
 import org.bukkit.Material
@@ -41,6 +40,10 @@ interface Door {
       open = powered
       true
     } else {
+      if (this is Group) {
+        onDoor.onRedstone(onDoor)
+      }
+
       false
     }
   }
@@ -75,6 +78,8 @@ interface Door {
         playSound(!open)
         toggle()
         interactReset()
+      } else if (this is Group) {
+        onDoor.onInteract(onDoor)
       }
 
       return false
@@ -88,12 +93,16 @@ interface Door {
   interface Wood : Door {
     override fun onInteract(onDoor: Door): Boolean {
       return if (settings.interact) {
-        overrideOpen(!inverted)
+        onDoor.overrideOpen(!inverted)
         toggle()
         interactReset()
 
         false
       } else {
+        if (this is Group) {
+          onDoor.onInteract(onDoor)
+        }
+
         true // Prevent door from opening.
       }
     }
@@ -102,4 +111,6 @@ interface Door {
       return if (open) Sound.BLOCK_IRON_DOOR_OPEN else Sound.BLOCK_IRON_DOOR_CLOSE
     }
   }
+
+  interface Group // Marker type.
 }

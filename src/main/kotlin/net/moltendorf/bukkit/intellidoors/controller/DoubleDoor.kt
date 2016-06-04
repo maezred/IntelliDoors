@@ -11,7 +11,7 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 abstract class DoubleDoor private constructor
-(val left: SingleDoor, val right: SingleDoor, open: Boolean, settings: Settings) : BaseDoor(settings) {
+(val left: SingleDoor, val right: SingleDoor, open: Boolean, settings: Settings) : BaseDoor(settings), Door.Group {
   override val location = left.location.toVector().getMidpoint(right.location.toVector()).toLocation(left.location.world)
   override val type = left.type
 
@@ -27,19 +27,6 @@ abstract class DoubleDoor private constructor
       right.open = value
       field = value
     }
-
-  override fun onRedstone(onDoor: Door): Boolean {
-    return if (settings.redstone) {
-      if (settings.redstoneReset && resetIn(settings.redstoneResetTicks, !powered)) {
-        return true
-      }
-
-      open = powered
-      true
-    } else {
-      onDoor.onRedstone(onDoor)
-    }
-  }
 
   override fun overrideOpen(value: Boolean) {
     left.overrideOpen(value)
@@ -82,42 +69,10 @@ abstract class DoubleDoor private constructor
   }
 
   private class Iron : DoubleDoor, Door.Iron {
-    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings)
-    : super(left, right, open, settings)
-
-    override fun onInteract(onDoor: Door): Boolean {
-      return if (settings.interact) {
-        playSound(!inverted)
-        toggle()
-
-        if (settings.interactReset) {
-          resetIn(settings.interactResetTicks, inverted)
-        }
-
-        false
-      } else {
-        onDoor.onInteract(onDoor)
-      }
-    }
+    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings) : super(left, right, open, settings)
   }
 
   private class Wood : DoubleDoor, Door.Wood {
-    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings)
-    : super(left, right, open, settings)
-
-    override fun onInteract(onDoor: Door): Boolean {
-      return if (settings.interact) {
-        onDoor.overrideOpen(!inverted)
-        toggle()
-
-        if (settings.interactReset) {
-          resetIn(settings.interactResetTicks, inverted)
-        }
-
-        false
-      } else {
-        onDoor.onInteract(onDoor)
-      }
-    }
+    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings) : super(left, right, open, settings)
   }
 }
