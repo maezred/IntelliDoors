@@ -1,6 +1,5 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -22,7 +21,7 @@ abstract class SingleDoor private constructor
     get() = topData and 1 == 1
 
   override val powered: Boolean
-    get() = super.powered || (top.isBlockIndirectlyPowered && !top.hasMetadata(UNPOWERED))
+    get() = super.powered || top.isBlockIndirectlyPowered
 
   var topData = top.data.toInt()
     private set
@@ -32,12 +31,6 @@ abstract class SingleDoor private constructor
     private set(value) {
       data = value
     }
-
-  override fun clearUnpowered() {
-    super.clearUnpowered()
-
-    top.removeMetadata(UNPOWERED, IntelliDoors.instance)
-  }
 
   companion object {
     operator fun invoke(block: Block, settings: Settings.TypeSettings): SingleDoor? {

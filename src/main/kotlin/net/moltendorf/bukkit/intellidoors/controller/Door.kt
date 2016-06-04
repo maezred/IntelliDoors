@@ -53,7 +53,6 @@ interface Door {
     location.world.playSound(location, sound(open), 1f, 1f)
   }
 
-  fun clearUnpowered()
   fun onInteract(onDoor: Door): Boolean
   fun overrideOpen(value: Boolean)
   fun sound(open: Boolean): Sound

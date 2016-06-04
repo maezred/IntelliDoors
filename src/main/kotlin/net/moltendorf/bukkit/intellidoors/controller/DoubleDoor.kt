@@ -26,16 +26,7 @@ abstract class DoubleDoor private constructor
       left.open = value
       right.open = value
       field = value
-
-      if (!value) {
-        clearUnpowered()
-      }
     }
-
-  override fun clearUnpowered() {
-    left.clearUnpowered()
-    right.clearUnpowered()
-  }
 
   override fun onRedstone(onDoor: Door): Boolean {
     return if (settings.pairRedstone && settings.pairRedstoneSync) {

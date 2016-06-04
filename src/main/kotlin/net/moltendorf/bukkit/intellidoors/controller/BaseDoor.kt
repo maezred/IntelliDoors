@@ -1,6 +1,5 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.Settings
 import org.bukkit.block.BlockFace
 
@@ -32,7 +31,6 @@ abstract class BaseDoor(override val settings: Settings.TypeSettings) : Door {
   }
 
   companion object {
-    val UNPOWERED = IntelliDoors::class.java.`package`.name + ".UNPOWERED"
     val FACING = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
   }
 }
