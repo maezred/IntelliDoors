@@ -90,25 +90,21 @@ class GlobalSettings() {
           // Single
           Settings(
             "single.interact.enabled".getBoolean(typeSub, true),
-            false,
             "single.interact.reset.enabled".getBoolean(typeSub, true),
             "single.interact.reset.ticks".getLong(typeSub, 100),
 
             "single.redstone.enabled".getBoolean(typeSub, true),
-            false,
             "single.redstone.reset.enabled".getBoolean(typeSub, true),
             "single.redstone.reset.ticks".getLong(typeSub, 20)
           ),
 
           // Pairs
           Settings(
-            "pair.interact.enabled".getBoolean(typeSub, true, true),
-            "pair.interact.sync".getBoolean(typeSub, true, true),
+            "pair.interact.enabled".getBoolean(typeSub, true, true) && "pair.interact.sync".getBoolean(typeSub, true, true),
             "pair.interact.reset.enabled".getBoolean(typeSub, true, true),
             "pair.interact.reset.ticks".getLong(typeSub, 100, true),
 
-            "pair.redstone.enabled".getBoolean(typeSub, true, true),
-            "pair.redstone.sync".getBoolean(typeSub, true, true),
+            "pair.redstone.enabled".getBoolean(typeSub, true, true) && "pair.redstone.sync".getBoolean(typeSub, true, true),
             "pair.redstone.reset.enabled".getBoolean(typeSub, true, true),
             "pair.redstone.reset.ticks".getLong(typeSub, 20, true)
           )
