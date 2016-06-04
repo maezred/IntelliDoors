@@ -29,10 +29,10 @@ interface Door {
     inverted = !inverted
   }
 
-  fun resetIn(delay: Long): Boolean {
+  fun resetIn(delay: Long, state: Boolean): Boolean {
     val timer = IntelliDoors.instance.timer
 
-    return if (inverted) {
+    return if (state) {
       timer.shutDoorIn(this, delay)
       true
     } else {
@@ -43,7 +43,7 @@ interface Door {
 
   fun onRedstone(onDoor: Door): Boolean {
     return if (settings.singleRedstone) {
-      if (settings.singleRedstoneReset && resetIn(settings.singleRedstoneResetTicks)) {
+      if (settings.singleRedstoneReset && resetIn(settings.singleRedstoneResetTicks, !powered)) {
         return true
       }
 
@@ -69,7 +69,7 @@ interface Door {
         toggle()
 
         if (settings.singleInteractReset) {
-          resetIn(settings.singleInteractResetTicks)
+          resetIn(settings.singleInteractResetTicks, inverted)
         }
       }
 
@@ -88,7 +88,7 @@ interface Door {
         toggle()
 
         if (settings.singleInteractReset) {
-          resetIn(settings.singleInteractResetTicks)
+          resetIn(settings.singleInteractResetTicks, inverted)
         }
 
         false

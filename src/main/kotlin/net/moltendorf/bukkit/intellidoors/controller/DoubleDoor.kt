@@ -30,7 +30,7 @@ abstract class DoubleDoor private constructor
 
   override fun onRedstone(onDoor: Door): Boolean {
     return if (settings.pairRedstone && settings.pairRedstoneSync) {
-      if (settings.pairRedstoneReset && resetIn(settings.pairRedstoneResetTicks)) {
+      if (settings.pairRedstoneReset && resetIn(settings.pairRedstoneResetTicks, !powered)) {
         return true
       }
 
@@ -91,7 +91,7 @@ abstract class DoubleDoor private constructor
         toggle()
 
         if (settings.pairInteractReset) {
-          resetIn(settings.pairInteractResetTicks)
+          resetIn(settings.pairInteractResetTicks, inverted)
         }
 
         false
@@ -111,7 +111,7 @@ abstract class DoubleDoor private constructor
         toggle()
 
         if (settings.pairInteractReset) {
-          resetIn(settings.pairInteractResetTicks)
+          resetIn(settings.pairInteractResetTicks, inverted)
         }
 
         false
