@@ -19,11 +19,12 @@ class GlobalSettings() {
 
   init {
     val instance = IntelliDoors.instance
-    val config = instance.config
     val log = instance.logger
 
     // Make sure the default configuration is saved.
     instance.saveDefaultConfig()
+
+    val config = instance.config
 
     enabled = config.getBoolean("enabled", enabled)
 
