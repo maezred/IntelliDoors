@@ -33,7 +33,7 @@ interface Door {
 
   fun onRedstone(onDoor: Door): Boolean {
     return if (settings.redstone) {
-      if (open == powered) {
+      if (!inverted) {
         return true
       }
 
