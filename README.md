@@ -14,4 +14,12 @@ IntelliDoors provides additional functionality for doors, including:
 
 All features are fully configurable. Each type of door can be configured individually.
 
-Source code is available on GitHub: https://github.com/moltendorf/IntelliDoors
+Source code is available on [GitHub](https://github.com/moltendorf/IntelliDoors).
+
+## Downloads
+
+IntelliDoors is available for download at the following locations:
+
+  - [SpigotMC](https://www.spigotmc.org/resources/intellidoors.24301/)
+  - [BukkitDev](http://dev.bukkit.org/bukkit-plugins/intellidoors/)
+  - [Archive](https://share.moltendorf.net/Projects/Bukkit/IntelliDoors/)
