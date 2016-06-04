@@ -37,6 +37,7 @@ interface Door {
         return true
       }
 
+      playSound(powered)
       open = powered
       true
     } else {
