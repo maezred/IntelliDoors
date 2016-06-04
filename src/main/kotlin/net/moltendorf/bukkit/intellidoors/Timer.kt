@@ -22,7 +22,7 @@ class Timer {
 
       if (door.inverted) {
         // Shut the door!
-        door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
+        door.playSound(false)
         door.inverted = false
       }
     }, ticks)
@@ -37,7 +37,7 @@ class Timer {
       task.cancel()
 
       if (door.inverted) {
-        door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
+        door.playSound(false)
         door.inverted = false
       }
     }
