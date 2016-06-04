@@ -1,6 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.Settings
+import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -11,7 +11,7 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 abstract class DoubleDoor private constructor
-(val left: SingleDoor, val right: SingleDoor, open: Boolean, settings: Settings.TypeSettings) : BaseDoor(settings) {
+(val left: SingleDoor, val right: SingleDoor, open: Boolean, settings: Settings) : BaseDoor(settings) {
   override val location = left.location.toVector().getMidpoint(right.location.toVector()).toLocation(left.location.world)
   override val type = left.type
 
@@ -48,7 +48,7 @@ abstract class DoubleDoor private constructor
   }
 
   companion object {
-    operator fun invoke(door: SingleDoor, settings: Settings.TypeSettings): DoubleDoor? {
+    operator fun invoke(door: SingleDoor, settings: Settings): DoubleDoor? {
       val left: Door
       val right: Door
 
@@ -82,7 +82,7 @@ abstract class DoubleDoor private constructor
   }
 
   private class Iron : DoubleDoor, Door.Iron {
-    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings.TypeSettings)
+    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings)
     : super(left, right, open, settings)
 
     override fun onInteract(onDoor: Door): Boolean {
@@ -102,7 +102,7 @@ abstract class DoubleDoor private constructor
   }
 
   private class Wood : DoubleDoor, Door.Wood {
-    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings.TypeSettings)
+    constructor(left: SingleDoor, right: SingleDoor, open: Boolean, settings: Settings)
     : super(left, right, open, settings)
 
     override fun onInteract(onDoor: Door): Boolean {

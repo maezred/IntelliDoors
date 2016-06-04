@@ -1,8 +1,8 @@
 package net.moltendorf.bukkit.intellidoors.listener
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
-import net.moltendorf.bukkit.intellidoors.Settings
 import net.moltendorf.bukkit.intellidoors.controller.*
+import net.moltendorf.bukkit.intellidoors.settings.Variations
 import org.bukkit.block.Block
 
 /**
@@ -15,13 +15,13 @@ data class DoorEvent private constructor(val door: Door, val onDoor: Door = door
       val settings = IntelliDoors.instance.settings[block.type] ?: return null
 
       return when (settings.type) {
-        Settings.Type.DOOR -> {
+        Variations.Type.DOOR -> {
           val singleDoor = SingleDoor(block, settings.single) ?: return null
           DoorEvent(DoubleDoor(singleDoor, settings.pair) ?: singleDoor, singleDoor)
         }
 
-        Settings.Type.TRAP -> DoorEvent(TrapDoor(block, settings.single) ?: return null)
-        Settings.Type.GATE -> DoorEvent(FenceGate(block, settings.single) ?: return null)
+        Variations.Type.TRAP -> DoorEvent(TrapDoor(block, settings.single) ?: return null)
+        Variations.Type.GATE -> DoorEvent(FenceGate(block, settings.single) ?: return null)
       }
     }
   }

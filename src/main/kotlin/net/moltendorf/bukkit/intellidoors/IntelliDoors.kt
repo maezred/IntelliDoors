@@ -2,8 +2,8 @@ package net.moltendorf.bukkit.intellidoors
 
 import net.moltendorf.bukkit.intellidoors.listener.Interact
 import net.moltendorf.bukkit.intellidoors.listener.Redstone
+import net.moltendorf.bukkit.intellidoors.settings.GlobalSettings
 import org.bukkit.plugin.java.JavaPlugin
-import kotlin.concurrent.timer
 
 /**
  * Created by moltendorf on 15/05/23.
@@ -12,7 +12,7 @@ import kotlin.concurrent.timer
  */
 class IntelliDoors : JavaPlugin() {
   // Variable data.
-  lateinit var settings: Settings
+  lateinit var settings: GlobalSettings
     private set
   lateinit var timer: Timer
     private set
@@ -21,7 +21,7 @@ class IntelliDoors : JavaPlugin() {
     instance = this
 
     // Construct new settings.
-    settings = Settings()
+    settings = GlobalSettings()
 
     // Construct new timer.
     timer = Timer()

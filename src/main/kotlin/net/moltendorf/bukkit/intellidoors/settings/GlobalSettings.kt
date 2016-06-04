@@ -1,5 +1,6 @@
-package net.moltendorf.bukkit.intellidoors
+package net.moltendorf.bukkit.intellidoors.settings
 
+import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import java.util.*
@@ -9,8 +10,8 @@ import java.util.*
 
  * @author moltendorf
  */
-class Settings() {
-  private val doors = HashMap<Material, Variation>()
+class GlobalSettings() {
+  private val doors = HashMap<Material, Variations>()
 
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
   var interact = false
@@ -44,10 +45,10 @@ class Settings() {
           continue
         }
 
-        val type: Type
+        val type: Variations.Type
 
         try {
-          type = Type.valueOf(typeString.toUpperCase())
+          type = Variations.Type.valueOf(typeString.toUpperCase())
         } catch (t: Throwable) {
           log.warning("Config: door.$key.type has invalid value: $typeString")
           continue
@@ -83,11 +84,11 @@ class Settings() {
           continue
         }
 
-        val settings = Variation(
+        val settings = Variations(
           type,
 
           // Single
-          TypeSettings(
+          Settings(
             "single.interact.enabled".getBoolean(typeSub, true),
             false,
             "single.interact.reset.enabled".getBoolean(typeSub, true),
@@ -100,7 +101,7 @@ class Settings() {
           ),
 
           // Pairs
-          TypeSettings(
+          Settings(
             "pair.interact.enabled".getBoolean(typeSub, true, true),
             "pair.interact.sync".getBoolean(typeSub, true, true),
             "pair.interact.reset.enabled".getBoolean(typeSub, true, true),
@@ -128,7 +129,7 @@ class Settings() {
     }
   }
 
-  operator fun get(material: Material): Variation? {
+  operator fun get(material: Material): Variations? {
     return doors[material]
   }
 
@@ -208,20 +209,4 @@ class Settings() {
     return default
   }
 
-  data class Variation(val type: Type, val single: TypeSettings, val pair: TypeSettings)
-
-  class TypeSettings(
-    var interact: Boolean,
-    var interactSync: Boolean,
-    var interactReset: Boolean,
-    var interactResetTicks: Long,
-    var redstone: Boolean,
-    var redstoneSync: Boolean,
-    var redstoneReset: Boolean,
-    var redstoneResetTicks: Long
-  );
-
-  enum class Type {
-    DOOR, TRAP, GATE
-  }
 }

@@ -1,7 +1,8 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
 import net.moltendorf.bukkit.intellidoors.IntelliDoors
-import net.moltendorf.bukkit.intellidoors.Settings
+import net.moltendorf.bukkit.intellidoors.settings.GlobalSettings
+import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -14,7 +15,7 @@ interface Door {
   val facing: BlockFace
   val location: Location
   val powered: Boolean
-  val settings: Settings.TypeSettings
+  val settings: Settings
   val type: Material
 
   var open: Boolean

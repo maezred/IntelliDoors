@@ -1,6 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.Settings
+import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -9,7 +9,7 @@ import org.bukkit.block.BlockFace
 /**
  * Created by moltendorf on 16/5/2.
  */
-abstract class SimpleDoor(val block: Block, settings: Settings.TypeSettings) : BaseDoor(settings) {
+abstract class SimpleDoor(val block: Block, settings: Settings) : BaseDoor(settings) {
   override val facing: BlockFace
     get() = FACING[data and 3]
 

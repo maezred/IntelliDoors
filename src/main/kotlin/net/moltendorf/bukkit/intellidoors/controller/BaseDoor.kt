@@ -1,13 +1,13 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.Settings
+import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.block.BlockFace
 
 /**
  * Created by moltendorf on 2016-06-03.
  */
 
-abstract class BaseDoor(override val settings: Settings.TypeSettings) : Door {
+abstract class BaseDoor(override val settings: Settings) : Door {
   override fun equals(other: Any?): Boolean {
     if (this === other) {
       return true

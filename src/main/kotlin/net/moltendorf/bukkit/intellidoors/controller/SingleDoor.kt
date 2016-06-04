@@ -1,6 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.Settings
+import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -11,7 +11,7 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 abstract class SingleDoor private constructor
-(val top: Block, bottom: Block, settings: Settings.TypeSettings) : SimpleDoor(bottom, settings) {
+(val top: Block, bottom: Block, settings: Settings) : SimpleDoor(bottom, settings) {
   override val location = bottom.location.toVector().getMidpoint(top.location.toVector()).toLocation(bottom.location.world)
 
   val left: Boolean
@@ -33,7 +33,7 @@ abstract class SingleDoor private constructor
     }
 
   companion object {
-    operator fun invoke(block: Block, settings: Settings.TypeSettings): SingleDoor? {
+    operator fun invoke(block: Block, settings: Settings): SingleDoor? {
       when (block.type) {
         Material.IRON_DOOR_BLOCK,
         Material.ACACIA_DOOR,
@@ -71,10 +71,10 @@ abstract class SingleDoor private constructor
   }
 
   private class Iron : SingleDoor, Door.Iron {
-    constructor(top: Block, bottom: Block, settings: Settings.TypeSettings) : super(top, bottom, settings)
+    constructor(top: Block, bottom: Block, settings: Settings) : super(top, bottom, settings)
   }
 
   private class Wood : SingleDoor, Door.Wood {
-    constructor(top: Block, bottom: Block, settings: Settings.TypeSettings) : super(top, bottom, settings)
+    constructor(top: Block, bottom: Block, settings: Settings) : super(top, bottom, settings)
   }
 }
