@@ -20,9 +20,11 @@ class Timer {
       // This door is no longer pending to be shut.
       doors.remove(door)
 
-      // Shut the door!
-      door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
-      door.inverted = false
+      if (door.inverted) {
+        // Shut the door!
+        door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
+        door.inverted = false
+      }
     }, ticks)
   }
 
@@ -32,9 +34,12 @@ class Timer {
 
   fun shutAllDoors() {
     for ((door, task) in doors) {
-      door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
-      door.inverted = false
       task.cancel()
+
+      if (door.inverted) {
+        door.location.world.playSound(door.location, door.sound(false), 1f, 1f)
+        door.inverted = false
+      }
     }
 
     doors.clear()
