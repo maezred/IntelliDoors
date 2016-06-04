@@ -29,6 +29,12 @@ interface Door {
     inverted = !inverted
   }
 
+  fun interactReset() {
+    if (settings.singleInteractReset) {
+      resetIn(settings.singleInteractResetTicks, inverted)
+    }
+  }
+
   fun resetIn(delay: Long, state: Boolean): Boolean {
     val timer = IntelliDoors.instance.timer
 
@@ -67,10 +73,7 @@ interface Door {
       if (settings.singleInteract) {
         playSound(!open)
         toggle()
-
-        if (settings.singleInteractReset) {
-          resetIn(settings.singleInteractResetTicks, inverted)
-        }
+        interactReset()
       }
 
       return false
@@ -86,10 +89,7 @@ interface Door {
       return if (settings.singleInteract) {
         overrideOpen(!inverted)
         toggle()
-
-        if (settings.singleInteractReset) {
-          resetIn(settings.singleInteractResetTicks, inverted)
-        }
+        interactReset()
 
         false
       } else {
