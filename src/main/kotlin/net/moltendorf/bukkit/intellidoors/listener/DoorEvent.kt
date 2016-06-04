@@ -16,12 +16,12 @@ data class DoorEvent private constructor(val door: Door, val onDoor: Door = door
 
       return when (settings.type) {
         Settings.Type.DOOR -> {
-          val singleDoor = SingleDoor(block, settings) ?: return null
-          DoorEvent(DoubleDoor(singleDoor, settings) ?: singleDoor, singleDoor)
+          val singleDoor = SingleDoor(block, settings.single) ?: return null
+          DoorEvent(DoubleDoor(singleDoor, settings.pair) ?: singleDoor, singleDoor)
         }
 
-        Settings.Type.TRAP -> DoorEvent(TrapDoor(block, settings) ?: return null)
-        Settings.Type.GATE -> DoorEvent(FenceGate(block, settings) ?: return null)
+        Settings.Type.TRAP -> DoorEvent(TrapDoor(block, settings.single) ?: return null)
+        Settings.Type.GATE -> DoorEvent(FenceGate(block, settings.single) ?: return null)
       }
     }
   }

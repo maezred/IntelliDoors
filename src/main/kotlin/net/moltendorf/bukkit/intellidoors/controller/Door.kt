@@ -26,14 +26,14 @@ interface Door {
     }
 
   fun interactReset() {
-    if (settings.singleInteractReset) {
-      resetIn(settings.singleInteractResetTicks, inverted)
+    if (settings.interactReset) {
+      resetIn(settings.interactResetTicks, inverted)
     }
   }
 
   fun onRedstone(onDoor: Door): Boolean {
-    return if (settings.singleRedstone) {
-      if (settings.singleRedstoneReset && resetIn(settings.singleRedstoneResetTicks, !powered)) {
+    return if (settings.redstone) {
+      if (settings.redstoneReset && resetIn(settings.redstoneResetTicks, !powered)) {
         return true
       }
 
@@ -70,7 +70,7 @@ interface Door {
 
   interface Iron : Door {
     override fun onInteract(onDoor: Door): Boolean {
-      if (settings.singleInteract) {
+      if (settings.interact) {
         playSound(!open)
         toggle()
         interactReset()
@@ -86,7 +86,7 @@ interface Door {
 
   interface Wood : Door {
     override fun onInteract(onDoor: Door): Boolean {
-      return if (settings.singleInteract) {
+      return if (settings.interact) {
         overrideOpen(!inverted)
         toggle()
         interactReset()

@@ -29,8 +29,8 @@ abstract class DoubleDoor private constructor
     }
 
   override fun onRedstone(onDoor: Door): Boolean {
-    return if (settings.pairRedstone && settings.pairRedstoneSync) {
-      if (settings.pairRedstoneReset && resetIn(settings.pairRedstoneResetTicks, !powered)) {
+    return if (settings.redstone && settings.redstoneSync) {
+      if (settings.redstoneReset && resetIn(settings.redstoneResetTicks, !powered)) {
         return true
       }
 
@@ -86,12 +86,12 @@ abstract class DoubleDoor private constructor
     : super(left, right, open, settings)
 
     override fun onInteract(onDoor: Door): Boolean {
-      return if (settings.pairInteract && settings.pairInteractSync) {
+      return if (settings.interact && settings.interactSync) {
         playSound(!inverted)
         toggle()
 
-        if (settings.pairInteractReset) {
-          resetIn(settings.pairInteractResetTicks, inverted)
+        if (settings.interactReset) {
+          resetIn(settings.interactResetTicks, inverted)
         }
 
         false
@@ -106,12 +106,12 @@ abstract class DoubleDoor private constructor
     : super(left, right, open, settings)
 
     override fun onInteract(onDoor: Door): Boolean {
-      return if (settings.pairInteract && settings.pairInteractSync) {
+      return if (settings.interact && settings.interactSync) {
         onDoor.overrideOpen(!inverted)
         toggle()
 
-        if (settings.pairInteractReset) {
-          resetIn(settings.pairInteractResetTicks, inverted)
+        if (settings.interactReset) {
+          resetIn(settings.interactResetTicks, inverted)
         }
 
         false

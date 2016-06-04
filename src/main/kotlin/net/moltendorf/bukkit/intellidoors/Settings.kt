@@ -10,7 +10,7 @@ import java.util.*
  * @author moltendorf
  */
 class Settings() {
-  private val doors = HashMap<Material, TypeSettings>()
+  private val doors = HashMap<Material, Variation>()
 
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
   var interact = false
@@ -83,35 +83,41 @@ class Settings() {
           continue
         }
 
-        val settings = TypeSettings(
+        val settings = Variation(
           type,
 
           // Single
-          "single.interact.enabled".getBoolean(typeSub, true),
-          "single.interact.reset.enabled".getBoolean(typeSub, true),
-          "single.interact.reset.ticks".getLong(typeSub, 100),
+          TypeSettings(
+            "single.interact.enabled".getBoolean(typeSub, true),
+            false,
+            "single.interact.reset.enabled".getBoolean(typeSub, true),
+            "single.interact.reset.ticks".getLong(typeSub, 100),
 
-          "single.redstone.enabled".getBoolean(typeSub, true),
-          "single.redstone.reset.enabled".getBoolean(typeSub, true),
-          "single.redstone.reset.ticks".getLong(typeSub, 20),
+            "single.redstone.enabled".getBoolean(typeSub, true),
+            false,
+            "single.redstone.reset.enabled".getBoolean(typeSub, true),
+            "single.redstone.reset.ticks".getLong(typeSub, 20)
+          ),
 
           // Pairs
-          "pair.interact.enabled".getBoolean(typeSub, true, true),
-          "pair.interact.sync".getBoolean(typeSub, true, true),
-          "pair.interact.reset.enabled".getBoolean(typeSub, true, true),
-          "pair.interact.reset.ticks".getLong(typeSub, 100, true),
+          TypeSettings(
+            "pair.interact.enabled".getBoolean(typeSub, true, true),
+            "pair.interact.sync".getBoolean(typeSub, true, true),
+            "pair.interact.reset.enabled".getBoolean(typeSub, true, true),
+            "pair.interact.reset.ticks".getLong(typeSub, 100, true),
 
-          "pair.redstone.enabled".getBoolean(typeSub, true, true),
-          "pair.redstone.sync".getBoolean(typeSub, true, true),
-          "pair.redstone.reset.enabled".getBoolean(typeSub, true, true),
-          "pair.redstone.reset.ticks".getLong(typeSub, 20, true)
+            "pair.redstone.enabled".getBoolean(typeSub, true, true),
+            "pair.redstone.sync".getBoolean(typeSub, true, true),
+            "pair.redstone.reset.enabled".getBoolean(typeSub, true, true),
+            "pair.redstone.reset.ticks".getLong(typeSub, 20, true)
+          )
         );
 
-        if (settings.singleInteract || settings.pairInteract) {
+        if (settings.single.interact || settings.pair.interact) {
           interact = true // Ensure interact listeners get enabled.
         }
 
-        if (settings.singleRedstone || settings.pairRedstone) {
+        if (settings.single.redstone || settings.pair.redstone) {
           redstone = true // Ensure redstone listeners get enabled.
         }
 
@@ -122,7 +128,7 @@ class Settings() {
     }
   }
 
-  operator fun get(material: Material): TypeSettings? {
+  operator fun get(material: Material): Variation? {
     return doors[material]
   }
 
@@ -202,22 +208,17 @@ class Settings() {
     return default
   }
 
+  data class Variation(val type: Type, val single: TypeSettings, val pair: TypeSettings)
+
   class TypeSettings(
-    val type: Type,
-    var singleInteract: Boolean,
-    var singleInteractReset: Boolean,
-    var singleInteractResetTicks: Long,
-    var singleRedstone: Boolean,
-    var singleRedstoneReset: Boolean,
-    var singleRedstoneResetTicks: Long,
-    var pairInteract: Boolean,
-    var pairInteractSync: Boolean,
-    var pairInteractReset: Boolean,
-    var pairInteractResetTicks: Long,
-    var pairRedstone: Boolean,
-    var pairRedstoneSync: Boolean,
-    var pairRedstoneReset: Boolean,
-    var pairRedstoneResetTicks: Long
+    var interact: Boolean,
+    var interactSync: Boolean,
+    var interactReset: Boolean,
+    var interactResetTicks: Long,
+    var redstone: Boolean,
+    var redstoneSync: Boolean,
+    var redstoneReset: Boolean,
+    var redstoneResetTicks: Long
   );
 
   enum class Type {
