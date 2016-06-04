@@ -61,7 +61,7 @@ interface Door {
     val timer = IntelliDoors.instance.timer
 
     return if (state) {
-      timer.shutDoorIn(this, delay)
+      timer.resetDoorIn(this, delay)
       true
     } else {
       timer.cancel(this)

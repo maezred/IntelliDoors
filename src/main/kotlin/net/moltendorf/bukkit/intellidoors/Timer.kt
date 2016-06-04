@@ -10,7 +10,7 @@ import java.util.*
 class Timer {
   private val doors = HashMap<Door, BukkitTask>();
 
-  fun shutDoorIn(door: Door, ticks: Long) {
+  fun resetDoorIn(door: Door, ticks: Long) {
     // Cancel any currently pending shut action.
     cancel(door)
 
@@ -32,7 +32,7 @@ class Timer {
     doors.remove(door)?.cancel()
   }
 
-  fun shutAllDoors() {
+  fun resetAllDoors() {
     for ((door, task) in doors) {
       task.cancel()
 
