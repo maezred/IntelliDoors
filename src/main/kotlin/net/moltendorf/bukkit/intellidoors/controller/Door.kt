@@ -33,6 +33,10 @@ interface Door {
 
   fun onRedstone(onDoor: Door): Boolean {
     return if (settings.redstone) {
+      if (open == powered) {
+        return true
+      }
+
       if (settings.redstoneReset && resetIn(settings.redstoneResetTicks, !powered)) {
         return true
       }
