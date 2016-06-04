@@ -25,25 +25,9 @@ interface Door {
       open = value != powered
     }
 
-  fun toggle() {
-    inverted = !inverted
-  }
-
   fun interactReset() {
     if (settings.singleInteractReset) {
       resetIn(settings.singleInteractResetTicks, inverted)
-    }
-  }
-
-  fun resetIn(delay: Long, state: Boolean): Boolean {
-    val timer = IntelliDoors.instance.timer
-
-    return if (state) {
-      timer.shutDoorIn(this, delay)
-      true
-    } else {
-      timer.cancel(this)
-      false
     }
   }
 
@@ -62,6 +46,22 @@ interface Door {
 
   fun playSound(open: Boolean) {
     location.world.playSound(location, sound(open), 1f, 1f)
+  }
+
+  fun resetIn(delay: Long, state: Boolean): Boolean {
+    val timer = IntelliDoors.instance.timer
+
+    return if (state) {
+      timer.shutDoorIn(this, delay)
+      true
+    } else {
+      timer.cancel(this)
+      false
+    }
+  }
+
+  fun toggle() {
+    inverted = !inverted
   }
 
   fun onInteract(onDoor: Door): Boolean
