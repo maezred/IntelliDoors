@@ -79,7 +79,7 @@ interface Door {
         toggle()
         interactReset()
       } else if (this is Group) {
-        onDoor.onInteract(onDoor)
+        return onDoor.onInteract(onDoor)
       }
 
       return false
@@ -103,9 +103,9 @@ interface Door {
       } else {
         if (this is Group) {
           onDoor.onInteract(onDoor)
+        } else {
+          true // Prevent door from opening.
         }
-
-        true // Prevent door from opening.
       }
     }
 
