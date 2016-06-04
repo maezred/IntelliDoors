@@ -34,6 +34,8 @@ interface Door {
   fun onRedstone(onDoor: Door): Boolean {
     return if (settings.redstone) {
       if (!inverted) {
+        IntelliDoors.instance.timer.cancel(this)
+
         return true
       }
 
