@@ -93,8 +93,10 @@ interface Door {
   interface Wood : Door {
     override fun onInteract(onDoor: Door): Boolean {
       return if (settings.interact) {
-        onDoor.overrideOpen(!inverted)
-        toggle()
+        val isOpen = !open
+
+        onDoor.overrideOpen(isOpen)
+        open = isOpen
         interactReset()
 
         false
