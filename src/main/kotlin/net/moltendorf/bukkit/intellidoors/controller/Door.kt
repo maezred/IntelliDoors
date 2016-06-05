@@ -117,7 +117,7 @@ interface Door {
     }
 
     override fun sound(open: Boolean): Sound {
-      return if (open) Sound.BLOCK_IRON_DOOR_OPEN else Sound.BLOCK_IRON_DOOR_CLOSE
+      return if (open) Sound.BLOCK_WOODEN_DOOR_OPEN else Sound.BLOCK_WOODEN_DOOR_CLOSE
     }
   }
 
