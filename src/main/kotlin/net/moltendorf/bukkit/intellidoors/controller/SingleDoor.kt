@@ -11,8 +11,10 @@ import org.bukkit.block.BlockFace
  * @author moltendorf
  */
 abstract class SingleDoor private constructor
-(val top: Block, bottom: Block, settings: Settings) : SimpleDoor(bottom, settings) {
-  override val location = bottom.location.toVector().getMidpoint(top.location.toVector()).toLocation(bottom.location.world)
+(val topBlock: Block, bottom: Block, settings: Settings) : SimpleDoor(bottom, settings) {
+  val topState = topBlock.state
+
+  override val location = bottom.location.toVector().getMidpoint(topState.location.toVector()).toLocation(bottom.location.world)
 
   val left: Boolean
     get() = topData and 1 == 0
@@ -21,9 +23,9 @@ abstract class SingleDoor private constructor
     get() = topData and 1 == 1
 
   override val powered: Boolean
-    get() = super.powered || top.isBlockIndirectlyPowered
+    get() = super.powered || topBlock.isBlockIndirectlyPowered
 
-  var topData = top.data.toInt()
+  var topData = topState.rawData.toInt()
     private set
 
   var bottomData: Int

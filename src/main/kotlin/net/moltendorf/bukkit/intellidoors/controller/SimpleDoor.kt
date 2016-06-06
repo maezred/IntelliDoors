@@ -10,19 +10,21 @@ import org.bukkit.block.BlockFace
  * Created by moltendorf on 16/5/2.
  */
 abstract class SimpleDoor(val block: Block, settings: Settings) : BaseDoor(settings) {
+  val state = block.state
+
   override val facing: BlockFace
     get() = FACING[data and 3]
 
   override val location: Location
-    get() = block.location
+    get() = state.location
 
   override val powered: Boolean
     get() = block.isBlockIndirectlyPowered
 
   override val type: Material
-    get() = block.type
+    get() = state.type
 
-  var data: Int = block.data.toInt()
+  var data: Int = state.rawData.toInt()
     protected set
 
   override var open: Boolean
@@ -32,7 +34,8 @@ abstract class SimpleDoor(val block: Block, settings: Settings) : BaseDoor(setti
     set(value) {
       if (open != value) {
         data += if (value) 4 else -4
-        block.setData(data.toByte(), false)
+        state.rawData = data.toByte()
+        state.update(false, false)
       }
     }
 

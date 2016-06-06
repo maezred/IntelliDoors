@@ -41,10 +41,10 @@ abstract class DoubleDoor private constructor
 
       if (door.left) {
         left = door
-        right = otherDoor(door, door.top.getRelative(door.facing)) ?: return null
+        right = otherDoor(door, door.topBlock.getRelative(door.facing)) ?: return null
       } else {
         right = door
-        left = otherDoor(door, door.top.getRelative(door.facing, -1)) ?: return null
+        left = otherDoor(door, door.topBlock.getRelative(door.facing, -1)) ?: return null
       }
 
       return if (door.type == Material.IRON_DOOR_BLOCK) {
@@ -56,7 +56,7 @@ abstract class DoubleDoor private constructor
 
     private fun otherDoor(door: SingleDoor, block: Block): SingleDoor? {
       // Check if it's the same type and also the top of the door.
-      if (block.type == door.top.type && block.data.toInt() and 8 == 8) {
+      if (block.type == door.topState.type && block.data.toInt() and 8 == 8) {
         val otherDoor = SingleDoor(block, door.settings) ?: return null
 
         if (door.facing == otherDoor.facing && door.left == otherDoor.right) {
