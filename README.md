@@ -2,6 +2,7 @@ IntelliDoors
 ============
 
 > Plugin for Bukkit/Spigot (a mod for Minecraft).
+> Compatible with 1.9/1.9.1/1.9.2/1.9.3/1.9.4
 
 ## Overview
 
@@ -15,6 +16,9 @@ IntelliDoors provides additional functionality for doors, including:
 All features are fully configurable. Each type of door can be configured individually.
 
 Source code is available on [GitHub](https://github.com/moltendorf/IntelliDoors).
+
+Like what I've made? Support me by giving me a star, following me, or feel free to send me money [here]
+(https://www.paypal.me/moltendorf). Thanks!
 
 ## Downloads
 
