@@ -1,5 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
+import net.moltendorf.bukkit.intellidoors.intData
 import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -28,10 +29,18 @@ abstract class DoubleDoor private constructor
       field = value
     }
 
-  override fun overrideOpen(value: Boolean) {
-    left.overrideOpen(value)
-    right.overrideOpen(value)
-    inverted = value
+  override fun update(): Boolean {
+    if (left.update()) {
+      right.update()
+
+      return true
+    }
+
+    if (right.update()) {
+      return true
+    }
+
+    return false
   }
 
   companion object {
@@ -56,7 +65,7 @@ abstract class DoubleDoor private constructor
 
     private fun otherDoor(door: SingleDoor, block: Block): SingleDoor? {
       // Check if it's the same type and also the top of the door.
-      if (block.type == door.topState.type && block.data.toInt() and 8 == 8) {
+      if (block.type == door.topState.type && block.intData and 8 == 8) {
         val otherDoor = SingleDoor(block, door.settings) ?: return null
 
         if (door.facing == otherDoor.facing && door.left == otherDoor.right) {

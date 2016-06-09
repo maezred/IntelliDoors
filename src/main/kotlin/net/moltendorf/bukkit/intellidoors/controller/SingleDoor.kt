@@ -1,5 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
+import net.moltendorf.bukkit.intellidoors.intData
 import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -17,26 +18,17 @@ abstract class SingleDoor private constructor
   override val location = bottom.location.toVector().getMidpoint(topState.location.toVector()).toLocation(bottom.location.world)
 
   val left: Boolean
-    get() = topData and 1 == 0
+    get() = topState.intData and 1 == 0
 
   val right: Boolean
-    get() = topData and 1 == 1
+    get() = topState.intData and 1 == 1
 
   override val powered: Boolean
     get() = super.powered || topBlock.isBlockIndirectlyPowered
 
-  var topData = topState.rawData.toInt()
-    private set
-
-  var bottomData: Int
-    get() = data
-    private set(value) {
-      data = value
-    }
-
   companion object {
     operator fun invoke(block: Block, settings: Settings): SingleDoor? {
-      when (block.type) {
+      return when (block.type) {
         Material.IRON_DOOR_BLOCK,
         Material.ACACIA_DOOR,
         Material.BIRCH_DOOR,
@@ -44,11 +36,10 @@ abstract class SingleDoor private constructor
         Material.JUNGLE_DOOR,
         Material.SPRUCE_DOOR,
         Material.WOODEN_DOOR -> {
-          val data = block.data.toInt()
           val top: Block
           val bottom: Block
 
-          if (data and 8 == 8) {
+          if (block.intData and 8 == 8) {
             // Top of door.
             top = block
             bottom = block.getRelative(BlockFace.DOWN)
@@ -64,11 +55,12 @@ abstract class SingleDoor private constructor
             } else {
               Wood(top, bottom, settings)
             }
+          } else {
+            null
           }
         }
+        else -> null
       }
-
-      return null
     }
   }
 

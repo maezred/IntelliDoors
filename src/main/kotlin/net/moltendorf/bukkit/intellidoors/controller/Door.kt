@@ -45,6 +45,7 @@ interface Door {
 
       playSound(powered)
       open = powered
+      update()
       true
     } else {
       if (this is Group) {
@@ -72,18 +73,19 @@ interface Door {
   }
 
   fun toggle() {
-    inverted = !inverted
+    open = !open
   }
 
   fun onInteract(onDoor: Door): Boolean
-  fun overrideOpen(value: Boolean)
   fun sound(open: Boolean): Sound
+  fun update(): Boolean
 
   interface Iron : Door {
     override fun onInteract(onDoor: Door): Boolean {
       if (settings.interact) {
         playSound(!open)
         toggle()
+        update()
         interactReset()
       } else if (this is Group) {
         return onDoor.onInteract(onDoor)
@@ -100,10 +102,13 @@ interface Door {
   interface Wood : Door {
     override fun onInteract(onDoor: Door): Boolean {
       return if (settings.interact) {
-        val isOpen = !open
+        toggle()
 
-        onDoor.overrideOpen(isOpen)
-        open = isOpen
+        if (onDoor !== this) {
+          onDoor.toggle()
+          update()
+        }
+
         interactReset()
 
         false

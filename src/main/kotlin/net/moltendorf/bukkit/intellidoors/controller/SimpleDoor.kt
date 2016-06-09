@@ -1,5 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
+import net.moltendorf.bukkit.intellidoors.intData
 import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Location
 import org.bukkit.Material
@@ -13,7 +14,7 @@ abstract class SimpleDoor(val block: Block, settings: Settings) : BaseDoor(setti
   val state = block.state
 
   override val facing: BlockFace
-    get() = FACING[data and 3]
+    get() = FACING[state]
 
   override val location: Location
     get() = state.location
@@ -24,24 +25,15 @@ abstract class SimpleDoor(val block: Block, settings: Settings) : BaseDoor(setti
   override val type: Material
     get() = state.type
 
-  var data: Int = state.rawData.toInt()
-    protected set
+  override var open = state.intData and 4 == 4
 
-  override var open: Boolean
-    get() {
-      return data and 4 == 4
-    }
-    set(value) {
-      if (open != value) {
-        data += if (value) 4 else -4
-        state.rawData = data.toByte()
-        state.update(false, false)
-      }
+  override fun update(): Boolean {
+    if (open) {
+      state.apply(Flag.OPEN)
+    } else {
+      state.apply(Mask.CLOSED)
     }
 
-  override fun overrideOpen(value: Boolean) {
-    if (open != value) {
-      data += if (value) 4 else -4
-    }
+    return state.update(false, false)
   }
 }

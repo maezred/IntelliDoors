@@ -24,6 +24,7 @@ class Timer {
         // Shut the door!
         door.playSound(false)
         door.inverted = false
+        door.update()
       }
     }, ticks)
   }
@@ -39,6 +40,7 @@ class Timer {
       if (door.inverted) {
         door.playSound(false)
         door.inverted = false
+        door.update()
       }
     }
 
