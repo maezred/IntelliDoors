@@ -19,13 +19,7 @@ class Timer {
     doors[door] = instance.server.scheduler.runTaskLater(instance, {
       // This door is no longer pending to be shut.
       doors.remove(door)
-
-      if (door.inverted) {
-        // Shut the door!
-        door.playSound(false)
-        door.inverted = false
-        door.update()
-      }
+      door.reset()
     }, ticks)
   }
 
@@ -36,12 +30,7 @@ class Timer {
   fun resetAllDoors() {
     for ((door, task) in doors) {
       task.cancel()
-
-      if (door.inverted) {
-        door.playSound(false)
-        door.inverted = false
-        door.update()
-      }
+      door.reset()
     }
 
     doors.clear()

@@ -43,9 +43,12 @@ interface Door {
         return true
       }
 
-      playSound(powered)
       open = powered
-      update()
+
+      if (update()) {
+        playSound(open)
+      }
+
       true
     } else {
       if (this is Group) {
@@ -58,6 +61,16 @@ interface Door {
 
   fun playSound(open: Boolean) {
     location.world.playSound(location, sound(open), 1f, 1f)
+  }
+
+  fun reset() {
+    if (inverted) {
+      inverted = false
+
+      if (update()) {
+        playSound(false)
+      }
+    }
   }
 
   fun resetIn(delay: Long, state: Boolean): Boolean {
@@ -83,9 +96,12 @@ interface Door {
   interface Iron : Door {
     override fun onInteract(onDoor: Door): Boolean {
       if (settings.interact) {
-        playSound(!open)
         toggle()
-        update()
+
+        if (update()) {
+          playSound(open)
+        }
+
         interactReset()
       } else if (this is Group) {
         return onDoor.onInteract(onDoor)
