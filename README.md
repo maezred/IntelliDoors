@@ -2,7 +2,7 @@ IntelliDoors
 ============
 
 > Plugin for Bukkit/Spigot (a mod for Minecraft).
-> Compatible with 1.9/1.9.1/1.9.2/1.9.3/1.9.4
+> Compatible with **1.9** (1.9.1/1.9.2/1.9.3/1.9.4), and **1.10**
 
 ## Overview
 
