@@ -34,7 +34,9 @@ abstract class BaseDoor(override val settings: Settings) : Door {
 
   companion object {
     object FACING {
-      val directions = arrayOf(BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST)
+      val directions = arrayOf(
+        BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH
+      )
 
       operator fun get(index: Int): BlockFace {
         return directions[index]
