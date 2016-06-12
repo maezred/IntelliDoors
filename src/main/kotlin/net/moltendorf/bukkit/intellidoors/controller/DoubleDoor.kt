@@ -50,10 +50,10 @@ abstract class DoubleDoor private constructor
 
       if (door.left) {
         left = door
-        right = otherDoor(door, door.topBlock.getRelative(door.facing)) ?: return null
+        right = otherDoor(door, door.topBlock.getRelative(rotate(door.facing, 1))) ?: return null
       } else {
         right = door
-        left = otherDoor(door, door.topBlock.getRelative(door.facing, -1)) ?: return null
+        left = otherDoor(door, door.topBlock.getRelative(rotate(door.facing, 3))) ?: return null
       }
 
       return if (door.type == Material.IRON_DOOR_BLOCK) {

@@ -17,6 +17,9 @@ abstract class SingleDoor private constructor
 
   override val location = bottom.location.toVector().getMidpoint(topState.location.toVector()).toLocation(bottom.location.world)
 
+  override val facing: BlockFace
+    get() = FACING[state.intData and 3]
+
   val left: Boolean
     get() = topState.intData and 1 == 0
 
@@ -27,6 +30,8 @@ abstract class SingleDoor private constructor
     get() = super.powered || topBlock.isBlockIndirectlyPowered
 
   companion object {
+    val FACING = listOf(BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH)
+
     operator fun invoke(block: Block, settings: Settings): SingleDoor? {
       return when (block.type) {
         Material.IRON_DOOR_BLOCK,

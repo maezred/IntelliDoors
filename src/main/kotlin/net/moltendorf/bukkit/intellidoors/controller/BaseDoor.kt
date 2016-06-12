@@ -33,18 +33,14 @@ abstract class BaseDoor(override val settings: Settings) : Door {
   }
 
   companion object {
-    object FACING {
-      val directions = arrayOf(
-        BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH
-      )
+    val faces = listOf(
+      BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH
+    )
 
-      operator fun get(index: Int): BlockFace {
-        return directions[index]
-      }
+    val lookup = mapOf(Pair(BlockFace.NORTH, 0), Pair(BlockFace.EAST, 1), Pair(BlockFace.SOUTH, 2), Pair(BlockFace.WEST, 3))
 
-      operator fun get(state: BlockState): BlockFace {
-        return get(state.intData and 3)
-      }
+    fun rotate(value: BlockFace, amount: Int): BlockFace {
+      return faces[lookup[value]!! + amount]
     }
   }
 

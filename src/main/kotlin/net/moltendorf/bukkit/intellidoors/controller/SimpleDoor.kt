@@ -5,16 +5,12 @@ import net.moltendorf.bukkit.intellidoors.settings.Settings
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.block.BlockFace
 
 /**
  * Created by moltendorf on 16/5/2.
  */
 abstract class SimpleDoor(val block: Block, settings: Settings) : BaseDoor(settings) {
   val state = block.state
-
-  override val facing: BlockFace
-    get() = FACING[state]
 
   override val location: Location
     get() = state.location
