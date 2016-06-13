@@ -20,7 +20,11 @@ data class DoorEvent private constructor(val door: Door, val onDoor: Door = door
           DoorEvent(DoubleDoor(singleDoor, settings.pair) ?: singleDoor, singleDoor)
         }
 
-        Variations.Type.TRAP -> DoorEvent(TrapDoor(block, settings.single) ?: return null)
+        Variations.Type.TRAP -> {
+          val trapDoor = TrapDoor(block, settings.single) ?: return null
+          DoorEvent(MultiTrapDoor(trapDoor, settings.pair) ?: trapDoor, trapDoor)
+        }
+
         Variations.Type.GATE -> DoorEvent(FenceGate(block, settings.single) ?: return null)
       }
     }
