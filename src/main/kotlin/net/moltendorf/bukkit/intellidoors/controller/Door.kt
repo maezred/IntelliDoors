@@ -1,7 +1,7 @@
 package net.moltendorf.bukkit.intellidoors.controller
 
-import net.moltendorf.bukkit.intellidoors.IntelliDoors
 import net.moltendorf.bukkit.intellidoors.settings.Settings
+import net.moltendorf.bukkit.intellidoors.timer
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -34,7 +34,7 @@ interface Door {
   fun onRedstone(onDoor: Door): Boolean {
     return if (settings.redstone) {
       if (!inverted) {
-        IntelliDoors.instance.timer.cancel(this)
+        timer.cancel(this)
 
         return true
       }
@@ -74,8 +74,6 @@ interface Door {
   }
 
   fun resetIn(delay: Long, state: Boolean): Boolean {
-    val timer = IntelliDoors.instance.timer
-
     return if (state) {
       timer.resetDoorIn(this, delay)
       true

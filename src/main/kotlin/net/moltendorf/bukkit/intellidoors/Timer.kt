@@ -15,8 +15,7 @@ class Timer {
     cancel(door)
 
     // (Re-)schedule the door to be shut.
-    val instance = IntelliDoors.instance
-    doors[door] = instance.server.scheduler.runTaskLater(instance, {
+    doors[door] = scheduler.runTaskLater(instance, {
       // This door is no longer pending to be shut.
       doors.remove(door)
       door.reset()

@@ -1,6 +1,6 @@
 package net.moltendorf.bukkit.intellidoors.listener
 
-import net.moltendorf.bukkit.intellidoors.IntelliDoors
+import net.moltendorf.bukkit.intellidoors.enabled
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockPhysicsEvent
 class Redstone() : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
   fun blockPhysicsEventHandler(event: BlockPhysicsEvent) {
-    if (!IntelliDoors.enabled) {
+    if (!enabled) {
       return
     }
 

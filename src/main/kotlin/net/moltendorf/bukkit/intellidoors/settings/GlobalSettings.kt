@@ -1,6 +1,8 @@
 package net.moltendorf.bukkit.intellidoors.settings
 
-import net.moltendorf.bukkit.intellidoors.IntelliDoors
+import net.moltendorf.bukkit.intellidoors.config
+import net.moltendorf.bukkit.intellidoors.instance
+import net.moltendorf.bukkit.intellidoors.log
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import java.util.*
@@ -18,9 +20,6 @@ class GlobalSettings() {
   var redstone = false
 
   init {
-    val instance = IntelliDoors.instance
-    val log = instance.logger
-
     // Make sure the default configuration is saved.
     instance.saveDefaultConfig()
 
@@ -131,10 +130,6 @@ class GlobalSettings() {
   }
 
   private fun String.getBoolean(sub: ConfigurationSection, default: Boolean, optional: Boolean = false): Boolean {
-    val instance = IntelliDoors.instance
-    val config = instance.config
-    val log = instance.logger
-
     if (sub.contains(this)) {
       if (sub.isBoolean(this)) {
         return sub.getBoolean(this, default)
@@ -169,10 +164,6 @@ class GlobalSettings() {
   }
 
   private fun String.getLong(sub: ConfigurationSection, default: Long, optional: Boolean = false): Long {
-    val instance = IntelliDoors.instance
-    val config = instance.config
-    val log = instance.logger
-
     if (sub.contains(this)) {
       if (sub.isInt(this) || sub.isLong(this)) {
         return sub.getLong(this, default)
