@@ -69,6 +69,13 @@ abstract class MultiTrapDoor private constructor
       left = door
       right = TrapDoor(door.block.getRelative(left.facing), door.settings) ?: return null
 
+      val leftFacing = left.facing
+      val rightFacing = right.facing
+
+      if (leftFacing !== rotate(rightFacing, 2)) {
+        return null
+      }
+
       val leftList = ArrayList<TrapDoor>()
       val rightList = ArrayList<TrapDoor>()
       var direction = rotate(left.facing, 1)
@@ -79,6 +86,10 @@ abstract class MultiTrapDoor private constructor
 
         left = TrapDoor(left.block.getRelative(direction), door.settings) ?: break
         right = TrapDoor(right.block.getRelative(direction), door.settings) ?: break
+
+        if (left.facing !== leftFacing || right.facing !== rightFacing) {
+          break
+        }
       }
 
       left = leftList[0]
@@ -89,6 +100,10 @@ abstract class MultiTrapDoor private constructor
       while (true) {
         left = TrapDoor(left.block.getRelative(direction), door.settings) ?: break
         right = TrapDoor(right.block.getRelative(direction), door.settings) ?: break
+
+        if (left.facing !== leftFacing || right.facing !== rightFacing) {
+          break
+        }
 
         leftList.add(0, left)
         rightList.add(0, right)
