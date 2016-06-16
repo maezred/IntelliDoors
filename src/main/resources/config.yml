@@ -103,6 +103,19 @@ doors:
         reset:
           enabled: single.redstone.reset.enabled # Delay resetting of single doors when power is lost.
           ticks: single.redstone.reset.ticks # Delay (in ticks) before resetting.
+    pair:
+      interact:
+        enabled: true # Allow door pairs to be interacted with.
+        sync: pair.interact.sync # Sync door pairs together when they've been interacted with.
+        reset:
+          enabled: pair.interact.reset.enabled # Reset door pairs after they've been interacted with.
+          ticks: pair.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow door pairs to react to redstone power.
+        sync: pair.redstone.sync # Sync door pairs together when redstone power changes.
+        reset:
+          enabled: pair.redstone.reset.enabled # Delay resetting of door pairs when power is lost.
+          ticks: pair.redstone.reset.ticks # Delay (in ticks) before resetting.
 
   iron-trapdoor: # Name can be anything, but has to be unique.
     type: trap # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
@@ -119,6 +132,19 @@ doors:
         reset:
           enabled: single.redstone.reset.enabled # Delay resetting of single doors when power is lost.
           ticks: single.redstone.reset.ticks # Delay (in ticks) before resetting.
+    pair:
+      interact:
+        enabled: false # Allow door pairs to be interacted with.
+        sync: pair.interact.sync # Sync door pairs together when they've been interacted with.
+        reset:
+          enabled: pair.interact.reset.enabled # Reset door pairs after they've been interacted with.
+          ticks: pair.interact.reset.ticks # Delay (in ticks) before resetting.
+      redstone:
+        enabled: true # Allow door pairs to react to redstone power.
+        sync: pair.redstone.sync # Sync door pairs together when redstone power changes.
+        reset:
+          enabled: pair.redstone.reset.enabled # Delay resetting of door pairs when power is lost.
+          ticks: pair.redstone.reset.ticks # Delay (in ticks) before resetting.
 
   fence-gate: # Name can be anything, but has to be unique.
     type: gate # Use "door" for regular doors (wooden or iron), "trap" for trap doors, and "gate" for fence gates.
