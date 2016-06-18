@@ -166,3 +166,6 @@ doors:
         reset:
           enabled: single.redstone.reset.enabled # Delay resetting of single doors when power is lost.
           ticks: single.redstone.reset.ticks # Delay (in ticks) before resetting.
+
+# Config version. Do not change: used for automatic upgrades of config.
+version: 5
