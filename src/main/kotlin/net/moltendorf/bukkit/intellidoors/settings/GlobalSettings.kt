@@ -14,10 +14,12 @@ import java.util.*
  */
 class GlobalSettings() {
   private val doors = HashMap<Material, Variations>()
+  private val names = HashMap<String, Variations>()
 
   var enabled = true // Whether or not the plugin is enabled at all; interface mode.
   var interact = false
   var redstone = false
+  var version = 0
 
   init {
     // Make sure the default configuration is saved.
@@ -26,6 +28,7 @@ class GlobalSettings() {
     val config = instance.config
 
     enabled = config.getBoolean("enabled", enabled)
+    version = config.getInt("version", version)
 
     val doorSub = config.getConfigurationSection("doors")
 
@@ -84,6 +87,8 @@ class GlobalSettings() {
           continue
         }
 
+        val optional = type == Variations.Type.GATE
+
         val settings = Variations(
           type,
 
@@ -100,15 +105,17 @@ class GlobalSettings() {
 
           // Pairs
           Settings(
-            "pair.interact.enabled".getBoolean(typeSub, true, true) && "pair.interact.sync".getBoolean(typeSub, true, true),
-            "pair.interact.reset.enabled".getBoolean(typeSub, true, true),
-            "pair.interact.reset.ticks".getLong(typeSub, 100, true),
+            "pair.interact.enabled".getBoolean(typeSub, true, optional) &&
+              "pair.interact.sync".getBoolean(typeSub, true, optional),
+            "pair.interact.reset.enabled".getBoolean(typeSub, true, optional),
+            "pair.interact.reset.ticks".getLong(typeSub, 100, optional),
 
-            "pair.redstone.enabled".getBoolean(typeSub, true, true) && "pair.redstone.sync".getBoolean(typeSub, true, true),
-            "pair.redstone.reset.enabled".getBoolean(typeSub, true, true),
-            "pair.redstone.reset.ticks".getLong(typeSub, 20, true)
+            "pair.redstone.enabled".getBoolean(typeSub, true, optional) &&
+              "pair.redstone.sync".getBoolean(typeSub, true, optional),
+            "pair.redstone.reset.enabled".getBoolean(typeSub, true, optional),
+            "pair.redstone.reset.ticks".getLong(typeSub, 20, optional)
           )
-        );
+        )
 
         if (settings.single.interact || settings.pair.interact) {
           interact = true // Ensure interact listeners get enabled.
@@ -117,6 +124,8 @@ class GlobalSettings() {
         if (settings.single.redstone || settings.pair.redstone) {
           redstone = true // Ensure redstone listeners get enabled.
         }
+
+        names[key] = settings
 
         for (material in materials) {
           doors[material] = settings
@@ -129,10 +138,14 @@ class GlobalSettings() {
     return doors[material]
   }
 
+  operator fun get(name: String): Variations? {
+    return names[name]
+  }
+
   private fun String.getBoolean(sub: ConfigurationSection, default: Boolean, optional: Boolean = false): Boolean {
     if (sub.contains(this)) {
       if (sub.isBoolean(this)) {
-        return sub.getBoolean(this, default)
+        return sub.getBoolean(this)
       }
 
       if (sub.isString(this)) {
@@ -152,12 +165,12 @@ class GlobalSettings() {
       }
     }
 
-    if (config.contains(this) && config.isBoolean(this)) {
-      return config.getBoolean(this, default)
-    }
-
     if (!optional) {
       log.warning("Config: ${sub.currentPath}.$this has no value")
+    }
+
+    if (config.contains(this) && config.isBoolean(this)) {
+      return config.getBoolean(this, default)
     }
 
     return default
@@ -166,7 +179,7 @@ class GlobalSettings() {
   private fun String.getLong(sub: ConfigurationSection, default: Long, optional: Boolean = false): Long {
     if (sub.contains(this)) {
       if (sub.isInt(this) || sub.isLong(this)) {
-        return sub.getLong(this, default)
+        return sub.getLong(this)
       }
 
       if (sub.isString(this)) {
@@ -186,15 +199,14 @@ class GlobalSettings() {
       }
     }
 
-    if (config.contains(this) && (config.isInt(this) || config.isLong(this))) {
-      return config.getLong(this, default)
-    }
-
     if (!optional) {
       log.warning("Config: ${sub.currentPath}.$this has no value")
     }
 
+    if (config.contains(this) && (config.isInt(this) || config.isLong(this))) {
+      return config.getLong(this, default)
+    }
+
     return default
   }
-
 }
