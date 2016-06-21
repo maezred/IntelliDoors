@@ -6,7 +6,7 @@
 
   <groupId>net.moltendorf.bukkit.intellidoors</groupId>
   <artifactId>IntelliDoors</artifactId>
-  <version>1.9r4</version>
+  <version>1.9r5</version>
 
   <name>${artifactId}</name>
   <description>Open and close doors with ease.</description>
