@@ -3,6 +3,7 @@ package net.moltendorf.bukkit.intellidoors
 import net.moltendorf.bukkit.intellidoors.listener.Interact
 import net.moltendorf.bukkit.intellidoors.listener.Redstone
 import net.moltendorf.bukkit.intellidoors.settings.GlobalSettings
+import net.moltendorf.bukkit.intellidoors.settings.upgradeSettings
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -22,6 +23,7 @@ class IntelliDoors : JavaPlugin() {
 
     // Construct new settings.
     settings = GlobalSettings()
+    upgradeSettings(settings)
 
     // Construct new timer.
     timer = Timer()
