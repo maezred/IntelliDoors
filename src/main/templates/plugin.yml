@@ -1,0 +1,6 @@
+name: ${project.name}
+version: ${project.version} (${date})
+description: ${project.description}
+author: ${author}
+website: ${website}
+main: ${project.group}.${project.ext.artifactId}.${project.name}

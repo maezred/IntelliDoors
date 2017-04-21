@@ -1,0 +1,127 @@
+buildscript {
+    ext.kotlin_version = '1.1.1'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+        classpath 'org.ajoberstar:gradle-git:+'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
+apply plugin: 'org.ajoberstar.grgit'
+apply plugin: 'org.ajoberstar.release-opinion'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+ext {
+    artifactId = project.name.toLowerCase()
+    isDirty = project.version.toString().contains("uncommitted")
+    isSnapshot = project.version.toString().contains("dev")
+}
+
+description = 'TNT can destroy other TNT.'
+group = "net.moltendorf.bukkit"
+
+sourceCompatibility = 1.8
+
+def date = new Date().format('YYYY/MM/dd HH:mm:ss')
+def author = "${grgit.log(maxCommits: 1).get(0).author.name} <${grgit.log(maxCommits: 1).get(0).author.email}>"
+def website = "https://github.com/moltendorf/${project.name}"
+
+tasks.build.mustRunAfter 'clean'
+
+tasks.processResources.dependsOn 'expandTemplates'
+tasks.shadowJar.dependsOn 'build'
+tasks.release.dependsOn 'clean', 'shadowJar'
+
+task expandTemplates(type: Copy) {
+    outputs.upToDateWhen { false }
+
+    from 'src/main/templates'
+    into "$buildDir/resources/main"
+
+    expand project: project, author: author, website: website, date: date
+}
+
+if (project.ext.isDirty) {
+    task copySources(type: Copy) {
+        outputs.upToDateWhen { false }
+
+        from "$projectDir/src"
+        into "$buildDir/resources/main/src"
+    }
+
+    tasks.processResources.dependsOn 'copySources'
+} else {
+    task deleteSources(type: Copy) {
+        delete "$buildDir/resources/main/src"
+    }
+
+    tasks.processResources.dependsOn 'deleteSources'
+}
+
+if (project.ext.isSnapshot) {
+    tasks.publish.dependsOn 'clean'
+}
+
+jar {
+    manifest.attributes 'Specification-Title': project.name,
+            'Specification-Vendor': author,
+            'Implementation-Title': "${project.group}.${project.ext.artifactId}.${project.name}",
+            'Implementation-Version': project.version
+}
+
+shadowJar {
+    baseName = project.name
+    version = project.version
+    classifier = null
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            groupId = project.group
+            artifactId = project.ext.artifactId
+
+            from components.shadow
+        }
+    }
+
+    repositories {
+        maven {
+            if (project.ext.isSnapshot) {
+                url "file://$projectDir/out/nexus/snapshots"
+            } else {
+                url "file://$projectDir/out/nexus/releases"
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public' }
+    maven { url 'https://fab.moltendorf.net/nexus/releases' }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlin_version}"
+
+    compile 'org.spigotmc:spigot-api:1.9+'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+configurations {
+    runtime.exclude module: 'spigot-api'
+}

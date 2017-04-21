@@ -1,5 +1,0 @@
-name: ${name}
-main: ${groupId}.${artifactId}
-version: ${version}-${maven.build.timestamp}
-description: ${description}
-author: moltendorf
