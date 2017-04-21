@@ -26,7 +26,7 @@ ext {
     isSnapshot = project.version.toString().contains("dev")
 }
 
-description = 'TNT can destroy other TNT.'
+description = 'Smarter doors for your Minecraft world!'
 group = "net.moltendorf.bukkit"
 
 sourceCompatibility = 1.8
