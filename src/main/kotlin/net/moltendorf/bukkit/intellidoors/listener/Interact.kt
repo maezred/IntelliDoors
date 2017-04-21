@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot.HAND
 
 /**
  * Created by moltendorf on 15/05/23.
@@ -19,7 +20,7 @@ class Interact() : Listener {
       return
     }
 
-    if (event.action == Action.RIGHT_CLICK_BLOCK) {
+    if (event.action == Action.RIGHT_CLICK_BLOCK && event.hand == HAND) {
       val (door, onDoor) = DoorEvent(event.clickedBlock) ?: return
 
       if (door.onInteract(onDoor)) {
