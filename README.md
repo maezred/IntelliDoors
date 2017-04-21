@@ -1,11 +1,13 @@
 IntelliDoors
 ============
 
+**Smarter doors for your Minecraft world!**
+
 > Plugin for Bukkit/Spigot (a mod for Minecraft).
 >
 > Compatible with **1.11+** (1.11.1/1.11.2), **1.10** (1.10.1/1.10.2), and **1.9** (1.9.1/1.9.2/1.9.3/1.9.4)
 
-#### Please report all issues on [GitHub](https://github.com/moltendorf/IntelliDoors/issues), thank you!
+**Please report all issues on [GitHub](https://github.com/moltendorf/IntelliDoors/issues), thank you!**
 
 ## Overview
 
