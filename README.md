@@ -5,6 +5,8 @@ IntelliDoors
 >
 > Compatible with **1.11+** (1.11.1/1.11.2), **1.10** (1.10.1/1.10.2), and **1.9** (1.9.1/1.9.2/1.9.3/1.9.4)
 
+#### Please report all issues on [GitHub](https://github.com/moltendorf/IntelliDoors), thank you!
+
 ## Overview
 
 IntelliDoors provides additional functionality for doors, including:
@@ -37,5 +39,5 @@ Like what I've made? Support me by giving me a star, following me, or feel free 
 IntelliDoors is available for download at the following locations:
 
   - [SpigotMC](https://www.spigotmc.org/resources/intellidoors.24301/)
-  - [BukkitDev](http://dev.bukkit.org/bukkit-plugins/intellidoors/)
+  - [BukkitDev](https://dev.bukkit.org/projects/intellidoors)
   - [Archive](https://share.moltendorf.net/Projects/Bukkit/IntelliDoors/)
