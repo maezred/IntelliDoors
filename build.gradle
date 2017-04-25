@@ -23,24 +23,26 @@ apply plugin: 'com.github.johnrengelman.shadow'
 ext {
     artifactId = project.name.toLowerCase()
     author = grgit.log(maxCommits: 1).get(0).author
-    buildDate = new Date().format('YYYY/MM/dd HH:mm:ss')
-    isDirty = project.version.toString().contains("uncommitted")
-    isSnapshot = project.version.toString().contains("dev")
+    buildDateTime = new Date().format('YYYY/MM/dd HH:mm:ss')
+    buildDate = new Date().format('YYYY/MM/dd')
+    buildTime = new Date().format('HH:mm:ss')
+    isDirty = "${project.version}".contains('uncommitted')
+    isSnapshot = "${project.version}".contains('dev')
     website = "https://github.com/moltendorf/${project.name}"
 }
 
 description = 'Smarter doors for your Minecraft world!'
-group = "net.moltendorf.bukkit"
+group = 'net.moltendorf.bukkit'
 
 sourceCompatibility = 1.8
 
 task expandTemplates(type: Copy) {
     outputs.upToDateWhen { false }
 
-    from 'src/main/templates'
+    from "$projectDir/src/main/templates"
     into "$buildDir/resources/main"
 
-    expand project: project, author: author, website: website, date: date
+    expand project: project
 }
 
 task copySources(type: Copy) {
@@ -51,22 +53,25 @@ task copySources(type: Copy) {
 }
 
 task deleteSources(type: Copy) {
+    outputs.upToDateWhen { false }
+
     delete "$buildDir/resources/main/src"
 }
 
 tasks.build.mustRunAfter 'clean'
+tasks.expandTemplates.mustRunAfter 'copySources'
+tasks.processResources.mustRunAfter 'copySources'
+tasks.shadowJar.mustRunAfter 'jar'
 
+tasks.assemble.dependsOn 'shadowJar'
+tasks.copySources.dependsOn 'deleteSources'
 tasks.processResources.dependsOn 'expandTemplates'
-tasks.shadowJar.dependsOn 'build'
-tasks.release.dependsOn 'clean', 'shadowJar'
+tasks.publish.dependsOn 'clean', 'build'
+tasks.release.dependsOn 'publish'
 
 if (project.ext.isDirty) {
-    tasks.processResources.dependsOn 'copySources'
+    tasks.publish.dependsOn 'copySources'
 } else {
-    tasks.processResources.dependsOn 'deleteSources'
-}
-
-if (project.ext.isSnapshot) {
     tasks.publish.dependsOn 'clean'
 }
 
