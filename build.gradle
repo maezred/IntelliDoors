@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    ext.kotlin_version = '1.1.2'
 
     repositories {
         jcenter()
@@ -20,30 +20,27 @@ apply plugin: 'org.ajoberstar.grgit'
 apply plugin: 'org.ajoberstar.release-opinion'
 apply plugin: 'com.github.johnrengelman.shadow'
 
+def date = new Date()
+def lastCommit = grgit.log(maxCommits: 1).get(0)
+
 ext {
     artifactId = project.name.toLowerCase()
-    author = grgit.log(maxCommits: 1).get(0).author
-    buildDateTime = new Date().format('YYYY/MM/dd HH:mm:ss')
-    buildDate = new Date().format('YYYY/MM/dd')
-    buildTime = new Date().format('HH:mm:ss')
+    author = lastCommit.author
+    buildDateTime = date.format('YYYY/MM/dd HH:mm:ss zzz')
+    buildDate = date.format('YYYY/MM/dd')
+    buildTime = date.format('HH:mm:ss')
+    copyright = 2011 // Hardcoded for now.
     isDirty = "${project.version}".contains('uncommitted')
+    isRelease = !"${project.version}".contains('-')
     isSnapshot = "${project.version}".contains('dev')
     website = "https://github.com/moltendorf/${project.name}"
+    year = date.format('YYYY')
 }
 
 description = 'Smarter doors for your Minecraft world!'
 group = 'net.moltendorf.bukkit'
 
 sourceCompatibility = 1.8
-
-task expandTemplates(type: Copy) {
-    outputs.upToDateWhen { false }
-
-    from "$projectDir/src/main/templates"
-    into "$buildDir/resources/main"
-
-    expand project: project
-}
 
 task copySources(type: Copy) {
     outputs.upToDateWhen { false }
@@ -58,21 +55,51 @@ task deleteSources(type: Copy) {
     delete "$buildDir/resources/main/src"
 }
 
+task copyMeta(type: Copy) {
+    outputs.upToDateWhen { false }
+
+    from "$projectDir/src/main/templates"
+
+    include 'LICENSE'
+    include 'README.md'
+
+    expand project: project
+
+    into projectDir
+}
+
+task publishLatestArtifact(type: Copy) {
+    outputs.upToDateWhen { false }
+
+    from "$buildDir/libs"
+
+    include "${project.name}-${project.version}.jar"
+    rename { "${project.ext.artifactId}.jar" }
+
+    if (project.ext.isRelease) {
+        into "$projectDir/out/nexus/latest/release"
+    } else {
+        into "$projectDir/out/nexus/latest/snapshot"
+    }
+}
+
 tasks.build.mustRunAfter 'clean'
-tasks.expandTemplates.mustRunAfter 'copySources'
+tasks.copySources.mustRunAfter 'clean'
 tasks.processResources.mustRunAfter 'copySources'
 tasks.shadowJar.mustRunAfter 'jar'
 
 tasks.assemble.dependsOn 'shadowJar'
 tasks.copySources.dependsOn 'deleteSources'
-tasks.processResources.dependsOn 'expandTemplates'
-tasks.publish.dependsOn 'clean', 'build'
+tasks.publishLatestArtifact.dependsOn 'build', 'clean'
+tasks.publish.dependsOn 'publishLatestArtifact'
 tasks.release.dependsOn 'publish'
+
+if (project.ext.isRelease) {
+    tasks.release.dependsOn 'copyMeta'
+}
 
 if (project.ext.isDirty) {
     tasks.publish.dependsOn 'copySources'
-} else {
-    tasks.publish.dependsOn 'clean'
 }
 
 jar {
@@ -86,6 +113,22 @@ shadowJar {
     baseName = project.name
     version = project.version
     classifier = null
+
+    from("$projectDir/src/main/templates") {
+        include 'LICENSE'
+        include 'README.md'
+
+        expand project: project
+
+        into 'META-INF'
+    }
+
+    from("$projectDir/src/main/templates") {
+        exclude 'LICENSE'
+        exclude 'README.md'
+
+        expand project: project
+    }
 }
 
 publishing {
@@ -100,10 +143,10 @@ publishing {
 
     repositories {
         maven {
-            if (project.ext.isSnapshot) {
-                url "file://$projectDir/out/nexus/snapshots"
-            } else {
+            if (project.ext.isRelease) {
                 url "file://$projectDir/out/nexus/releases"
+            } else {
+                url "file://$projectDir/out/nexus/snapshots"
             }
         }
     }

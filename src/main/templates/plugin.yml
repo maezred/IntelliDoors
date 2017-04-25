@@ -1,5 +1,5 @@
 name: ${project.name}
-version: ${project.version} (${project.ext.buildTime})
+version: ${project.version} (${project.ext.buildDateTime})
 description: ${project.description}
 author: ${project.ext.author.name} <${project.ext.author.email}>
 website: ${project.ext.website}
