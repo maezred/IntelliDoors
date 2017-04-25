@@ -1,6 +1,6 @@
 name: ${project.name}
-version: ${project.version} (${date})
+version: ${project.version} (${project.ext.buildTime})
 description: ${project.description}
-author: ${author}
-website: ${website}
+author: ${project.ext.author.name} <${project.ext.author.email}>
+website: ${project.ext.website}
 main: ${project.group}.${project.ext.artifactId}.${project.name}
