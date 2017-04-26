@@ -1,21 +1,19 @@
 package net.moltendorf.bukkit.intellidoors.listener
 
-import net.moltendorf.bukkit.intellidoors.enabled
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
-import org.bukkit.event.block.Action
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.EquipmentSlot.HAND
+import net.moltendorf.bukkit.intellidoors.*
+import org.bukkit.event.*
+import org.bukkit.event.block.*
+import org.bukkit.event.player.*
+import org.bukkit.inventory.EquipmentSlot.*
 
 /**
  * Created by moltendorf on 15/05/23.
 
  * @author moltendorf
  */
-class Interact() : Listener {
+class Interact : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-  fun PlayerInteractEventHandler(event: PlayerInteractEvent) {
+  fun playerInteractEventHandler(event : PlayerInteractEvent) {
     if (!enabled) {
       return
     }

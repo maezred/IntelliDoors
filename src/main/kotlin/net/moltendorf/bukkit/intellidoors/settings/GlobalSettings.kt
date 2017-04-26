@@ -1,10 +1,8 @@
 package net.moltendorf.bukkit.intellidoors.settings
 
-import net.moltendorf.bukkit.intellidoors.config
-import net.moltendorf.bukkit.intellidoors.instance
-import net.moltendorf.bukkit.intellidoors.log
-import org.bukkit.Material
-import org.bukkit.configuration.ConfigurationSection
+import net.moltendorf.bukkit.intellidoors.*
+import org.bukkit.*
+import org.bukkit.configuration.*
 import java.util.*
 
 /**
@@ -12,7 +10,7 @@ import java.util.*
 
  * @author moltendorf
  */
-class GlobalSettings() {
+class GlobalSettings {
   private val doors = HashMap<Material, Variations>()
   private val names = HashMap<String, Variations>()
 
@@ -35,30 +33,30 @@ class GlobalSettings() {
         val typeSub = doorSub.getConfigurationSection(key)
 
         if (typeSub == null) {
-          log.warning("Config: door.$key is not specified")
+          w { "Config: door.$key is not specified" }
           continue
         }
 
         val typeString = typeSub.getString("type")
 
         if (typeString == null) {
-          log.warning("Config: door.$key.type has no value")
+          w { "Config: door.$key.type has no value" }
           continue
         }
 
-        val type: Variations.Type
+        val type : Variations.Type
 
         try {
           type = Variations.Type.valueOf(typeString.toUpperCase())
-        } catch (t: Throwable) {
-          log.warning("Config: door.$key.type has invalid value: $typeString")
+        } catch (t : Throwable) {
+          w { "Config: door.$key.type has invalid value: $typeString" }
           continue
         }
 
         val materialStrings = typeSub.getStringList("material")
 
         if (materialStrings.size == 0) {
-          log.warning("Config: door.$key.material has no values")
+          w { "Config: door.$key.material has no values" }
           continue
         }
 
@@ -68,12 +66,12 @@ class GlobalSettings() {
           val material = Material.getMaterial(materialString)
 
           if (material == null) {
-            log.warning("Config: door.$key.material has invalid value: $materialString")
+            w { "Config: door.$key.material has invalid value: $materialString" }
             continue
           }
 
           if (doors.containsKey(material)) {
-            log.warning("Config: door.$key.material has in use value: $materialString")
+            w { "Config: door.$key.material has in use value: $materialString" }
             continue
           }
 
@@ -81,7 +79,7 @@ class GlobalSettings() {
         }
 
         if (materials.size == 0) {
-          log.warning("Config: door.$key.material only contains invalid values")
+          w { "Config: door.$key.material only contains invalid values" }
           continue
         }
 
@@ -132,15 +130,15 @@ class GlobalSettings() {
     }
   }
 
-  operator fun get(material: Material): Variations? {
+  operator fun get(material : Material) : Variations? {
     return doors[material]
   }
 
-  operator fun get(name: String): Variations? {
+  operator fun get(name : String) : Variations? {
     return names[name]
   }
 
-  private fun String.getBoolean(sub: ConfigurationSection, default: Boolean, optional: Boolean = false): Boolean {
+  private fun String.getBoolean(sub : ConfigurationSection, default : Bool, optional : Bool = false) : Bool {
     if (sub.contains(this)) {
       if (sub.isBoolean(this)) {
         return sub.getBoolean(this)
@@ -153,18 +151,18 @@ class GlobalSettings() {
           if (config.isBoolean(path)) {
             return config.getBoolean(path, default)
           } else {
-            log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has incompatible value: ${config.get(path)}")
+            w { "Config: ${sub.currentPath}.$this has invalid value; $path has incompatible value: ${config.get(path)}" }
           }
         } else {
-          log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has no value")
+          w { "Config: ${sub.currentPath}.$this has invalid value; $path has no value" }
         }
       } else {
-        log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
+        w { "Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}" }
       }
     }
 
     if (!optional) {
-      log.warning("Config: ${sub.currentPath}.$this has no value")
+      w { "Config: ${sub.currentPath}.$this has no value" }
     }
 
     if (config.contains(this) && config.isBoolean(this)) {
@@ -174,7 +172,7 @@ class GlobalSettings() {
     return default
   }
 
-  private fun String.getLong(sub: ConfigurationSection, default: Long, optional: Boolean = false): Long {
+  private fun String.getLong(sub : ConfigurationSection, default : Long, optional : Bool = false) : Long {
     if (sub.contains(this)) {
       if (sub.isInt(this) || sub.isLong(this)) {
         return sub.getLong(this)
@@ -187,18 +185,18 @@ class GlobalSettings() {
           if (config.isInt(path) || config.isLong(path)) {
             return config.getLong(path, default)
           } else {
-            log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has incompatible value: ${config.get(path)}")
+            w { "Config: ${sub.currentPath}.$this has invalid value; $path has incompatible value: ${config.get(path)}" }
           }
         } else {
-          log.warning("Config: ${sub.currentPath}.$this has invalid value; $path has no value")
+          w { "Config: ${sub.currentPath}.$this has invalid value; $path has no value" }
         }
       } else {
-        log.warning("Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}")
+        w { "Config: ${sub.currentPath}.$this has invalid value: ${sub.get(this)}" }
       }
     }
 
     if (!optional) {
-      log.warning("Config: ${sub.currentPath}.$this has no value")
+      w { "Config: ${sub.currentPath}.$this has no value" }
     }
 
     if (config.contains(this) && (config.isInt(this) || config.isLong(this))) {

@@ -1,10 +1,10 @@
 package net.moltendorf.bukkit.intellidoors
 
-import net.moltendorf.bukkit.intellidoors.listener.Interact
-import net.moltendorf.bukkit.intellidoors.listener.Redstone
-import net.moltendorf.bukkit.intellidoors.settings.GlobalSettings
-import net.moltendorf.bukkit.intellidoors.settings.upgradeSettings
-import org.bukkit.plugin.java.JavaPlugin
+import net.moltendorf.bukkit.intellidoors.listener.*
+import net.moltendorf.bukkit.intellidoors.settings.*
+import org.bukkit.plugin.java.*
+
+internal typealias Plugin = IntelliDoors
 
 /**
  * Created by moltendorf on 15/05/23.
@@ -13,9 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 class IntelliDoors : JavaPlugin() {
   // Variable data.
-  lateinit var settings: GlobalSettings
+  lateinit var settings : GlobalSettings
     private set
-  lateinit var timer: Timer
+  lateinit var timer : Timer
     private set
 
   override fun onEnable() {
@@ -57,7 +57,7 @@ class IntelliDoors : JavaPlugin() {
     var enabled = false
       private set
 
-    lateinit var instance: IntelliDoors
+    lateinit var instance : Plugin
       private set
   }
 }

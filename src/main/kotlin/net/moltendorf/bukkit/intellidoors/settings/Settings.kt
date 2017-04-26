@@ -1,10 +1,12 @@
 package net.moltendorf.bukkit.intellidoors.settings
 
+import net.moltendorf.bukkit.intellidoors.*
+
 data class Settings(
-  var interact: Boolean,
-  var interactReset: Boolean,
-  var interactResetTicks: Long,
-  var redstone: Boolean,
-  var redstoneReset: Boolean,
-  var redstoneResetTicks: Long
+  var interact : Bool,
+  var interactReset : Bool,
+  var interactResetTicks : Long,
+  var redstone : Bool,
+  var redstoneReset : Bool,
+  var redstoneResetTicks : Long
 )

@@ -1,17 +1,15 @@
 package net.moltendorf.bukkit.intellidoors.listener
 
-import net.moltendorf.bukkit.intellidoors.enabled
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
-import org.bukkit.event.block.BlockPhysicsEvent
+import net.moltendorf.bukkit.intellidoors.*
+import org.bukkit.event.*
+import org.bukkit.event.block.*
 
 /**
  * Created by moltendorf on 15/05/23.
  */
-class Redstone() : Listener {
+class Redstone : Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-  fun blockPhysicsEventHandler(event: BlockPhysicsEvent) {
+  fun blockPhysicsEventHandler(event : BlockPhysicsEvent) {
     if (!enabled) {
       return
     }

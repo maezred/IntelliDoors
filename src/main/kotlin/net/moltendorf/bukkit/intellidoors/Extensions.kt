@@ -2,49 +2,71 @@
 
 package net.moltendorf.bukkit.intellidoors
 
-import net.moltendorf.bukkit.intellidoors.settings.GlobalSettings
-import org.bukkit.Server
-import org.bukkit.block.Block
-import org.bukkit.block.BlockState
-import org.bukkit.configuration.Configuration
-import org.bukkit.scheduler.BukkitScheduler
-import java.util.logging.Logger
+import org.bukkit.block.*
+import java.util.logging.Level.*
 
 /**
  * Created by moltendorf on 2016-06-07.
+ *
+ * Extensions file that contains a bunch of useful stuff.
  */
-internal val enabled: Boolean
-  get() = IntelliDoors.enabled
 
-internal val instance: IntelliDoors
-  get() = IntelliDoors.instance
+// Welcome to Kotlin
+internal typealias Bool = Boolean
 
-internal val config: Configuration
-  get() = instance.config
+// Package Variables
+internal inline val enabled get() = Plugin.enabled
+internal inline val instance get() = Plugin.instance
 
-internal val log: Logger
-  get() = instance.logger
+private inline val logger get() = instance.logger
+private inline val scheduler get() = server.scheduler
 
-internal val server: Server
-  get() = instance.server
+internal inline val config get() = instance.config
+internal inline val server get() = instance.server
+internal inline val settings get() = instance.settings
+internal inline val timer get() = instance.timer
 
-internal val scheduler: BukkitScheduler
-  get() = server.scheduler
+// Messages
 
-internal val settings: GlobalSettings
-  get() = instance.settings
+internal fun broadcast(s : String) = server.broadcastMessage(s)
+internal fun console(s : String) = server.consoleSender.sendMessage("[${instance.name}] $s")
 
-internal val timer: Timer
-  get() = instance.timer
+// Logging
 
-internal var Block.intData: Int
-  get() = data.toInt()
-  set(byte: Int) {
+internal fun trace(s : String, e : Throwable) = logger.log(SEVERE, s, e)
+internal inline fun s(s : () -> Any) = logger.severe("${s()}")
+internal inline fun w(s : () -> Any) = logger.warning("${s()}")
+internal inline fun i(s : () -> Any) = logger.info("${s()}")
+internal inline fun f(s : () -> Any) = logger.fine("${s()}")
+
+// Tasks
+
+internal fun runTask(s : () -> Unit) = scheduler.runTask(instance, s)
+internal fun runTask(delay : Long, s : () -> Unit) = scheduler.runTaskLater(instance, s, delay)
+internal fun runTask(period : Long, delay : Long = 0, s : () -> Unit) = scheduler.runTaskTimer(instance, s, delay, period)
+internal fun runAsyncTask(s : () -> Unit) = scheduler.runTaskAsynchronously(instance, s)
+internal fun runAsyncTask(delay : Long, s : () -> Unit) = scheduler.runTaskLaterAsynchronously(instance, s, delay)
+internal fun runAsyncTask(period : Long, delay : Long = 0, s : () -> Unit) = scheduler.runTaskTimerAsynchronously(instance, s, delay, period)
+
+// Extensions.
+internal inline val <T : Any> T.i : T get() {
+  i { this }
+
+  return this
+}
+
+internal inline val <T : Any> T.f : T get() {
+  f { this }
+
+  return this
+}
+
+internal inline var Block.intData get() = data.toInt()
+  set(byte) {
     data = byte.toByte()
   }
 
-internal var BlockState.intData: Int
-  get() = rawData.toInt()
-  set(byte: Int) {
+internal inline var BlockState.intData get() = rawData.toInt()
+  set(byte) {
     rawData = byte.toByte()
   }
